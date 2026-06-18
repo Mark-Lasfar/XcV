@@ -21,10 +21,12 @@ jobs:
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
 
-      - name: Fetch Latest Sitemaps from MGZon Backend
+      - name: Fetch Latest Sitemaps from MGZon Backend (Secure)
         run: |
           mkdir -p public
-          npm run sync-sitemaps
+          npm run sync-sitemaps-secure
+        env:
+          MGZON_ACTIONS_TOKEN: ${{ secrets.MGZON_ACTIONS_TOKEN }}
 
       - name: Deploy to Firebase Hosting
         run: firebase deploy --only hosting --token "${{ secrets.FIREBASE_TOKEN }}"
