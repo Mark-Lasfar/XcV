@@ -1,0 +1,86 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "headline": "The Journey of MGZon AI's Founder",
+  "image": [
+    "https://mark-elasfar.web.app/assets/img/mark-elasfar-profile.jpg",
+    "https://camo.githubusercontent.com/79edce9d878625699a6347cfe94da10f8347bf582f81c785b4e2a783681ac5b4/68747470733a2f2f63646e2d75706c6f6164732e68756767696e67666163652e636f2f70726f64756374696f6e2f75706c6f6164732f3637623865616264643639333538393066393362653762372f394366684165386c4b544533583332574636576d782e706e67"
+  ],
+  "datePublished": "2025-08-18",
+  "author": {
+    "@type": "Person",
+    "name": "Mark Al-Asfar",
+    "alternateName": ["Ibrahim Al-Asfar", "Ibrahim Elasfar", "Elasfar"],
+    "url": "https://mark-elasfar.web.app",
+    "birthDate": "1999-04-15",
+    "birthPlace": {
+      "@type": "Place",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Alexandria",
+        "addressCountry": "USA"
+      }
+    },
+    "jobTitle": "Full Stack Developer and Founder of MGZon AI",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "MGZon AI"
+    }
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "MGZon AI",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://mark-elasfar.web.app/assets/img/logo.svg"
+    },
+    "url": "https://hager-zon.vercel.app"
+  },
+  "description": "Explore the journey of Mark Al-Asfar, a Full Stack Developer from Alexandria, Egypt, who founded MGZon AI, an AI-driven e-commerce platform with advanced integrations like OAuth, MGpay, dropshipping, and warehouse management. Learn about his vision, the platform's robust API, and the innovative elasfarAI model.",
+  "keywords": "Mark Al-Asfar, Ibrahim Al-Asfar, MGZon AI, e-commerce, Alexandria, Full Stack Developer, OAuth, MGpay, TypeScript, Django, React, MongoDB, Egypt, dropshipping, marketplace, automation, elasfarAI, mobile app",
+  "mainEntity": {
+    "@type": "SoftwareApplication",
+    "name": "MGZon AI",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web, iOS, Android",
+    "offers": {
+      "@type": "Offer",
+      "url": "https://hager-zon.vercel.app"
+    },
+    "featureList": [
+      "OAuth 2.0 Authentication",
+      "MGpay Payment System",
+      "Warehouse Integration (USA, Canada, China)",
+      "Dropshipping Support",
+      "Custom Vendor Domains",
+      "Mobile App for Stores",
+      "Real-time Analytics",
+      "Marketing and SEO Tools",
+      "Automated Accounting and Tax",
+      "ElasfarAI Integration"
+    ]
+  }
+}
+</script>
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url>
+    <loc>https://mark-elasfar.web.app/article/mark-al-asfar-mgzon-ai</loc>
+    <lastmod>2025-08-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <news:news>
+      <news:publication>
+        <news:name>MGZon AI</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2025-08-18</news:publication_date>
+      <news:title>The Journey of MGZon AI's Founder</news:title>
+      <news:keywords>Mark Al-Asfar, MGZon AI, e-commerce, Alexandria, OAuth, MGpay, Elasfar-AI</news:keywords>
+    </news:news>
+  </url>
+</urlset>

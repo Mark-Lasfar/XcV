@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - MGZon Store</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background: #f3f4f6; }
+        body.dark { background: #000000; }
+        .loader-spinner {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .order-card {
+            transition: all 0.2s ease;
+        }
+        .order-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px -8px rgba(0,0,0,0.15);
+        }
+        .status-badge {
+            transition: all 0.2s ease;
+        }
+        .filter-tab {
+            transition: all 0.2s ease;
+        }
+        .filter-tab.active {
+            background-color: #3b82f6;
+            color: white;
+            box-shadow: 0 2px 8px rgba(59,130,246,0.3);
+        }
+        .dark .filter-tab:not(.active) {
+            background-color: #1f2937;
+            color: #9ca3af;
+        }
+        .dark .order-card {
+            background-color: #1f2937;
+            border-color: #374151;
+        }
+        .dark .bg-gray-50 {
+            background-color: #111827;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900">
+
+<div class="max-w-6xl mx-auto px-4 py-8">
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8 flex-wrap gap-4">
+        <div>
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">My Orders</h1>
+            <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">Track and manage your purchases from all stores</p>
+        </div>
+        <div class="flex gap-3">
+            <a href="/" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 transition">
+                <i class='bx bx-home'></i> Back to Home
+            </a>
+            <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-blue-500 transition">
+                <i class='bx bx-moon text-xl'></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-4 text-center shadow-sm">
+            <p class="text-2xl font-bold text-blue-600 dark:text-blue-400" id="stat-total">0</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Total Orders</p>
+        </div>
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-4 text-center shadow-sm">
+            <p class="text-2xl font-bold text-yellow-600 dark:text-yellow-400" id="stat-pending">0</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Pending</p>
+        </div>
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-4 text-center shadow-sm">
+            <p class="text-2xl font-bold text-purple-600 dark:text-purple-400" id="stat-processing">0</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Processing</p>
+        </div>
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-4 text-center shadow-sm">
+            <p class="text-2xl font-bold text-green-600 dark:text-green-400" id="stat-completed">0</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Completed</p>
+        </div>
+    </div>
+    
+    <!-- Filter Tabs -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden mb-6">
+        <div class="flex flex-wrap gap-2 p-4 border-b dark:border-gray-700">
+            <button data-status="all" class="filter-tab active px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-blue-500 text-white shadow-md">
+                All Orders
+            </button>
+            <button data-status="pending" class="filter-tab px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600">
+                ⏳ Pending
+            </button>
+            <button data-status="paid" class="filter-tab px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600">
+                💰 Paid
+            </button>
+            <button data-status="processing" class="filter-tab px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600">
+                ⚙️ Processing
+            </button>
+            <button data-status="completed" class="filter-tab px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600">
+                ✅ Completed
+            </button>
+            <button data-status="cancelled" class="filter-tab px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600">
+                ❌ Cancelled
+            </button>
+            <button data-status="refunded" class="filter-tab px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600">
+                🔄 Refunded
+            </button>
+        </div>
+        
+        <!-- Orders List -->
+        <div id="orders-list" class="p-4 space-y-4">
+            <div class="text-center py-12">
+                <div class="loader-spinner mx-auto"></div>
+                <p class="text-gray-500 dark:text-gray-400 mt-3">Loading your orders...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="/assets/js/config.js"></script>
+<script>
+    // ============================================
+    // MY ORDERS PAGE - MULTI-VENDOR UPDATED
+    // ============================================
+    
+    const API_URL = window.ENV?.API_URL || 'https://mgzon-server.hf.space';
+    const cleanApiUrl = API_URL.replace(/\/$/, '');
+    let userToken = localStorage.getItem('userToken');
+    let currentUser = null;
+    let allOrders = [];
+    let currentStatus = 'all';
+    let isLoading = false;
+    
+    // ============================================
+    // Load Current User
+    // ============================================
+    async function loadCurrentUser() {
+        if (!userToken) {
+            window.location.href = `/login.html?redirect=${encodeURIComponent(window.location.pathname)}`;
+            return null;
+        }
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/verify-token`, {
+                headers: { 'Authorization': `Bearer ${userToken}` }
+            });
+            if (response.ok) {
+                currentUser = await response.json();
+                return currentUser;
+            } else {
+                localStorage.removeItem('userToken');
+                localStorage.removeItem('refreshToken');
+                userToken = null;
+                window.location.href = `/login.html?redirect=${encodeURIComponent(window.location.pathname)}`;
+                return null;
+            }
+        } catch (error) {
+            console.error('Error loading user:', error);
+            return null;
+        }
+    }
+    
+    // ============================================
+    // Load Orders (As Buyer)
+    // ============================================
+    async function loadOrders() {
+        if (isLoading) return;
+        isLoading = true;
+        
+        const container = document.getElementById('orders-list');
+        container.innerHTML = `
+            <div class="text-center py-12">
+                <div class="loader-spinner mx-auto"></div>
+                <p class="text-gray-500 dark:text-gray-400 mt-3">Loading your orders...</p>
+            </div>
+        `;
+        
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/store/orders/buyer`, {
+                headers: { 'Authorization': `Bearer ${userToken}` }
+            });
+            
+            if (response.status === 401) {
+                window.location.href = `/login.html?redirect=${encodeURIComponent(window.location.pathname)}`;
+                return;
+            }
+            
+            if (response.ok) {
+                const data = await response.json();
+                allOrders = data.orders || [];
+                updateStats();
+                renderOrders();
+            } else {
+                throw new Error('Failed to load orders');
+            }
+        } catch (error) {
+            console.error('Error loading orders:', error);
+            container.innerHTML = `
+                <div class="text-center py-12">
+                    <i class='bx bx-error-circle text-5xl text-red-400 mb-3'></i>
+                    <p class="text-red-500 dark:text-red-400">Failed to load orders</p>
+                    <button onclick="loadOrders()" class="mt-3 text-blue-500 hover:text-blue-600">Try Again →</button>
+                </div>
+            `;
+        } finally {
+            isLoading = false;
+        }
+    }
+    
+    // ============================================
+    // Update Statistics
+    // ============================================
+    function updateStats() {
+        const total = allOrders.length;
+        const pending = allOrders.filter(o => o.status === 'pending').length;
+        const processing = allOrders.filter(o => o.status === 'processing' || o.status === 'paid').length;
+        const completed = allOrders.filter(o => o.status === 'completed').length;
+        
+        document.getElementById('stat-total').textContent = total;
+        document.getElementById('stat-pending').textContent = pending;
+        document.getElementById('stat-processing').textContent = processing;
+        document.getElementById('stat-completed').textContent = completed;
+    }
+    
+    // ============================================
+    // Render Orders
+    // ============================================
+    function renderOrders() {
+        const container = document.getElementById('orders-list');
+        
+        let filtered = allOrders;
+        if (currentStatus !== 'all') {
+            filtered = allOrders.filter(o => o.status === currentStatus);
+        }
+        
+        // Sort by date (newest first)
+        filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        
+        if (filtered.length === 0) {
+            container.innerHTML = `
+                <div class="text-center py-12">
+                    <i class='bx bx-package text-5xl text-gray-300 dark:text-gray-600 mb-3'></i>
+                    <p class="text-gray-500 dark:text-gray-400">No orders found</p>
+                    <p class="text-sm text-gray-400 dark:text-gray-500 mt-1">${currentStatus !== 'all' ? 'Try changing the filter' : 'Start shopping to see your orders here'}</p>
+                    <a href="/" class="inline-block mt-4 text-blue-500 hover:text-blue-600">Browse Products →</a>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = filtered.map(order => {
+            const currencySymbol = order.currencySymbol || '$';
+            const storeName = order.sellerId?.profile?.nickname || order.sellerId?.username || 'Unknown Store';
+            const storeUsername = order.sellerId?.username;
+            
+            return `
+                <div class="order-card bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden border border-gray-100 dark:border-gray-700">
+                    <!-- Order Header -->
+                    <div class="flex flex-wrap justify-between items-center p-4 border-b bg-gray-50 dark:bg-gray-900/50 dark:border-gray-700">
+                        <div>
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <p class="font-mono text-sm font-semibold dark:text-white">#${order.orderNumber}</p>
+                                <span class="text-xs px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300">
+                                    ${storeName}
+                                </span>
+                            </div>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Placed: ${new Date(order.createdAt).toLocaleString()}</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="status-badge px-3 py-1 text-xs rounded-full ${getStatusStyle(order.status)}">
+                                ${getStatusIcon(order.status)} ${getStatusText(order.status)}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <!-- Order Items -->
+                    <div class="p-4 space-y-2">
+                        ${order.items.map((item, idx) => `
+                            <div class="flex justify-between items-center py-2 ${order.items.length > 1 && idx !== order.items.length - 1 ? 'border-b dark:border-gray-700' : ''}">
+                                <div>
+                                    <p class="font-medium text-sm dark:text-white">${escapeHtml(item.title)}</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">Qty: ${item.quantity || 1}</p>
+                                    ${item.productType ? `<p class="text-xs text-gray-400">Type: ${item.productType}</p>` : ''}
+                                </div>
+                                <span class="font-semibold text-sm dark:text-white">${currencySymbol}${(item.price * (item.quantity || 1)).toFixed(2)}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <!-- Order Footer -->
+                    <div class="flex flex-wrap justify-between items-center p-4 border-t bg-gray-50 dark:bg-gray-900/50 dark:border-gray-700">
+                        <div>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">
+                                <i class='bx bx-credit-card'></i> ${getPaymentMethodName(order.paymentMethod)}
+                            </p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                <i class='bx bx-store'></i> 
+                                <a href="/shop/${storeUsername}" class="text-blue-500 hover:underline">${storeName}</a>
+                            </p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Total Amount</p>
+                            <p class="text-xl font-bold text-blue-600 dark:text-blue-400">${currencySymbol}${order.totalAmount.toFixed(2)}</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-wrap border-t dark:border-gray-700 divide-x dark:divide-gray-700">
+                        <a href="/order-details.html?id=${order._id}" class="flex-1 text-center py-3 text-sm font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition">
+                            <i class='bx bx-detail'></i> View Details
+                        </a>
+                        ${order.status === 'completed' && order.items.some(i => i.fileUrl) ? `
+                            <button onclick="downloadAllFiles('${order._id}')" class="flex-1 text-center py-3 text-sm font-medium text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 transition">
+                                <i class='bx bx-download'></i> Download Files
+                            </button>
+                        ` : order.status === 'completed' ? `
+                            <button disabled class="flex-1 text-center py-3 text-sm font-medium text-gray-400 cursor-not-allowed">
+                                <i class='bx bx-download'></i> No Files
+                            </button>
+                        ` : ''}
+                        ${order.status === 'pending' ? `
+                            <button onclick="cancelOrder('${order._id}')" class="flex-1 text-center py-3 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition">
+                                <i class='bx bx-x-circle'></i> Cancel Order
+                            </button>
+                        ` : ''}
+                        ${order.status === 'completed' ? `
+                            <button onclick="writeReview('${order._id}')" class="flex-1 text-center py-3 text-sm font-medium text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition">
+                                <i class='bx bx-star'></i> Write Review
+                            </button>
+                        ` : ''}
+                        ${order.status === 'cancelled' ? `
+                            <button onclick="reorderItems('${order._id}')" class="flex-1 text-center py-3 text-sm font-medium text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 transition">
+                                <i class='bx bx-repeat'></i> Buy Again
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+    
+    // ============================================
+    // Cancel Order
+    // ============================================
+    window.cancelOrder = async function(orderId) {
+        if (!confirm('Are you sure you want to cancel this order? This action cannot be undone.')) return;
+        
+        try {
+            const csrfToken = await fetchCsrfToken();
+            const response = await fetch(`${cleanApiUrl}/api/store/orders/${orderId}/cancel`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${userToken}`,
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': csrfToken || ''
+                },
+                body: JSON.stringify({ reason: 'Cancelled by user' })
+            });
+            
+            if (response.ok) {
+                showToast('✅ Order cancelled successfully', 'success');
+                await loadOrders();
+            } else {
+                const error = await response.json();
+                showToast(error.error || 'Failed to cancel order', 'error');
+            }
+        } catch (error) {
+            console.error('Error cancelling order:', error);
+            showToast('Failed to cancel order', 'error');
+        }
+    };
+    
+    // ============================================
+    // Download All Files
+    // ============================================
+    window.downloadAllFiles = async function(orderId) {
+        const order = allOrders.find(o => o._id === orderId);
+        if (!order) return;
+        
+        showToast('Preparing downloads...', 'info');
+        
+        for (const item of order.items) {
+            if (item.fileUrl) {
+                try {
+                    const csrfToken = await fetchCsrfToken();
+                    const response = await fetch(`${cleanApiUrl}/api/store/orders/${orderId}/download/${item.productId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${userToken}`,
+                            'X-CSRF-Token': csrfToken || ''
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.downloadUrl) {
+                            window.open(data.downloadUrl, '_blank');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error downloading file:', error);
+                }
+            }
+        }
+        
+        showToast('Downloads started! Check your browser', 'success');
+    };
+    
+    // ============================================
+    // Reorder Items (Buy Again)
+    // ============================================
+    window.reorderItems = async function(orderId) {
+        const order = allOrders.find(o => o._id === orderId);
+        if (!order) return;
+        
+        showToast('Adding items to cart...', 'info');
+        
+        let addedCount = 0;
+        
+        for (const item of order.items) {
+            try {
+                const csrfToken = await fetchCsrfToken();
+                const response = await fetch(`${cleanApiUrl}/api/cart/add`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfToken || ''
+                    },
+                    body: JSON.stringify({
+                        productId: item.productId,
+                        storeId: order.sellerId._id,
+                        storeName: order.sellerId?.profile?.nickname || order.sellerId?.username,
+                        title: item.title,
+                        price: item.price,
+                        image: item.image || '',
+                        productType: item.productType || 'digital',
+                        quantity: item.quantity || 1
+                    })
+                });
+                
+                if (response.ok) {
+                    addedCount++;
+                }
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+            }
+        }
+        
+        if (addedCount > 0) {
+            showToast(`✅ ${addedCount} item(s) added to cart`, 'success');
+            setTimeout(() => {
+                if (confirm('Go to cart to checkout?')) {
+                    window.location.href = '/cart.html';
+                }
+            }, 500);
+        } else {
+            showToast('Failed to add items to cart', 'error');
+        }
+    };
+    
+    // ============================================
+    // Write Review
+    // ============================================
+    window.writeReview = function(orderId) {
+        showToast('📝 Review feature coming soon!', 'info');
+        // TODO: Implement review modal
+    };
+    
+    // ============================================
+    // Helper Functions
+    // ============================================
+    function getStatusStyle(status) {
+        const styles = {
+            pending: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300',
+            paid: 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300',
+            processing: 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300',
+            completed: 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300',
+            cancelled: 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300',
+            refunded: 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300'
+        };
+        return styles[status] || 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300';
+    }
+    
+    function getStatusIcon(status) {
+        const icons = {
+            pending: '⏳',
+            paid: '💰',
+            processing: '⚙️',
+            completed: '✅',
+            cancelled: '❌',
+            refunded: '🔄'
+        };
+        return icons[status] || '📦';
+    }
+    
+    function getStatusText(status) {
+        const texts = {
+            pending: 'Pending',
+            paid: 'Paid',
+            processing: 'Processing',
+            completed: 'Completed',
+            cancelled: 'Cancelled',
+            refunded: 'Refunded'
+        };
+        return texts[status] || status;
+    }
+    
+    function getPaymentMethodName(method) {
+        const names = {
+            vodafone: 'Vodafone Cash',
+            instapay: 'InstaPay',
+            paypal: 'PayPal',
+            bank: 'Bank Transfer',
+            stripe: 'Credit Card'
+        };
+        return names[method] || method || 'Not specified';
+    }
+    
+    async function fetchCsrfToken() {
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/csrf-token`, { 
+                method: 'GET', 
+                credentials: 'include' 
+            });
+            const data = await response.json();
+            return data.csrfToken;
+        } catch (error) {
+            return null;
+        }
+    }
+    
+    function showToast(message, type = 'success') {
+        if (typeof Toastify !== 'undefined') {
+            Toastify({
+                text: message,
+                duration: 3000,
+                gravity: 'top',
+                position: 'right',
+                style: {
+                    background: type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : type === 'info' ? '#3b82f6' : '#f59e0b',
+                    borderRadius: '12px'
+                }
+            }).showToast();
+        } else {
+            console.log(message);
+        }
+    }
+    
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
+    }
+    
+    function setupThemeToggle() {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark');
+        }
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark');
+                const isDark = document.body.classList.contains('dark');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            });
+        }
+    }
+    
+    // ============================================
+    // Tab Switching
+    // ============================================
+    function setupTabs() {
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                currentStatus = tab.dataset.status;
+                
+                document.querySelectorAll('.filter-tab').forEach(t => {
+                    t.classList.remove('active', 'bg-blue-500', 'text-white', 'shadow-md');
+                    t.classList.add('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+                });
+                tab.classList.remove('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+                tab.classList.add('active', 'bg-blue-500', 'text-white', 'shadow-md');
+                
+                renderOrders();
+            });
+        });
+    }
+    
+    // ============================================
+    // Initialize
+    // ============================================
+    async function init() {
+        setupThemeToggle();
+        await loadCurrentUser();
+        setupTabs();
+        await loadOrders();
+    }
+    
+    init();
+</script>
+</body>
+</html>

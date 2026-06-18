@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication Callback</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <style>
+        :root {
+            --first-color: #007bff;
+            --primary-color: #fff;
+            --text-color: #333;
+            --background-color: #f9fafb;
+            --border-color: #d1d5db;
+        }
+        [data-theme="dark"] {
+            --first-color: #66b0ff;
+            --primary-color: #1f2937;
+            --text-color: #f3f4f6;
+            --background-color: #111827;
+            --border-color: #6b7280;
+        }
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to bottom, var(--background-color), var(--primary-color));
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--first-color);
+            border-radius: 50%;
+            width: 1.5rem;
+            height: 1.5rem;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .error {
+            color: #ef4444;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="loader"></div>
+    <p class="error hidden" id="error-message"></p>
+    <script src="/assets/js/config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="/assets/js/main.js"></script>
+</body>
+</html>

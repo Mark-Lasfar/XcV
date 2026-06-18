@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomSearchEngine xmlns="http://www.google.com/cse/schemas/2008/cse-20081211">
+  <Title>Mark Al-Asfar | Systems Architect Search</Title>
+  <Description>Search portfolio, projects, and technical expertise of Mark Al-Asfar (Senior Systems Architect & Full-Stack Developer)</Description>
+  
+  <!-- ========================================== -->
+  <!-- ربط ملف annotations (مواقعك الشخصية) -->
+  <!-- ========================================== -->
+  <Annotations>
+    <Annotation about="https://elasfar.vercel.app/*" score="1.0">
+      <Label name="_include_"/>
+    </Annotation>
+    <Annotation about="https://mark-elasfar.web.app/*" score="1.0">
+      <Label name="_include_"/>
+    </Annotation>
+    <Annotation about="https://hager-zon.vercel.app/*" score="1.0">
+      <Label name="_include_"/>
+    </Annotation>
+    <Annotation about="https://github.com/Mark-Lasfar/*" score="1.0">
+      <Label name="_include_"/>
+    </Annotation>
+    <Annotation about="https://www.linkedin.com/in/ibrahimelasfar/*" score="1.0">
+      <Label name="_include_"/>
+    </Annotation>
+    <Annotation about="https://stackoverflow.com/users/22294099/*" score="0.8">
+      <Label name="_include_"/>
+    </Annotation>
+    <Annotation about="https://gitlab.com/Mark-Lasfar/*" score="0.7">
+      <Label name="_include_"/>
+    </Annotation>
+    <Annotation about="https://medium.com/@marklasfar/*" score="0.6">
+      <Label name="_include_"/>
+    </Annotation>
+    <Annotation about="https://dev.to/marklasfar/*" score="0.6">
+      <Label name="_include_"/>
+    </Annotation>
+  </Annotations>
+
+  <Context>
+    <WebSearch enable="true" restrict_to_web="true"/>
+  </Context>
+  
+  <LookAndFeel>
+    <Logo url="https://elasfar.vercel.app/logo.svg" destination="https://elasfar.vercel.app"/>
+    <Colors>
+      <BackgroundColor>#0f172a</BackgroundColor>
+      <TitleColor>#3b82f6</TitleColor>
+      <LinkColor>#1e40af</LinkColor>
+      <UrlColor>#059669</UrlColor>
+      <TextColor>#334155</TextColor>
+      <BorderColor>#e2e8f0</BorderColor>
+    </Colors>
+  </LookAndFeel>
+  
+  <ImageSearch enable="true"/>
+  <Promotions enable="false"/>
+  
+  <SearchPreferences>
+    <Language>ar,en</Language>
+    <SafeSearch>off</SafeSearch>
+    <AutoComplete>true</AutoComplete>
+  </SearchPreferences>
+</CustomSearchEngine>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Test Page - Interactive Demo</title>
+    <meta name="description" content="This is a test page to demonstrate HTML upload functionality with CSS and JavaScript on MGZon platform.">
+    <meta name="keywords" content="test, demo, interactive, mgzon, store, page">
+    <meta name="author" content="MGZon User">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Test Page - Interactive Demo">
+    <meta property="og:description" content="Check out this interactive test page on MGZon!">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="MGZon Store">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Test Page - Interactive Demo">
+    <meta name="twitter:description" content="Check out this interactive test page on MGZon!">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom CSS for the page */
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Custom animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .slide-in {
+            animation: slideIn 0.5s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .counter-card {
+            transition: all 0.3s ease;
+        }
+        
+        .counter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+        }
+        
+        /* Progress bar */
+        .progress-bar {
+            transition: width 0.5s ease;
+        }
+        
+        /* Toast notification */
+        .toast-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .toast-notification.show {
+            opacity: 1;
+        }
+        
+        /* Dark mode override */
+        body.dark .bg-white {
+            background-color: #1f2937 !important;
+        }
+        
+        body.dark .text-gray-600 {
+            color: #9ca3af !important;
+        }
+        
+        body.dark .border {
+            border-color: #374151 !important;
+        }
+        
+        body.dark .bg-gray-50 {
+            background-color: #111827 !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900">
+    
+    <!-- Hero Section -->
+    <div class="relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-90"></div>
+        <div class="relative max-w-7xl mx-auto px-4 py-20 text-center text-white">
+            <div class="float-animation">
+                <i class='bx bx-rocket text-6xl mb-4'></i>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">Welcome to Test Page</h1>
+            <p class="text-xl opacity-90 max-w-2xl mx-auto">
+                This page demonstrates HTML upload capabilities with CSS, JavaScript, and interactive components.
+            </p>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 py-12">
+        
+        <!-- Feature Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm slide-in counter-card" style="animation-delay: 0.1s">
+                <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mb-4">
+                    <i class='bx bx-code-alt text-blue-600 text-2xl'></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2 dark:text-white">Clean Code</h3>
+                <p class="text-gray-600 dark:text-gray-400">Well-structured HTML, CSS, and JavaScript that works seamlessly on MGZon.</p>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm slide-in counter-card" style="animation-delay: 0.2s">
+                <div class="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4">
+                    <i class='bx bx-palette text-green-600 text-2xl'></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2 dark:text-white">Custom Styling</h3>
+                <p class="text-gray-600 dark:text-gray-400">Beautiful animations and responsive design that adapts to any screen.</p>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm slide-in counter-card" style="animation-delay: 0.3s">
+                <div class="w-12 h-12 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mb-4">
+                    <i class='bx bx-data text-purple-600 text-2xl'></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2 dark:text-white">Interactive</h3>
+                <p class="text-gray-600 dark:text-gray-400">Dynamic counters, buttons, and real-time updates without page refresh.</p>
+            </div>
+        </div>
+        
+        <!-- Interactive Counter Section -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-8 mb-12">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold dark:text-white mb-2">Interactive Counter</h2>
+                <p class="text-gray-600 dark:text-gray-400">Click the buttons to see dynamic updates</p>
+            </div>
+            
+            <div class="flex flex-col items-center">
+                <div class="text-7xl font-bold text-blue-600 mb-6" id="counter">0</div>
+                <div class="flex gap-4">
+                    <button id="decrement-btn" class="px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition transform hover:scale-105">
+                        <i class='bx bx-minus'></i> Decrement
+                    </button>
+                    <button id="reset-btn" class="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition transform hover:scale-105">
+                        <i class='bx bx-refresh'></i> Reset
+                    </button>
+                    <button id="increment-btn" class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition transform hover:scale-105">
+                        <i class='bx bx-plus'></i> Increment
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="mt-8">
+                <div class="flex justify-between mb-2">
+                    <span class="text-sm font-medium dark:text-white">Progress</span>
+                    <span class="text-sm font-medium dark:text-white" id="progress-percent">0%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
+                    <div id="progress-bar" class="bg-gradient-to-r from-blue-500 to-purple-600 h-4 rounded-full progress-bar" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Color Picker Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+                <h3 class="text-xl font-semibold mb-4 dark:text-white flex items-center gap-2">
+                    <i class='bx bx-palette text-purple-500'></i> Color Picker
+                </h3>
+                <input type="color" id="color-picker" value="#3b82f6" class="w-full h-12 rounded-lg cursor-pointer mb-4">
+                <div id="color-demo" class="p-4 rounded-lg text-center transition-colors" style="background-color: #3b82f6; color: white">
+                    This box changes color!
+                </div>
+            </div>
+            
+            <!-- Theme Toggle Demo -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
+                <h3 class="text-xl font-semibold mb-4 dark:text-white flex items-center gap-2">
+                    <i class='bx bx-moon text-indigo-500'></i> Theme Switcher
+                </h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">Toggle dark mode to see the theme change.</p>
+                <button id="demo-theme-toggle" class="w-full py-3 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 transition">
+                    <i class='bx bx-moon mr-2'></i> Toggle Dark Mode
+                </button>
+            </div>
+        </div>
+        
+        <!-- FAQ Section -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-8 mb-12">
+            <h3 class="text-xl font-semibold mb-6 dark:text-white text-center">Frequently Asked Questions</h3>
+            <div class="space-y-4 max-w-2xl mx-auto">
+                <div class="border-b pb-3">
+                    <button class="faq-question w-full text-left font-semibold dark:text-white flex justify-between items-center">
+                        <span>What is MGZon?</span>
+                        <i class='bx bx-chevron-down text-xl transition-transform'></i>
+                    </button>
+                    <div class="faq-answer hidden mt-2 text-gray-600 dark:text-gray-400">
+                        MGZon is a platform that allows you to create your own digital store, sell products, and build custom pages.
+                    </div>
+                </div>
+                <div class="border-b pb-3">
+                    <button class="faq-question w-full text-left font-semibold dark:text-white flex justify-between items-center">
+                        <span>Can I upload my own HTML/CSS/JS?</span>
+                        <i class='bx bx-chevron-down text-xl transition-transform'></i>
+                    </button>
+                    <div class="faq-answer hidden mt-2 text-gray-600 dark:text-gray-400">
+                        Yes! You can upload complete HTML files with custom CSS and JavaScript to create unique pages.
+                    </div>
+                </div>
+                <div class="border-b pb-3">
+                    <button class="faq-question w-full text-left font-semibold dark:text-white flex justify-between items-center">
+                        <span>Is this page fully responsive?</span>
+                        <i class='bx bx-chevron-down text-xl transition-transform'></i>
+                    </button>
+                    <div class="faq-answer hidden mt-2 text-gray-600 dark:text-gray-400">
+                        Absolutely! This page uses Tailwind CSS and custom media queries to work perfectly on all devices.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="text-center py-8 text-gray-500 text-sm">
+            <p>© 2024 MGZon Store. All rights reserved.</p>
+            <p class="mt-1">This is a demonstration page for HTML upload functionality.</p>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div id="toast" class="toast-notification">
+        <i class='bx bx-check-circle mr-2'></i> <span id="toast-message">Action completed!</span>
+    </div>
+    
+    <script>
+        // ============================================
+        // Interactive JavaScript
+        // ============================================
+        
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            const colors = {
+                success: '#10b981',
+                error: '#ef4444',
+                warning: '#f59e0b',
+                info: '#3b82f6'
+            };
+            
+            toast.style.backgroundColor = colors[type] || colors.success;
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // ============================================
+        // Counter functionality
+        // ============================================
+        let counterValue = 0;
+        const counterElement = document.getElementById('counter');
+        const progressBar = document.getElementById('progress-bar');
+        const progressPercent = document.getElementById('progress-percent');
+        
+        function updateCounter() {
+            counterElement.textContent = counterValue;
+            const percent = Math.min(100, Math.max(0, (counterValue / 20) * 100));
+            progressBar.style.width = `${percent}%`;
+            progressPercent.textContent = `${Math.floor(percent)}%`;
+        }
+        
+        document.getElementById('increment-btn')?.addEventListener('click', () => {
+            counterValue++;
+            updateCounter();
+            showToast(`Counter increased to ${counterValue}`, 'success');
+        });
+        
+        document.getElementById('decrement-btn')?.addEventListener('click', () => {
+            counterValue--;
+            updateCounter();
+            showToast(`Counter decreased to ${counterValue}`, 'warning');
+        });
+        
+        document.getElementById('reset-btn')?.addEventListener('click', () => {
+            counterValue = 0;
+            updateCounter();
+            showToast('Counter reset to zero', 'info');
+        });
+        
+        // ============================================
+        // Color picker
+        // ============================================
+        const colorPicker = document.getElementById('color-picker');
+        const colorDemo = document.getElementById('color-demo');
+        
+        if (colorPicker && colorDemo) {
+            colorPicker.addEventListener('input', (e) => {
+                const color = e.target.value;
+                colorDemo.style.backgroundColor = color;
+                showToast(`Color changed to ${color}`, 'info');
+            });
+        }
+        
+        // ============================================
+        // Theme toggle (demo)
+        // ============================================
+        const demoThemeToggle = document.getElementById('demo-theme-toggle');
+        if (demoThemeToggle) {
+            demoThemeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark');
+                const isDark = document.body.classList.contains('dark');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                showToast(isDark ? 'Dark mode enabled' : 'Light mode enabled', 'success');
+                
+                // Update icon
+                const icon = demoThemeToggle.querySelector('i');
+                if (icon) {
+                    icon.className = isDark ? 'bx bx-sun mr-2' : 'bx bx-moon mr-2';
+                }
+            });
+        }
+        
+        // ============================================
+        // FAQ Accordion
+        // ============================================
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('i');
+                
+                if (answer.classList.contains('hidden')) {
+                    answer.classList.remove('hidden');
+                    if (icon) icon.style.transform = 'rotate(180deg)';
+                } else {
+                    answer.classList.add('hidden');
+                    if (icon) icon.style.transform = 'rotate(0deg)';
+                }
+            });
+        });
+        
+        // ============================================
+        // Initialize theme from localStorage
+        // ============================================
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark');
+            const icon = document.querySelector('#demo-theme-toggle i');
+            if (icon) icon.className = 'bx bx-sun mr-2';
+        }
+        
+        // ============================================
+        // Initialize counter
+        // ============================================
+        updateCounter();
+        
+        // ============================================
+        // Log successful load
+        // ============================================
+        console.log('✅ Test page loaded successfully!');
+        showToast('Page loaded successfully!', 'success');
+        
+        // ============================================
+        // Add some slide-in animations
+        // ============================================
+        setTimeout(() => {
+            document.querySelectorAll('.slide-in').forEach(el => {
+                el.style.opacity = '1';
+            });
+        }, 100);
+        
+        // ============================================
+        // Demo API call (optional)
+        // ============================================
+        async function fetchDemoData() {
+            try {
+                const response = await fetch('/api/health');
+                if (response.ok) {
+                    console.log('✅ API connection successful');
+                }
+            } catch (error) {
+                console.log('API connection not available (normal for demo)');
+            }
+        }
+        fetchDemoData();
+    </script>
+</body>
+</html>

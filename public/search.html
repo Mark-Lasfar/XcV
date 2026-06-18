@@ -1,0 +1,2266 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="description" content="Search and discover talented professionals and jobs on MGZon.">
+    <meta name="keywords" content="search users, find talent, developers, designers, jobs, careers">
+    <meta name="author" content="MGZon">
+    <meta name="google-site-verification" content="cMqMKs3WVFS5S9D2cLZ2_iHzeda4B7oNyOPOneZCjqg" />
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Search - MGZon">
+    <meta property="og:description" content="Discover talented professionals and jobs on MGZon">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="MGZon">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Search - MGZon">
+    <meta name="twitter:description" content="Discover talented professionals and jobs on MGZon">
+    
+    <title>Search - Find Talent & Jobs | MGZon</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" id="dynamic-favicon" href="/assets/img/logo.svg" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/assets/img/logo.svg">
+    
+    <!-- Stylesheets -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    
+    <style>
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background-color: #f3f4f6;
+            transition: background-color 0.3s;
+        }
+        
+        body.dark {
+            background-color: #111827;
+        }
+        
+        /* Header Styles */
+        .l-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        body.dark .l-header {
+            background-color: #1f2937;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .nav__logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #1f2937;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        
+        body.dark .nav__logo {
+            color: #f3f4f6;
+        }
+        
+        .nav__logo img {
+            width: 1.75rem;
+            height: 1.75rem;
+            margin-right: 0.5rem;
+            object-fit: contain;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, #1d4ed8 0%, #8b5cf6 100%);
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+            color: white;
+            margin-top: 3rem;
+        }
+        
+        body.dark .hero-section {
+            background: linear-gradient(135deg, #1e3a5f 0%, #5b21b6 100%);
+        }
+        
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.125rem;
+            opacity: 0.9;
+        }
+        
+        /* Search Container */
+        .search-container {
+            max-width: 800px;
+            margin: -2rem auto 2rem;
+            position: relative;
+            z-index: 10;
+            padding: 0 1rem;
+        }
+        
+        .search-box {
+            background: white;
+            border-radius: 60px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            transition: all 0.3s;
+        }
+        
+        body.dark .search-box {
+            background: #1f2937;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .search-box:focus-within {
+            box-shadow: 0 10px 50px rgba(59,130,246,0.3);
+            transform: scale(1.01);
+        }
+        
+        .search-icon {
+            padding: 0 1rem;
+            color: #6b7280;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 1rem 0;
+            border: none;
+            background: transparent;
+            font-size: 1rem;
+            color: #1f2937;
+            outline: none;
+        }
+        
+        body.dark .search-input {
+            color: #f3f4f6;
+        }
+        
+        .search-input::placeholder {
+            color: #9ca3af;
+        }
+        
+        .search-clear {
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 0.5rem;
+            display: none;
+            transition: all 0.2s;
+        }
+        
+        .search-clear:hover {
+            color: #3b82f6;
+        }
+        
+        .search-btn {
+            background: linear-gradient(135deg, #1d4ed8, #8b5cf6);
+            border: none;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59,130,246,0.4);
+        }
+        
+        /* Search Type Tabs */
+        .search-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .search-tab {
+            padding: 0.75rem 2rem;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #4b5563;
+        }
+        
+        body.dark .search-tab {
+            background: #1f2937;
+            border-color: #374151;
+            color: #9ca3af;
+        }
+        
+        .search-tab.active {
+            background: linear-gradient(135deg, #1d4ed8, #8b5cf6);
+            border-color: transparent;
+            color: white;
+        }
+        
+        .search-tab:hover:not(.active) {
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+        
+        /* Filters Section */
+        .filters-section {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+        
+        .filter-chip {
+            padding: 0.5rem 1.25rem;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #4b5563;
+        }
+        
+        body.dark .filter-chip {
+            background: #1f2937;
+            border-color: #374151;
+            color: #9ca3af;
+        }
+        
+        .filter-chip:hover {
+            border-color: #3b82f6;
+            transform: translateY(-1px);
+        }
+        
+        .filter-chip.active {
+            background: linear-gradient(135deg, #1d4ed8, #8b5cf6);
+            color: white;
+            border-color: transparent;
+        }
+        
+        /* Skills Filter Section */
+        .skills-filter-section {
+            max-width: 1200px;
+            margin: 1rem auto;
+            padding: 1rem;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        body.dark .skills-filter-section {
+            background: #1f2937;
+            border: 1px solid #374151;
+        }
+        
+        .skills-filter-title {
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Results Container */
+        .results-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .results-count {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        
+        .results-count strong {
+            color: #3b82f6;
+            font-size: 1rem;
+        }
+        
+        .view-toggle {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .view-btn {
+            padding: 0.5rem;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        body.dark .view-btn {
+            background: #1f2937;
+            border-color: #374151;
+            color: #f3f4f6;
+        }
+        
+        .view-btn.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        
+        /* User Card */
+        .user-card, .job-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+        
+        body.dark .user-card, body.dark .job-card {
+            background: #1f2937;
+            border: 1px solid #374151;
+        }
+        
+        .user-card:hover, .job-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+        }
+        
+        /* Grid View */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1rem;
+        }
+        
+        .results-grid .user-card,
+        .results-grid .job-card {
+            margin-bottom: 0;
+        }
+        
+        /* Skill Tags */
+        .skill-tag {
+            background: #f3f4f6;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #1f2937;
+        }
+        
+        body.dark .skill-tag {
+            background: #374151;
+            color: #f3f4f6;
+        }
+        
+        /* Job Card Specific */
+        .job-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 0.75rem 0;
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        
+        .salary-text {
+            color: #10b981;
+            font-weight: 600;
+        }
+        
+        .job-deadline {
+            font-size: 0.7rem;
+        }
+        
+        /* Action Buttons */
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .action-btn.primary {
+            background: #0a66c2;
+            color: white;
+            border: none;
+        }
+        
+        .action-btn.primary:hover {
+            background: #004182;
+            transform: translateY(-1px);
+        }
+        
+        .action-btn.secondary {
+            background: transparent;
+            border: 1px solid #e5e7eb;
+            color: #1f2937;
+        }
+        
+        body.dark .action-btn.secondary {
+            border-color: #374151;
+            color: #f3f4f6;
+        }
+        
+        .action-btn.secondary:hover {
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+        
+        .follow-btn.following {
+            background: #ef4444;
+            border-color: #ef4444;
+            color: white;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .page-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e5e7eb;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        body.dark .page-btn {
+            background: #1f2937;
+            border-color: #374151;
+            color: #f3f4f6;
+        }
+        
+        .page-btn:hover {
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+        
+        .page-btn.active {
+            background: linear-gradient(135deg, #1d4ed8, #8b5cf6);
+            color: white;
+            border-color: transparent;
+        }
+        
+        /* Loading & Empty States */
+        .loading-state, .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid #e5e7eb;
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        body.dark .loader {
+            border-color: #374151;
+            border-top-color: #3b82f6;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Skeleton Loading */
+        .skeleton-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        body.dark .skeleton-card {
+            background: #1f2937;
+        }
+        
+        .skeleton-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        body.dark .skeleton-avatar {
+            background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+        }
+        
+        .skeleton-line {
+            height: 16px;
+            background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+        
+        body.dark .skeleton-line {
+            background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* Footer */
+        .footer {
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        body.dark .footer {
+            background: #1f2937;
+            border-top-color: #374151;
+        }
+        
+        .footer p {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+        
+        body.dark .footer p {
+            color: #9ca3af;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 1.75rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 0.875rem;
+            }
+            
+            .search-box {
+                flex-wrap: wrap;
+                border-radius: 1rem;
+            }
+            
+            .search-input {
+                width: 100%;
+                padding: 0.75rem 1rem;
+            }
+            
+            .search-btn {
+                width: 100%;
+                margin-top: 0.5rem;
+            }
+            
+            .user-card-content {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .user-actions {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        /* Toast */
+        .toastify {
+            border-radius: 0.75rem !important;
+            font-family: 'Inter', sans-serif !important;
+        }
+
+
+        /* Product Card & Store Card Styles */
+        .product-card, .store-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+
+        body.dark .product-card, body.dark .store-card {
+            background: #1f2937;
+            border: 1px solid #374151;
+        }
+
+        .product-card:hover, .store-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="l-header">
+    <nav class="nav">
+        <a href="/feed.html" class="nav__logo">
+            <img id="nav-logo" src="/assets/img/logo.svg" alt="Logo">
+            <span id="site-name">MGZon</span>
+        </a>
+        <div class="flex items-center gap-3" id="navbar-links"></div>
+    </nav>
+</header>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <h1 class="hero-title">Find Your Next Opportunity</h1>
+    <p class="hero-subtitle">Search for talented professionals or discover your dream job</p>
+</section>
+
+<!-- Search Container -->
+<div class="search-container">
+    <div class="search-box">
+        <div class="search-icon">
+            <i class='bx bx-search'></i>
+        </div>
+        <input type="text" id="search-input" class="search-input" placeholder="Search by name, skills, job title, or company..." autocomplete="off">
+        <button id="clear-search" class="search-clear">
+            <i class='bx bx-x'></i>
+        </button>
+        <button id="search-btn" class="search-btn">
+            Search
+        </button>
+    </div>
+</div>
+
+<!-- Search Type Tabs -->
+<div class="search-tabs">
+    <button data-type="users" class="search-tab active">👥 Find People</button>
+    <button data-type="jobs" class="search-tab">💼 Find Jobs</button>
+    <button data-type="products" class="search-tab">🛍️ Products</button>
+    <button data-type="stores" class="search-tab">🏪 Stores</button>
+
+</div>
+
+<!-- Filters Section (Users) -->
+<div id="users-filters" class="filters-section">
+    <button data-filter="all" class="filter-chip active">All</button>
+    <button data-filter="technology" class="filter-chip">💻 Technology</button>
+    <button data-filter="design" class="filter-chip">🎨 Design</button>
+    <button data-filter="marketing" class="filter-chip">📊 Marketing</button>
+    <button data-filter="business" class="filter-chip">💼 Business</button>
+    <button data-filter="education" class="filter-chip">📚 Education</button>
+</div>
+
+<!-- Skills Filter Section (Users) -->
+<div id="users-skills-filter" class="skills-filter-section">
+    <div class="skills-filter-title">
+        <i class='bx bx-code-alt'></i>
+        <span>Filter by Skills</span>
+    </div>
+    <div class="flex flex-wrap gap-2" id="skills-filter-buttons">
+        <button data-skill="" class="filter-chip active">All Skills</button>
+        <button data-skill="JavaScript" class="filter-chip">⚡ JavaScript</button>
+        <button data-skill="Python" class="filter-chip">🐍 Python</button>
+        <button data-skill="React" class="filter-chip">⚛️ React</button>
+        <button data-skill="Node.js" class="filter-chip">🟢 Node.js</button>
+        <button data-skill="UI/UX" class="filter-chip">🎨 UI/UX</button>
+        <button data-skill="Marketing" class="filter-chip">📈 Marketing</button>
+        <button data-skill="Sales" class="filter-chip">💰 Sales</button>
+        <button data-skill="Project Management" class="filter-chip">📋 PM</button>
+        <button data-skill="Data Science" class="filter-chip">📊 Data Science</button>
+        <button data-skill="DevOps" class="filter-chip">🚀 DevOps</button>
+        <button data-skill="Cloud Computing" class="filter-chip">☁️ Cloud</button>
+        <button data-skill="Cybersecurity" class="filter-chip">🔒 Security</button>
+        <button data-skill="Mobile Development" class="filter-chip">📱 Mobile</button>
+        <button data-skill="AI/ML" class="filter-chip">🧠 AI/ML</button>
+    </div>
+</div>
+
+<!-- Filters Section (Jobs) -->
+<div id="jobs-filters" class="filters-section" style="display: none;">
+    <button data-job-filter="all" class="filter-chip active">All Jobs</button>
+    <button data-job-filter="full-time" class="filter-chip">Full Time</button>
+    <button data-job-filter="part-time" class="filter-chip">Part Time</button>
+    <button data-job-filter="remote" class="filter-chip">Remote</button>
+    <button data-job-filter="contract" class="filter-chip">Contract</button>
+    <button data-job-filter="freelance" class="filter-chip">Freelance</button>
+    <button data-job-filter="internship" class="filter-chip">Internship</button>
+</div>
+
+<!-- Filters Section (Products) -->
+<div id="products-filters" class="filters-section" style="display: none;">
+    <button data-product-filter="all" class="filter-chip active">All Products</button>
+    <button data-product-filter="digital" class="filter-chip">📁 Digital</button>
+    <button data-product-filter="project" class="filter-chip">💻 Projects</button>
+    <button data-product-filter="service" class="filter-chip">⚡ Services</button>
+</div>
+
+<!-- Price Filter for Products -->
+<div id="products-price-filter" class="skills-filter-section" style="display: none;">
+    <div class="skills-filter-title">
+        <i class='bx bx-dollar-circle'></i>
+        <span>Filter by Price</span>
+    </div>
+    <div class="flex flex-wrap gap-2" id="price-filter-buttons">
+        <button data-price="" class="filter-chip active">All Prices</button>
+        <button data-price="0-10" class="filter-chip">$0 - $10</button>
+        <button data-price="10-25" class="filter-chip">$10 - $25</button>
+        <button data-price="25-50" class="filter-chip">$25 - $50</button>
+        <button data-price="50-100" class="filter-chip">$50 - $100</button>
+        <button data-price="100+" class="filter-chip">$100+</button>
+    </div>
+</div>
+
+<!-- Filters Section (Stores) -->
+<div id="stores-filters" class="filters-section" style="display: none;">
+    <button data-store-filter="all" class="filter-chip active">All Stores</button>
+    <button data-store-filter="top-rated" class="filter-chip">⭐ Top Rated</button>
+    <button data-store-filter="most-products" class="filter-chip">📦 Most Products</button>
+    <button data-store-filter="newest" class="filter-chip">🆕 Newest</button>
+</div>
+
+
+<!-- Results Container -->
+<div class="results-container" id="results-container">
+    <div class="results-header">
+        <div class="results-count" id="results-count">
+            <strong>0</strong> results found
+        </div>
+        <div class="view-toggle">
+            <button class="view-btn active" data-view="list" title="List View">
+                <i class='bx bx-list-ul'></i>
+            </button>
+            <button class="view-btn" data-view="grid" title="Grid View">
+                <i class='bx bx-grid-alt'></i>
+            </button>
+        </div>
+    </div>
+    <div id="search-results"></div>
+    <div id="pagination" class="pagination"></div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <p>© <span id="footer-year"></span> MGZon. All rights reserved.</p>
+</footer>
+
+<script src="/assets/js/config.js"></script>
+
+<script>
+// ============================================
+// SEARCH PAGE - Users & Jobs - Fully Updated
+// ============================================
+
+const API_URL = window.ENV?.API_URL || 'https://mgzon-server.hf.space';
+const cleanApiUrl = API_URL.replace(/\/$/, '');
+let userToken = localStorage.getItem('userToken');
+let currentUser = null;
+let isLoggedIn = !!userToken;
+
+// Search state
+let searchType = 'users'; // 'users' or 'jobs'
+let currentQuery = '';
+let currentFilter = 'all';
+let currentPage = 1;
+let currentLimit = 12;
+let totalResults = 0;
+let currentView = localStorage.getItem('searchView') || 'list';
+let searchTimeout = null;
+let followingList = new Set();
+
+// DOM Elements
+const searchInput = document.getElementById('search-input');
+const searchBtn = document.getElementById('search-btn');
+const clearSearch = document.getElementById('clear-search');
+const resultsContainer = document.getElementById('search-results');
+const resultsCount = document.getElementById('results-count');
+const paginationDiv = document.getElementById('pagination');
+
+// ============================================
+// Utility Functions
+// ============================================
+
+function showToast(message, type = 'success') {
+    if (typeof Toastify !== 'undefined') {
+        Toastify({
+            text: message,
+            duration: 3000,
+            gravity: 'top',
+            position: 'right',
+            style: {
+                background: type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : type === 'warning' ? '#f59e0b' : '#3b82f6',
+                borderRadius: '12px',
+                fontFamily: 'Inter, sans-serif'
+            }
+        }).showToast();
+    } else {
+        console.log(message);
+    }
+}
+
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
+}
+
+function formatDate(date) {
+    if (!date) return 'N/A';
+    const d = new Date(date);
+    const now = new Date();
+    const diff = now - d;
+    if (diff < 60000) return 'Just now';
+    if (diff < 3600000) return `${Math.floor(diff / 60000)}m ago`;
+    if (diff < 86400000) return `${Math.floor(diff / 3600000)}h ago`;
+    if (diff < 604800000) return `${Math.floor(diff / 86400000)}d ago`;
+    return d.toLocaleDateString();
+}
+
+function formatSalary(amount) {
+    if (amount >= 1000000) return `${(amount / 1000000).toFixed(1)}M`;
+    if (amount >= 1000) return `${(amount / 1000).toFixed(0)}K`;
+    return amount.toString();
+}
+
+function stripHtml(html) {
+    if (!html) return '';
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || '';
+}
+
+async function fetchCsrfToken() {
+    try {
+        const response = await fetch(`${cleanApiUrl}/api/csrf-token`, { 
+            method: 'GET', 
+            credentials: 'include' 
+        });
+        const data = await response.json();
+        return data.csrfToken;
+    } catch (error) {
+        console.error('Error fetching CSRF token:', error);
+        return null;
+    }
+}
+
+async function fetchWithRefresh(url, options = {}) {
+    try {
+        let csrfToken = await fetchCsrfToken();
+        options.headers = {
+            ...options.headers,
+            'Authorization': userToken ? `Bearer ${userToken}` : '',
+            'X-CSRF-Token': csrfToken || ''
+        };
+        let response = await fetch(url, { ...options, credentials: 'include' });
+        
+        if (response.status === 401 && userToken) {
+            const refreshed = await refreshToken();
+            if (refreshed) {
+                options.headers['Authorization'] = `Bearer ${userToken}`;
+                response = await fetch(url, options);
+            }
+        }
+        return response;
+    } catch (error) {
+        console.error('Fetch error:', error);
+        throw error;
+    }
+}
+
+async function refreshToken() {
+    try {
+        const refreshToken = localStorage.getItem('refreshToken');
+        if (!refreshToken) throw new Error('No refresh token');
+        const csrfToken = await fetchCsrfToken();
+        const response = await fetch(`${cleanApiUrl}/api/refresh-token`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+            body: JSON.stringify({ refreshToken })
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error('Refresh failed');
+        localStorage.setItem('userToken', data.accessToken || data.token);
+        localStorage.setItem('refreshToken', data.refreshToken);
+        userToken = data.accessToken || data.token;
+        return userToken;
+    } catch (error) {
+        console.error('Refresh error:', error);
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('refreshToken');
+        userToken = null;
+        return null;
+    }
+}
+
+// ============================================
+// Load Site Settings
+// ============================================
+async function loadSiteSettings() {
+    try {
+        const response = await fetch(`${cleanApiUrl}/api/site-settings`);
+        if (response.ok) {
+            const data = await response.json();
+            const logoImg = document.querySelector('#nav-logo');
+            if (logoImg && data.logo) {
+                logoImg.src = data.logo;
+                logoImg.onerror = () => logoImg.src = '/assets/img/logo.svg';
+            }
+            const siteNameSpan = document.getElementById('site-name');
+            if (siteNameSpan && data.siteName) {
+                siteNameSpan.textContent = data.siteName;
+            }
+            const favicon = document.getElementById('dynamic-favicon');
+            if (favicon && data.logo) {
+                favicon.href = data.logo;
+            }
+        }
+    } catch (error) {
+        console.error('Error loading site settings:', error);
+    }
+}
+
+// ============================================
+// Load Current User & Navbar
+// ============================================
+async function loadCurrentUser() {
+    if (!userToken) {
+        isLoggedIn = false;
+        await updateNavbar();
+        return null;
+    }
+    try {
+        const response = await fetchWithRefresh(`${cleanApiUrl}/api/verify-token`);
+        if (response.ok) {
+            currentUser = await response.json();
+            isLoggedIn = true;
+            await updateNavbar();
+            await loadFollowingList();
+            return currentUser;
+        }
+        isLoggedIn = false;
+        await updateNavbar();
+        return null;
+    } catch (error) {
+        console.error('Error loading current user:', error);
+        isLoggedIn = false;
+        await updateNavbar();
+        return null;
+    }
+}
+
+async function updateNavbar() {
+    const navbarContainer = document.getElementById('navbar-links');
+    if (!navbarContainer) return;
+    
+    if (!isLoggedIn) {
+        navbarContainer.innerHTML = `
+            <a href="/login.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition px-3 py-2">Sign in</a>
+            <a href="/register.html" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">Join now</a>
+            <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition p-2">
+                <img id="modeToggle" src="/assets/img/theme_light.png" alt="Theme" style="width: 20px; height: 20px;">
+            </button>
+        `;
+        return;
+    }
+    
+    const userAvatarSrc = currentUser?.profile?.avatar || '/assets/img/default-avatar.png';
+    
+    navbarContainer.innerHTML = `
+        <a href="/feed.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition"><i class='bx bx-home text-2xl'></i></a>
+        <a href="/network.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition"><i class='bx bx-group text-2xl'></i></a>
+        <a href="/jobs.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition"><i class='bx bx-briefcase text-2xl'></i></a>
+        <a href="/messages.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition"><i class='bx bx-message-dots text-2xl'></i></a>
+        <div class="relative">
+            <button id="profile-menu-btn" class="flex items-center gap-1 text-gray-600 dark:text-gray-300">
+                <img src="${userAvatarSrc}" class="w-8 h-8 rounded-full object-cover">
+                <i class='bx bx-chevron-down text-xl'></i>
+            </button>
+            <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 overflow-hidden">
+                <a href="/profile/me" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition">My Profile</a>
+                <a href="/settings.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition">Settings</a>
+                <a href="/my-jobs.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition">My Jobs</a>
+                <a href="/job-applications.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition">My Applications</a>
+                <hr class="my-1 dark:border-gray-700">
+                <button id="logout-btn" class="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-red-600 transition">Sign Out</button>
+            </div>
+        </div>
+        <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition p-2">
+            <img id="modeToggle" src="/assets/img/theme_light.png" alt="Theme" style="width: 20px; height: 20px;">
+        </button>
+    `;
+    
+    attachNavbarEvents();
+}
+
+function attachNavbarEvents() {
+    const profileMenuBtn = document.getElementById('profile-menu-btn');
+    const profileDropdown = document.getElementById('profile-dropdown');
+    if (profileMenuBtn && profileDropdown) {
+        profileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('hidden');
+        });
+    }
+    
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', handleLogout);
+    }
+    
+    document.addEventListener('click', () => {
+        if (profileDropdown) profileDropdown.classList.add('hidden');
+    });
+}
+
+async function handleLogout() {
+    try {
+        const csrfToken = await fetchCsrfToken();
+        await fetch(`${cleanApiUrl}/api/logout`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${userToken}`,
+                'X-CSRF-Token': csrfToken
+            }
+        });
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('refreshToken');
+        window.location.href = '/';
+    } catch (error) {
+        console.error('Logout error:', error);
+    }
+}
+
+// ============================================
+// Following List
+// ============================================
+async function loadFollowingList() {
+    if (!userToken) return;
+    try {
+        const response = await fetch(`${cleanApiUrl}/api/users/me/following/ids`, {
+            headers: { 'Authorization': `Bearer ${userToken}` }
+        });
+        if (response.ok) {
+            const data = await response.json();
+            followingList = new Set(data.data.map(id => id.toString()));
+        }
+    } catch (error) {
+        console.error('Error loading following list:', error);
+    }
+}
+
+// ============================================
+// Search Functions
+// ============================================
+async function searchUsers() {
+    // ✅ إذا كان الـ query أقل من 2 حروف وكانت الصفحة 1، لا نرسل طلب
+    if (currentQuery.length < 2 && currentPage === 1) {
+        showEmptyState('Please enter at least 2 characters to search');
+        return;
+    }
+    
+    showLoadingSkeleton();
+    
+    try {
+        let url = `${cleanApiUrl}/api/users/search?query=${encodeURIComponent(currentQuery)}&page=${currentPage}&limit=${currentLimit}`;
+        
+        if (currentFilter !== 'all') {
+            url += `&category=${currentFilter}`;
+        }
+        
+        const skillsFilter = document.querySelector('#skills-filter-buttons .filter-chip.active[data-skill]')?.dataset.skill;
+        if (skillsFilter && skillsFilter !== '') {
+            url += `&skill=${encodeURIComponent(skillsFilter)}`;
+        }
+        
+        const response = await fetch(url, {
+            headers: userToken ? { 'Authorization': `Bearer ${userToken}` } : {}
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok) throw new Error(result.error);
+        
+        totalResults = result.pagination?.total || result.data?.length || 0;
+        updateResultsCount(totalResults);
+        
+        if (result.data && result.data.length > 0) {
+            renderUsers(result.data);
+            renderPagination(result.pagination);
+        } else {
+            showEmptyState('No users found. Try adjusting your search or filters.');
+        }
+        
+    } catch (error) {
+        console.error('Error searching users:', error);
+        showErrorState(error.message);
+    }
+}
+
+
+async function searchJobs() {
+    // ✅ إذا كان الـ query أقل من 2 حروف وكانت الصفحة 1، لا نرسل طلب
+    if (currentQuery.length < 2 && currentPage === 1 && currentFilter === 'all') {
+        showEmptyState('Please enter at least 2 characters to search for jobs');
+        return;
+    }
+    
+    showLoadingSkeleton();
+    
+    try {
+        let url = `${cleanApiUrl}/api/jobs?page=${currentPage}&limit=${currentLimit}`;
+        
+        if (currentQuery) {
+            url += `&search=${encodeURIComponent(currentQuery)}`;
+        }
+        
+        if (currentFilter !== 'all') {
+            url += `&jobType=${currentFilter}`;
+        }
+        
+        const response = await fetch(url, {
+            headers: userToken ? { 'Authorization': `Bearer ${userToken}` } : {}
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok) throw new Error(result.error);
+        
+        totalResults = result.pagination?.total || result.data?.length || 0;
+        updateResultsCount(totalResults);
+        
+        if (result.data && result.data.length > 0) {
+            renderJobs(result.data);
+            renderPagination(result.pagination);
+        } else {
+            showEmptyState('No jobs found. Try adjusting your search or filters.');
+        }
+        
+    } catch (error) {
+        console.error('Error searching jobs:', error);
+        showErrorState(error.message);
+    }
+}
+
+
+
+// ============================================
+// Search Products Function - NEW
+// ============================================
+async function searchProducts() {
+    if (currentQuery.length < 2 && currentPage === 1) {
+        showEmptyState('Please enter at least 2 characters to search for products');
+        return;
+    }
+    
+    showLoadingSkeleton();
+    
+    try {
+        let url = `${cleanApiUrl}/api/store/search/products?page=${currentPage}&limit=${currentLimit}`;
+        
+        if (currentQuery) {
+            url += `&q=${encodeURIComponent(currentQuery)}`;
+        }
+        
+        // Product type filter
+        if (currentFilter !== 'all') {
+            url += `&type=${currentFilter}`;
+        }
+        
+        // Price filter
+        const priceFilter = document.querySelector('#price-filter-buttons .filter-chip.active[data-price]')?.dataset.price;
+        if (priceFilter && priceFilter !== '') {
+            url += `&priceRange=${priceFilter}`;
+        }
+        
+        const response = await fetch(url, {
+            headers: userToken ? { 'Authorization': `Bearer ${userToken}` } : {}
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok) throw new Error(result.error);
+        
+        totalResults = result.pagination?.total || result.products?.length || 0;
+        updateResultsCount(totalResults);
+        
+        if (result.products && result.products.length > 0) {
+            renderProducts(result.products);
+            renderPagination(result.pagination);
+        } else {
+            showEmptyState('No products found. Try adjusting your search or filters.');
+        }
+        
+    } catch (error) {
+        console.error('Error searching products:', error);
+        showErrorState(error.message);
+    }
+}
+
+// ============================================
+// Search Stores Function - NEW
+// ============================================
+async function searchStores() {
+    if (currentQuery.length < 2 && currentPage === 1) {
+        showEmptyState('Please enter at least 2 characters to search for stores');
+        return;
+    }
+    
+    showLoadingSkeleton();
+    
+    try {
+        let url = `${cleanApiUrl}/api/store/search/stores?page=${currentPage}&limit=${currentLimit}`;
+        
+        if (currentQuery) {
+            url += `&q=${encodeURIComponent(currentQuery)}`;
+        }
+        
+        // Store filter
+        if (currentFilter !== 'all') {
+            url += `&sort=${currentFilter}`;
+        }
+        
+        const response = await fetch(url, {
+            headers: userToken ? { 'Authorization': `Bearer ${userToken}` } : {}
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok) throw new Error(result.error);
+        
+        totalResults = result.pagination?.total || result.stores?.length || 0;
+        updateResultsCount(totalResults);
+        
+        if (result.stores && result.stores.length > 0) {
+            renderStores(result.stores);
+            renderPagination(result.pagination);
+        } else {
+            showEmptyState('No stores found. Try adjusting your search or filters.');
+        }
+        
+    } catch (error) {
+        console.error('Error searching stores:', error);
+        showErrorState(error.message);
+    }
+}
+// ============================================
+// URL Management for Shareable Search Links
+// ============================================
+
+function updateSearchURL() {
+    const params = new URLSearchParams();
+    
+    if (currentQuery && currentQuery.trim().length > 0) {
+        params.set('q', currentQuery.trim());
+    }
+    
+    if (searchType !== 'users') {
+        params.set('type', searchType);
+    }
+    
+    if (currentFilter !== 'all') {
+        params.set('filter', currentFilter);
+    }
+    
+    if (searchType === 'users') {
+        const skillsFilter = document.querySelector('#skills-filter-buttons .filter-chip.active[data-skill]')?.dataset.skill;
+        if (skillsFilter && skillsFilter !== '') {
+            params.set('skill', skillsFilter);
+        }
+    }
+    
+    // ✅ أضف فلتر المنتجات
+    if (searchType === 'products') {
+        const priceFilter = document.querySelector('#price-filter-buttons .filter-chip.active[data-price]')?.dataset.price;
+        if (priceFilter && priceFilter !== '') {
+            params.set('price', priceFilter);
+        }
+    }
+    
+    if (currentPage > 1) {
+        params.set('page', currentPage);
+    }
+    
+    if (currentView !== 'list') {
+        params.set('view', currentView);
+    }
+    
+    const newURL = params.toString() ? `${window.location.pathname}?${params.toString()}` : window.location.pathname;
+    window.history.pushState({}, '', newURL);
+}
+
+function loadSearchFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    
+    // Get search query
+    const query = params.get('q');
+    if (query) {
+        currentQuery = query;
+        searchInput.value = query;
+        if (clearSearch) clearSearch.style.display = 'block';
+    }
+    
+    // Get search type
+    const type = params.get('type');
+    if (type === 'jobs') {
+        switchSearchType('jobs');
+    } else if (type === 'users') {
+        switchSearchType('users');
+    }
+    
+    // Get filter
+    const filter = params.get('filter');
+    if (filter && filter !== 'all') {
+        currentFilter = filter;
+        
+        if (searchType === 'users') {
+            document.querySelectorAll('#users-filters .filter-chip').forEach(chip => {
+                chip.classList.remove('active');
+                if (chip.dataset.filter === filter) {
+                    chip.classList.add('active');
+                }
+            });
+        } else {
+            document.querySelectorAll('#jobs-filters .filter-chip').forEach(chip => {
+                chip.classList.remove('active');
+                if (chip.dataset.jobFilter === filter) {
+                    chip.classList.add('active');
+                }
+            });
+        }
+    }
+    
+    // Get skills filter
+    const skill = params.get('skill');
+    if (skill) {
+        document.querySelectorAll('#skills-filter-buttons .filter-chip').forEach(chip => {
+            chip.classList.remove('active');
+            if (chip.dataset.skill === skill) {
+                chip.classList.add('active');
+            }
+        });
+    }
+    
+    // Get page
+    const page = params.get('page');
+    if (page && parseInt(page) > 1) {
+        currentPage = parseInt(page);
+    }
+    
+    // Get view
+    const view = params.get('view');
+    if (view === 'grid') {
+        setView('grid');
+    } else if (view === 'list') {
+        setView('list');
+    }
+    
+    // Perform search if there's a query
+    if (currentQuery && currentQuery.length >= 2) {
+        performSearch();
+    } else if (currentQuery && currentQuery.length === 1) {
+        showEmptyState('Please enter at least 2 characters to search');
+    } else {
+        showEmptyState('Search for professionals or jobs by typing in the search box above');
+    }
+}
+
+function shareSearchResults() {
+    const url = window.location.href;
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(() => {
+            showToast('Search link copied to clipboard!', 'success');
+        }).catch(() => {
+            showToast('Failed to copy link', 'error');
+        });
+    } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = url;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        showToast('Search link copied to clipboard!', 'success');
+    }
+}
+
+function addShareButton() {
+    const resultsHeader = document.querySelector('.results-header');
+    if (resultsHeader && !document.querySelector('.share-results-btn')) {
+        const shareBtn = document.createElement('button');
+        shareBtn.className = 'action-btn secondary share-results-btn';
+        shareBtn.innerHTML = '<i class="bx bx-share-alt"></i> Share Results';
+        shareBtn.onclick = shareSearchResults;
+        resultsHeader.appendChild(shareBtn);
+    }
+}
+
+
+function performSearch() {
+    if (currentQuery.length < 2 && currentQuery.length > 0) {
+        showEmptyState('Please enter at least 2 characters to search');
+        return;
+    }
+    
+    updateSearchURL();
+    
+    switch(searchType) {
+        case 'users':
+            searchUsers();
+            break;
+        case 'jobs':
+            searchJobs();
+            break;
+        case 'products':
+            searchProducts();
+            break;
+        case 'stores':
+            searchStores();
+            break;
+        default:
+            searchUsers();
+    }
+}
+
+
+// ============================================
+// Render Functions
+// ============================================
+function showLoadingSkeleton() {
+    resultsContainer.innerHTML = `
+        <div class="skeleton-card">
+            <div class="flex gap-4">
+                <div class="skeleton-avatar"></div>
+                <div class="flex-1">
+                    <div class="skeleton-line" style="width: 60%;"></div>
+                    <div class="skeleton-line" style="width: 40%; margin-top: 0.5rem;"></div>
+                    <div class="skeleton-line" style="width: 80%; margin-top: 0.5rem;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="skeleton-card">
+            <div class="flex gap-4">
+                <div class="skeleton-avatar"></div>
+                <div class="flex-1">
+                    <div class="skeleton-line" style="width: 60%;"></div>
+                    <div class="skeleton-line" style="width: 40%; margin-top: 0.5rem;"></div>
+                    <div class="skeleton-line" style="width: 80%; margin-top: 0.5rem;"></div>
+                </div>
+            </div>
+        </div>
+    `;
+    paginationDiv.innerHTML = '';
+}
+
+function renderUsers(users) {
+    const viewClass = currentView === 'grid' ? 'results-grid' : 'space-y-4';
+    resultsContainer.className = viewClass;
+    
+    resultsContainer.innerHTML = users.map(user => createUserCard(user)).join('');
+    
+    document.querySelectorAll('.user-card').forEach((card, index) => {
+        card.style.animation = `fadeInUp 0.3s ease ${index * 0.05}s backwards`;
+    });
+}
+
+function renderJobs(jobs) {
+    const viewClass = currentView === 'grid' ? 'results-grid' : 'space-y-4';
+    resultsContainer.className = viewClass;
+    
+    resultsContainer.innerHTML = jobs.map(job => createJobCard(job)).join('');
+    
+    document.querySelectorAll('.job-card').forEach((card, index) => {
+        card.style.animation = `fadeInUp 0.3s ease ${index * 0.05}s backwards`;
+    });
+}
+
+function createUserCard(user) {
+    const isFollowing = followingList.has(user._id?.toString());
+    const avatarUrl = user.profile?.avatar || '/assets/img/default-avatar.png';
+    const displayName = user.profile?.nickname || user.username || 'User';
+    const jobTitle = user.profile?.jobTitle || 'Professional';
+    const bio = user.profile?.bio || 'No bio available';
+    const skills = user.profile?.skills || [];
+    const stats = user.stats || { posts: 0, projects: 0, jobs: 0, followers: 0, following: 0 };
+    const profileUrl = user.profile?.nickname || user.username || user._id;
+    
+    const skillsHtml = skills.slice(0, 5).map(skill => {
+        const skillName = typeof skill === 'string' ? skill : (skill.name || skill);
+        return `<span class="skill-tag">${escapeHtml(skillName)}</span>`;
+    }).join('');
+    
+    return `
+        <div class="user-card" onclick="viewProfile('${profileUrl}')">
+            <div class="flex flex-col md:flex-row gap-5">
+                <div class="flex-shrink-0 text-center md:text-left">
+                    <img src="${avatarUrl}" alt="${escapeHtml(displayName)}" 
+                        class="w-24 h-24 rounded-full object-cover mx-auto md:mx-0 border-4 border-blue-500">
+                </div>
+                <div class="flex-grow">
+                    <div class="flex flex-wrap justify-between items-start gap-2">
+                        <div>
+                            <h3 class="text-xl font-bold hover:text-blue-600 transition">
+                                ${escapeHtml(displayName)}
+                            </h3>
+                            <p class="text-blue-600 dark:text-blue-400 font-medium text-sm">
+                                ${escapeHtml(jobTitle)}
+                            </p>
+                        </div>
+                        <div class="flex gap-2">
+                            ${isLoggedIn ? `
+                                <button onclick="event.stopPropagation(); toggleFollow('${user._id}', this)" 
+                                    class="action-btn secondary follow-btn ${isFollowing ? 'following' : ''}">
+                                    <i class='bx ${isFollowing ? 'bx-check' : 'bx-plus'} mr-1'></i>
+                                    ${isFollowing ? 'Following' : 'Follow'}
+                                </button>
+                            ` : ''}
+                            <a href="/profile/${profileUrl}" onclick="event.stopPropagation()" 
+                                class="action-btn primary">
+                                <i class='bx bx-user'></i> View
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mt-2 line-clamp-2">
+                        ${escapeHtml(bio.substring(0, 150))}${bio.length > 150 ? '...' : ''}
+                    </p>
+                    
+                    ${skillsHtml ? `
+                        <div class="flex flex-wrap gap-2 mt-3">
+                            ${skillsHtml}
+                        </div>
+                    ` : ''}
+                    
+                    <div class="grid grid-cols-5 gap-2 mt-4 pt-3 border-t border-gray-100 dark:border-gray-700">
+                        <div class="text-center">
+                            <div class="text-lg font-bold">${stats.posts || 0}</div>
+                            <div class="text-xs text-gray-500">Posts</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-lg font-bold">${stats.projects || 0}</div>
+                            <div class="text-xs text-gray-500">Projects</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-lg font-bold">${stats.jobs || 0}</div>
+                            <div class="text-xs text-gray-500">Jobs</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-lg font-bold">${stats.followers || 0}</div>
+                            <div class="text-xs text-gray-500">Followers</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-lg font-bold">${stats.following || 0}</div>
+                            <div class="text-xs text-gray-500">Following</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function createJobCard(job) {
+    const salaryText = job.salaryMin && job.salaryMax 
+        ? `${formatSalary(job.salaryMin)} - ${formatSalary(job.salaryMax)} ${job.salaryCurrency}`
+        : job.isSalaryNegotiable ? 'Salary negotiable' : 'Salary not specified';
+    
+    const postedDate = formatDate(job.postedAt);
+    const deadlineDate = formatDate(job.deadline);
+    const isDeadlineSoon = new Date(job.deadline) - new Date() < 7 * 24 * 60 * 60 * 1000;
+    
+    const description = stripHtml(job.description || '');
+    
+    return `
+        <div class="job-card" onclick="viewJob('${job._id}')">
+            <div class="flex flex-col md:flex-row justify-between items-start gap-4">
+                <div class="flex-1">
+                    <div class="flex items-center gap-2 flex-wrap mb-2">
+                        <h3 class="text-lg font-semibold hover:text-blue-500">${escapeHtml(job.title)}</h3>
+                        ${job.isRemote ? '<span class="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-xs px-2 py-1 rounded-full">🌍 Remote</span>' : ''}
+                        ${isDeadlineSoon ? '<span class="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-xs px-2 py-1 rounded-full">⚠️ Deadline soon</span>' : ''}
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-2">${escapeHtml(job.companyName || 'Company')}</p>
+                    <div class="flex flex-wrap gap-3 text-sm text-gray-500 mb-3">
+                        <span><i class='bx bx-briefcase'></i> ${job.jobType}</span>
+                        <span><i class='bx bx-map'></i> ${job.isRemote ? 'Remote' : job.location}</span>
+                        <span><i class='bx bx-dollar-circle'></i> ${salaryText}</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-2 mb-3">
+                        ${escapeHtml(description.substring(0, 150))}${description.length > 150 ? '...' : ''}
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        ${job.requiredSkills?.slice(0, 3).map(skill => `
+                            <span class="skill-tag">${escapeHtml(skill)}</span>
+                        `).join('')}
+                        ${job.requiredSkills?.length > 3 ? `<span class="text-xs text-gray-500">+${job.requiredSkills.length - 3}</span>` : ''}
+                    </div>
+                    <div class="flex justify-between items-center flex-wrap gap-2">
+                        <div class="text-xs text-gray-400">
+                            <span>Posted ${postedDate}</span>
+                            <span class="mx-2">•</span>
+                            <span class="${isDeadlineSoon ? 'text-red-500' : ''}">Deadline ${deadlineDate}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="event.stopPropagation(); viewJob('${job._id}')" class="px-4 py-1.5 bg-blue-500 text-white rounded-lg text-sm hover:bg-blue-600 transition">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function renderPagination(pagination) {
+    if (!pagination || pagination.pages <= 1) {
+        paginationDiv.innerHTML = '';
+        return;
+    }
+    
+    let pagesHtml = '';
+    const current = pagination.page;
+    const total = pagination.pages;
+    
+    if (current > 1) {
+        pagesHtml += `<button class="page-btn" onclick="goToPage(${current - 1})"><i class='bx bx-chevron-left'></i></button>`;
+    }
+    
+    const startPage = Math.max(1, current - 2);
+    const endPage = Math.min(total, current + 2);
+    
+    if (startPage > 1) {
+        pagesHtml += `<button class="page-btn" onclick="goToPage(1)">1</button>`;
+        if (startPage > 2) pagesHtml += `<span class="page-btn disabled">...</span>`;
+    }
+    
+    for (let i = startPage; i <= endPage; i++) {
+        pagesHtml += `<button class="page-btn ${i === current ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+    }
+    
+    if (endPage < total) {
+        if (endPage < total - 1) pagesHtml += `<span class="page-btn disabled">...</span>`;
+        pagesHtml += `<button class="page-btn" onclick="goToPage(${total})">${total}</button>`;
+    }
+    
+    if (current < total) {
+        pagesHtml += `<button class="page-btn" onclick="goToPage(${current + 1})"><i class='bx bx-chevron-right'></i></button>`;
+    }
+    
+    paginationDiv.innerHTML = pagesHtml;
+}
+
+function updateResultsCount(count) {
+    const typeLabel = searchType === 'users' ? 'professional' : 'job';
+    resultsCount.innerHTML = `<strong>${count}</strong> ${typeLabel}${count !== 1 ? 's' : ''} found`;
+}
+
+function showEmptyState(message) {
+    resultsContainer.innerHTML = `
+        <div class="empty-state">
+            <i class='bx bx-search-alt' style="font-size: 4rem; color: #6b7280;"></i>
+            <h3 class="text-lg font-semibold mt-3 mb-1">No results found</h3>
+            <p class="text-gray-500">${escapeHtml(message)}</p>
+            <button onclick="resetSearch()" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                <i class='bx bx-refresh'></i> Clear Filters
+            </button>
+        </div>
+    `;
+    paginationDiv.innerHTML = '';
+}
+
+function showErrorState(message) {
+    resultsContainer.innerHTML = `
+        <div class="empty-state">
+            <i class='bx bx-error-circle' style="font-size: 4rem; color: #ef4444;"></i>
+            <h3 class="text-lg font-semibold mt-3 mb-1">Something went wrong</h3>
+            <p class="text-gray-500">${escapeHtml(message)}</p>
+            <button onclick="performSearch()" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                <i class='bx bx-refresh'></i> Try Again
+            </button>
+        </div>
+    `;
+    paginationDiv.innerHTML = '';
+}
+
+
+// ============================================
+// Render Products - NEW
+// ============================================
+function renderProducts(products) {
+    const viewClass = currentView === 'grid' ? 'results-grid' : 'space-y-4';
+    resultsContainer.className = viewClass;
+    
+    resultsContainer.innerHTML = products.map(product => createProductCard(product)).join('');
+    
+    document.querySelectorAll('.product-card').forEach((card, index) => {
+        card.style.animation = `fadeInUp 0.3s ease ${index * 0.05}s backwards`;
+    });
+}
+
+// ============================================
+// Render Stores - NEW
+// ============================================
+function renderStores(stores) {
+    const viewClass = currentView === 'grid' ? 'results-grid' : 'space-y-4';
+    resultsContainer.className = viewClass;
+    
+    resultsContainer.innerHTML = stores.map(store => createStoreCard(store)).join('');
+    
+    document.querySelectorAll('.store-card').forEach((card, index) => {
+        card.style.animation = `fadeInUp 0.3s ease ${index * 0.05}s backwards`;
+    });
+}
+
+// ============================================
+// Create Product Card - NEW
+// ============================================
+function createProductCard(product) {
+    const imageUrl = product.images?.[0] || '/assets/img/default-product.png';
+    const avgRating = product.averageRating || 0;
+    const currencySymbol = product.currencySymbol || '$';
+    const storeNickname = product.storeNickname || product.seller?.profile?.nickname || 'store';
+    
+    return `
+        <div class="product-card" onclick="viewProduct('${product._id}', '${storeNickname}')" style="cursor: pointer;">
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-shrink-0">
+                    <img src="${imageUrl}" alt="${escapeHtml(product.title)}" 
+                        class="w-32 h-32 object-cover rounded-lg">
+                </div>
+                <div class="flex-grow">
+                    <div class="flex flex-wrap justify-between items-start gap-2">
+                        <div>
+                            <h3 class="text-lg font-semibold hover:text-blue-500">
+                                ${escapeHtml(product.title)}
+                            </h3>
+                            <p class="text-sm text-gray-500">by ${escapeHtml(storeNickname)}</p>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <span class="text-xl font-bold text-blue-600">${product.price} ${currencySymbol}</span>
+                            <span class="text-xs px-2 py-0.5 rounded-full ${product.type === 'digital' ? 'bg-blue-100 text-blue-700' : product.type === 'project' ? 'bg-green-100 text-green-700' : 'bg-purple-100 text-purple-700'} ml-2">
+                                ${product.type === 'digital' ? '📁 Digital' : product.type === 'project' ? '💻 Project' : '⚡ Service'}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2 mt-2">
+                        <div class="flex text-yellow-400 text-sm">
+                            ${Array(5).fill().map((_, i) => {
+                                if (i < Math.floor(avgRating)) return '<i class="bx bxs-star"></i>';
+                                if (i < avgRating) return '<i class="bx bxs-star-half"></i>';
+                                return '<i class="bx bx-star"></i>';
+                            }).join('')}
+                        </div>
+                        <span class="text-xs text-gray-500">(${product.reviews?.length || 0} reviews)</span>
+                    </div>
+                    
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mt-2 line-clamp-2">
+                        ${escapeHtml(product.description?.substring(0, 120))}${product.description?.length > 120 ? '...' : ''}
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mt-3">
+                        ${product.tags?.slice(0, 3).map(tag => `
+                            <span class="skill-tag">#${escapeHtml(tag)}</span>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="flex justify-between items-center mt-3 pt-2 border-t dark:border-gray-700">
+                        <div class="text-xs text-gray-500">
+                            <i class='bx bx-package'></i> ${product.salesCount || 0} sold
+                        </div>
+                        <button onclick="event.stopPropagation(); viewProduct('${product._id}', '${storeNickname}')" 
+                            class="px-4 py-1.5 bg-blue-500 text-white rounded-lg text-sm hover:bg-blue-600 transition">
+                            View Product
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// ============================================
+// Create Store Card - NEW
+// ============================================
+function createStoreCard(store) {
+    const storeLogo = store.storeLogo || '/assets/img/default-store.png';
+    const storeName = store.storeName || store.nickname || store.username || 'Store';
+    const storeNickname = store.nickname || store.username;
+    const storeDescription = store.storeDescription || 'No description available';
+    const productsCount = store.productsCount || 0;
+    const followersCount = store.followersCount || 0;
+    const avgRating = Number(store.averageRating) || 0;
+    
+    return `
+        <div class="store-card" onclick="viewStore('${storeNickname}')" style="cursor: pointer;">
+            <div class="flex flex-col md:flex-row gap-4">
+                <div class="flex-shrink-0 text-center md:text-left">
+                    <img src="${storeLogo}" alt="${escapeHtml(storeName)}" 
+                        class="w-24 h-24 rounded-full object-cover mx-auto md:mx-0 border-2 border-blue-500">
+                </div>
+                <div class="flex-grow">
+                    <div class="flex flex-wrap justify-between items-start gap-2">
+                        <div>
+                            <h3 class="text-xl font-bold hover:text-blue-500">
+                                ${escapeHtml(storeName)}
+                            </h3>
+                            <p class="text-sm text-gray-500">@${escapeHtml(storeNickname)}</p>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <div class="flex text-yellow-400">
+                                ${Array(5).fill().map((_, i) => {
+                                    if (i < Math.floor(avgRating)) return '<i class="bx bxs-star"></i>';
+                                    if (i < avgRating) return '<i class="bx bxs-star-half"></i>';
+                                    return '<i class="bx bx-star"></i>';
+                                }).join('')}
+                            </div>
+                            <span class="text-xs text-gray-500">(${avgRating.toFixed(1)})</span>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mt-2 line-clamp-2">
+                        ${escapeHtml(storeDescription.substring(0, 120))}${storeDescription.length > 120 ? '...' : ''}
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4 mt-3">
+                        <div class="flex items-center gap-1 text-sm text-gray-500">
+                            <i class='bx bx-package'></i>
+                            <span>${productsCount} products</span>
+                        </div>
+                        <div class="flex items-center gap-1 text-sm text-gray-500">
+                            <i class='bx bx-group'></i>
+                            <span>${followersCount} followers</span>
+                        </div>
+                        ${store.storeBanner ? `
+                            <div class="flex items-center gap-1 text-sm text-gray-500">
+                                <i class='bx bx-image'></i>
+                                <span>Has banner</span>
+                            </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="flex justify-between items-center mt-3 pt-2 border-t dark:border-gray-700">
+                        <div class="text-xs text-gray-500">
+                            <i class='bx bx-calendar'></i> Joined ${new Date(store.createdAt).toLocaleDateString()}
+                        </div>
+                        <button onclick="event.stopPropagation(); viewStore('${storeNickname}')" 
+                            class="px-4 py-1.5 bg-blue-500 text-white rounded-lg text-sm hover:bg-blue-600 transition">
+                            Visit Store
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+
+// ============================================
+// Navigation Functions - NEW
+// ============================================
+function viewProduct(productId, storeNickname) {
+    window.location.href = `/product.html?id=${productId}&owner=${storeNickname}`;
+}
+
+function viewStore(storeNickname) {
+    window.location.href = `/shop/${storeNickname}`;
+}
+
+// ============================================
+// Actions
+// ============================================
+function goToPage(page) {
+    currentPage = page;
+    updateSearchURL();
+    performSearch();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetSearch() {
+    currentQuery = '';
+    currentFilter = 'all';
+    currentPage = 1;
+    if (searchInput) searchInput.value = '';
+    if (clearSearch) clearSearch.style.display = 'none';
+    
+    document.querySelectorAll('#users-filters .filter-chip').forEach(chip => {
+        chip.classList.remove('active');
+        if (chip.dataset.filter === 'all') chip.classList.add('active');
+    });
+    document.querySelectorAll('#jobs-filters .filter-chip').forEach(chip => {
+        chip.classList.remove('active');
+        if (chip.dataset.jobFilter === 'all') chip.classList.add('active');
+    });
+    document.querySelectorAll('#skills-filter-buttons .filter-chip').forEach(chip => {
+        chip.classList.remove('active');
+        if (chip.dataset.skill === '') chip.classList.add('active');
+    });
+    
+    updateSearchURL();
+    performSearch();
+}
+
+function viewProfile(profileUrl) {
+    window.location.href = `/profile/${profileUrl}`;
+}
+
+function viewJob(jobId) {
+    window.location.href = `/job-details.html?id=${jobId}`;
+}
+
+async function toggleFollow(userId, button) {
+    if (!isLoggedIn) {
+        showToast('Please login to follow users', 'warning');
+        window.location.href = '/login.html?redirect=/search.html';
+        return;
+    }
+    
+    const isFollowing = button.classList.contains('following');
+    
+    try {
+        const csrfToken = await fetchCsrfToken();
+        let response;
+        
+        if (isFollowing) {
+            response = await fetch(`${cleanApiUrl}/api/users/${userId}/follow`, {
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    'Authorization': `Bearer ${userToken}`,
+                    'X-CSRF-Token': csrfToken
+                }
+            });
+        } else {
+            response = await fetch(`${cleanApiUrl}/api/users/${userId}/follow`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Authorization': `Bearer ${userToken}`,
+                    'X-CSRF-Token': csrfToken
+                }
+            });
+        }
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            if (!isFollowing) {
+                button.classList.add('following');
+                button.innerHTML = '<i class="bx bx-check mr-1"></i> Following';
+                followingList.add(userId);
+                showToast('Followed successfully!', 'success');
+            } else {
+                button.classList.remove('following');
+                button.innerHTML = '<i class="bx bx-plus mr-1"></i> Follow';
+                followingList.delete(userId);
+                showToast('Unfollowed', 'info');
+            }
+        } else {
+            throw new Error(result.error);
+        }
+    } catch (error) {
+        console.error('Error toggling follow:', error);
+        showToast(error.message, 'error');
+    }
+}
+
+function setView(view) {
+    currentView = view;
+    localStorage.setItem('searchView', view);
+    
+    document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.view === view) {
+            btn.classList.add('active');
+        }
+    });
+    
+    updateSearchURL();
+    performSearch();
+}
+
+function switchSearchType(type) {
+    searchType = type;
+    currentPage = 1;
+    currentFilter = 'all';
+    
+    // Update tabs
+    document.querySelectorAll('.search-tab').forEach(tab => {
+        tab.classList.remove('active');
+        if (tab.dataset.type === type) {
+            tab.classList.add('active');
+        }
+    });
+    
+    // Show/hide filters
+    const usersFilters = document.getElementById('users-filters');
+    const usersSkillsFilter = document.getElementById('users-skills-filter');
+    const jobsFilters = document.getElementById('jobs-filters');
+    const productsFilters = document.getElementById('products-filters');
+    const productsPriceFilter = document.getElementById('products-price-filter');
+    const storesFilters = document.getElementById('stores-filters');
+    
+    // Hide all first
+    if (usersFilters) usersFilters.style.display = 'none';
+    if (usersSkillsFilter) usersSkillsFilter.style.display = 'none';
+    if (jobsFilters) jobsFilters.style.display = 'none';
+    if (productsFilters) productsFilters.style.display = 'none';
+    if (productsPriceFilter) productsPriceFilter.style.display = 'none';
+    if (storesFilters) storesFilters.style.display = 'none';
+    
+    // Show based on type
+    switch(type) {
+        case 'users':
+            if (usersFilters) usersFilters.style.display = 'flex';
+            if (usersSkillsFilter) usersSkillsFilter.style.display = 'block';
+            break;
+        case 'jobs':
+            if (jobsFilters) jobsFilters.style.display = 'flex';
+            break;
+        case 'products':
+            if (productsFilters) productsFilters.style.display = 'flex';
+            if (productsPriceFilter) productsPriceFilter.style.display = 'block';
+            break;
+        case 'stores':
+            if (storesFilters) storesFilters.style.display = 'flex';
+            break;
+    }
+    
+    updateSearchURL();
+    performSearch();
+}
+// ============================================
+// Theme Toggle
+// ============================================
+function setupThemeToggle() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+    }
+    
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.body.classList.toggle('dark');
+            const isDark = document.body.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const modeToggle = document.getElementById('modeToggle');
+            if (modeToggle) {
+                modeToggle.src = isDark ? '/assets/img/theme_dark.png' : '/assets/img/theme_light.png';
+            }
+        });
+    }
+}
+
+// ============================================
+// Setup Event Listeners
+// ============================================
+function setupEventListeners() {
+    // Search input with debounce
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            if (searchTimeout) clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                currentQuery = e.target.value;
+                currentPage = 1;
+                performSearch();
+            }, 500);
+            
+            if (clearSearch) {
+                clearSearch.style.display = e.target.value ? 'block' : 'none';
+            }
+        });
+    }
+    
+    // Search button
+    if (searchBtn) {
+        searchBtn.addEventListener('click', () => {
+            if (searchInput) {
+                currentQuery = searchInput.value;
+                currentPage = 1;
+                performSearch();
+            }
+        });
+    }
+    
+    // Clear search
+    if (clearSearch) {
+        clearSearch.addEventListener('click', () => {
+            if (searchInput) searchInput.value = '';
+            currentQuery = '';
+            currentPage = 1;
+            clearSearch.style.display = 'none';
+            performSearch();
+        });
+    }
+    
+    // Enter key
+    if (searchInput) {
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                currentQuery = searchInput.value;
+                currentPage = 1;
+                performSearch();
+            }
+        });
+    }
+    
+    // User filter chips
+    document.querySelectorAll('#users-filters .filter-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            document.querySelectorAll('#users-filters .filter-chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            currentFilter = chip.dataset.filter;
+            currentPage = 1;
+            searchUsers();
+        });
+    });
+    
+    // Job filter chips
+    document.querySelectorAll('#jobs-filters .filter-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            document.querySelectorAll('#jobs-filters .filter-chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            currentFilter = chip.dataset.jobFilter;
+            currentPage = 1;
+            searchJobs();
+        });
+    });
+    
+    // Skills filter
+    document.querySelectorAll('#skills-filter-buttons .filter-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            document.querySelectorAll('#skills-filter-buttons .filter-chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            currentPage = 1;
+            searchUsers();
+        });
+    });
+    
+    // View toggle
+    document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            setView(btn.dataset.view);
+        });
+    });
+    
+    // Search type tabs
+    document.querySelectorAll('.search-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            switchSearchType(tab.dataset.type);
+        });
+    });
+}
+
+// ============================================
+// Initialize
+// ============================================
+async function init() {
+    // Set footer year
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+    
+    await loadSiteSettings();
+    await loadCurrentUser();
+    setupEventListeners();
+    setupThemeToggle();
+    
+    // ✅ Load search from URL first (before setting view)
+    loadSearchFromURL();
+    
+    // ✅ Add share button
+    addShareButton();
+    
+    // Initialize AOS
+    if (typeof AOS !== 'undefined') {
+        AOS.init({ duration: 600, once: true });
+    }
+    
+    // ✅ Listen for browser back/forward
+    window.addEventListener('popstate', () => {
+        loadSearchFromURL();
+    });
+}
+
+// Make functions global
+window.goToPage = goToPage;
+window.toggleFollow = toggleFollow;
+window.viewProfile = viewProfile;
+window.viewJob = viewJob;
+window.resetSearch = resetSearch;
+
+init();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email - MGZon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); }
+        .hidden { display: none; }
+        input#otp {
+            letter-spacing: 8px;
+            font-size: 32px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="glass-card p-8 max-w-md w-full mx-4">
+        <div class="text-center mb-4">
+            <i class='bx bx-envelope text-6xl text-purple-500'></i>
+        </div>
+        <h2 class="text-2xl font-bold text-center mb-2">Verify Your Email</h2>
+        <p class="text-center text-gray-600 mb-4">We sent a 6-digit code to <br><span id="email-display" class="font-semibold text-purple-600"></span></p>
+        
+        <div class="mb-4">
+            <input type="text" id="otp" maxlength="6" placeholder="000000" class="w-full px-4 py-3 border rounded-lg text-center text-2xl tracking-widest focus:ring-2 focus:ring-purple-500">
+        </div>
+        
+        <button id="verify-btn" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-2 rounded-lg hover:opacity-90 transition">
+            Verify & Continue
+        </button>
+        
+        <p class="text-center text-sm mt-4">
+            <a href="#" id="resend-link" class="text-purple-500 hover:underline">Resend Code</a>
+        </p>
+        <p id="error-message" class="text-red-500 text-center text-sm mt-3 hidden"></p>
+    </div>
+
+    <script src="/assets/js/config.js"></script>
+    <script>
+        const API_URL = window.ENV.API_URL;
+        const cleanApiUrl = API_URL.replace(/\/$/, '');
+        
+        // جلب الإيميل من URL أو sessionStorage
+        const urlParams = new URLSearchParams(window.location.search);
+        let email = urlParams.get('email');
+        
+        if (!email) {
+            email = sessionStorage.getItem('pendingVerificationEmail');
+        }
+        
+        const emailDisplay = document.getElementById('email-display');
+        if (email) {
+            emailDisplay.textContent = email;
+        } else {
+            emailDisplay.textContent = 'your email';
+        }
+        
+        async function fetchCsrfToken() {
+            try {
+                const response = await fetch(`${cleanApiUrl}/api/csrf-token`, {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                return data.csrfToken;
+            } catch (error) {
+                console.error('CSRF error:', error);
+                return null;
+            }
+        }
+        
+        async function verifyOtp() {
+            const otp = document.getElementById('otp').value.trim();
+            const errorEl = document.getElementById('error-message');
+            const verifyBtn = document.getElementById('verify-btn');
+            
+            if (!otp || otp.length !== 6) {
+                errorEl.textContent = 'Please enter the 6-digit verification code';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            
+            if (!email) {
+                errorEl.textContent = 'Email address not found. Please go back to register.';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            
+            errorEl.classList.add('hidden');
+            verifyBtn.disabled = true;
+            verifyBtn.textContent = 'Verifying...';
+            
+            try {
+                const csrfToken = await fetchCsrfToken();
+                const response = await fetch(`${cleanApiUrl}/api/verify-email`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfToken || ''
+                    },
+                    body: JSON.stringify({ email, otp })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.token) {
+                    localStorage.setItem('userToken', data.token);
+                    localStorage.setItem('refreshToken', data.refreshToken);
+                    sessionStorage.removeItem('pendingVerificationEmail');
+                    
+                    Toastify({
+                        text: 'Email verified successfully! Redirecting...',
+                        duration: 2000,
+                        style: { background: '#10b981' }
+                    }).showToast();
+                    
+                    setTimeout(() => {
+                        window.location.href = '/profile/me';
+                    }, 2000);
+                } else {
+                    errorEl.textContent = data.error || 'Invalid verification code';
+                    errorEl.classList.remove('hidden');
+                    verifyBtn.disabled = false;
+                    verifyBtn.textContent = 'Verify & Continue';
+                }
+            } catch (error) {
+                errorEl.textContent = 'Something went wrong. Please try again.';
+                errorEl.classList.remove('hidden');
+                verifyBtn.disabled = false;
+                verifyBtn.textContent = 'Verify & Continue';
+            }
+        }
+        
+        async function resendCode() {
+            if (!email) {
+                document.getElementById('error-message').textContent = 'Email not found. Please register again.';
+                document.getElementById('error-message').classList.remove('hidden');
+                return;
+            }
+            
+            const resendLink = document.getElementById('resend-link');
+            resendLink.textContent = 'Sending...';
+            resendLink.style.pointerEvents = 'none';
+            
+            try {
+                const csrfToken = await fetchCsrfToken();
+                const response = await fetch(`${cleanApiUrl}/api/resend-verification`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfToken || ''
+                    },
+                    body: JSON.stringify({ email })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    Toastify({
+                        text: 'New verification code sent! Check your email.',
+                        duration: 3000,
+                        style: { background: '#10b981' }
+                    }).showToast();
+                } else {
+                    Toastify({
+                        text: data.error || 'Failed to resend code',
+                        duration: 3000,
+                        style: { background: '#ef4444' }
+                    }).showToast();
+                }
+            } catch (error) {
+                Toastify({
+                    text: 'Failed to resend code. Please try again.',
+                    duration: 3000,
+                    style: { background: '#ef4444' }
+                }).showToast();
+            } finally {
+                resendLink.textContent = 'Resend Code';
+                resendLink.style.pointerEvents = 'auto';
+            }
+        }
+        
+        document.getElementById('verify-btn').addEventListener('click', verifyOtp);
+        document.getElementById('resend-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            resendCode();
+        });
+        
+        // السماح بـ Enter
+        document.getElementById('otp').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                verifyOtp();
+            }
+        });
+        
+        // Auto-focus
+        document.getElementById('otp').focus();
+        
+        if (!email) {
+            document.getElementById('error-message').textContent = 'No email provided. Please register first.';
+            document.getElementById('error-message').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

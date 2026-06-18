@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    
+    <meta name="description" content="Browse and search for jobs on MGZon">
+    <meta name="author" content="MGZon">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Jobs - MGZon">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="MGZon">
+    
+    <title>Jobs - MGZon</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" id="dynamic-favicon" href="/assets/img/logo.svg" type="image/x-icon">
+    
+    <!-- Stylesheets -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background-color: #f3f4f6; transition: background-color 0.3s; }
+        body.dark { background-color: #111827; }
+        
+        .l-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        body.dark .l-header { background-color: #1f2937; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+        
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .nav__logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #1f2937;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        body.dark .nav__logo { color: #f3f4f6; }
+        .nav__logo img { width: 1.75rem; height: 1.75rem; margin-right: 0.5rem; object-fit: contain; }
+        
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5rem 1rem 2rem;
+        }
+        
+        .job-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        body.dark .job-card { background: #1f2937; border: 1px solid #374151; }
+        .job-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); }
+        
+        .featured-badge {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+        }
+        
+        .save-btn.saved { color: #f59e0b; }
+        
+        .filter-sidebar {
+            transition: all 0.3s ease;
+        }
+        
+        .skeleton {
+            background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 0.5rem;
+        }
+        body.dark .skeleton {
+            background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+        }
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .toastify { border-radius: 0.75rem !important; font-family: 'Inter', sans-serif !important; }
+        
+        @media (max-width: 768px) {
+            .filter-sidebar {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 85%;
+                height: 100vh;
+                z-index: 1000;
+                background: white;
+                padding: 1rem;
+                overflow-y: auto;
+            }
+            body.dark .filter-sidebar { background: #1f2937; }
+            .filter-sidebar.open { right: 0; }
+            .filter-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 999;
+                display: none;
+            }
+            .filter-overlay.open { display: block; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="l-header">
+    <nav class="nav">
+        <a href="/feed.html" class="nav__logo">
+            <img id="nav-logo" src="/assets/img/logo.svg" alt="Logo">
+            <span id="site-name">MGZon</span>
+        </a>
+        <div class="flex items-center gap-3" id="navbar-links"></div>
+    </nav>
+</header>
+
+<main class="main-container">
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 mb-8 text-white">
+        <h1 class="text-3xl md:text-4xl font-bold mb-3">Find Your Dream Job</h1>
+        <p class="text-lg opacity-90 mb-6">Browse thousands of job opportunities from top companies</p>
+        
+        <!-- Search Bar -->
+        <div class="flex flex-col md:flex-row gap-3">
+            <div class="flex-1 relative">
+                <i class='bx bx-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400'></i>
+                <input type="text" id="search-input" placeholder="Job title, keywords, or company" 
+                    class="w-full pl-10 pr-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <div class="flex-1 relative">
+                <i class='bx bx-map absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400'></i>
+                <input type="text" id="location-input" placeholder="Location" 
+                    class="w-full pl-10 pr-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <button id="search-btn" class="px-8 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-gray-100 transition">
+                Search Jobs
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Filter Toggle -->
+    <div class="md:hidden mb-4">
+        <button id="mobile-filter-toggle" class="w-full py-2 bg-white dark:bg-gray-800 rounded-lg shadow-md flex items-center justify-center gap-2">
+            <i class='bx bx-filter-alt'></i>
+            Filters
+        </button>
+    </div>
+
+    <div class="flex flex-col md:flex-row gap-6">
+        <!-- Filters Sidebar -->
+        <div class="filter-sidebar md:w-80 flex-shrink-0">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sticky top-20">
+                <div class="flex justify-between items-center mb-4 pb-2 border-b dark:border-gray-700">
+                    <h3 class="font-semibold text-lg">Filters</h3>
+                    <button id="clear-filters" class="text-sm text-red-500 hover:text-red-600">Clear all</button>
+                </div>
+                
+                <!-- Categories -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-2">Category</label>
+                    <select id="filter-category" class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+                
+                <!-- Job Type -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-2">Job Type</label>
+                    <select id="filter-job-type" class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                        <option value="">All Types</option>
+                        <option value="full-time">Full Time</option>
+                        <option value="part-time">Part Time</option>
+                        <option value="contract">Contract</option>
+                        <option value="freelance">Freelance</option>
+                        <option value="internship">Internship</option>
+                        <option value="remote">Remote</option>
+                    </select>
+                </div>
+                
+                <!-- Experience Level -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-2">Experience Level</label>
+                    <select id="filter-experience" class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                        <option value="">All Levels</option>
+                        <option value="entry">Entry Level</option>
+                        <option value="junior">Junior</option>
+                        <option value="mid">Mid Level</option>
+                        <option value="senior">Senior</option>
+                        <option value="lead">Lead</option>
+                        <option value="executive">Executive</option>
+                    </select>
+                </div>
+                
+                <!-- Salary Range -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-2">Salary Range (USD)</label>
+                    <div class="flex gap-2">
+                        <input type="number" id="filter-salary-min" placeholder="Min" class="w-1/2 p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                        <input type="number" id="filter-salary-max" placeholder="Max" class="w-1/2 p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                    </div>
+                </div>
+                
+                <!-- Remote Only -->
+                <div class="mb-4">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" id="filter-remote" class="w-4 h-4">
+                        <span class="text-sm">Remote Only</span>
+                    </label>
+                </div>
+                
+                <!-- Sort By -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-2">Sort By</label>
+                    <select id="sort-by" class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                        <option value="latest">Latest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="salary-high">Highest Salary</option>
+                        <option value="salary-low">Lowest Salary</option>
+                        <option value="deadline">Deadline Soon</option>
+                    </select>
+                </div>
+                
+                <!-- Apply Filters Button (Mobile) -->
+                <button id="apply-filters-mobile" class="w-full mt-4 py-2 bg-blue-500 text-white rounded-lg md:hidden">
+                    Apply Filters
+                </button>
+            </div>
+        </div>
+        
+        <!-- Jobs List -->
+        <div class="flex-1">
+            <!-- Stats Bar -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 mb-4 flex justify-between items-center">
+                <div>
+                    <span id="jobs-count" class="font-semibold">0</span>
+                    <span class="text-gray-500"> jobs found</span>
+                </div>
+                <div class="flex gap-2">
+                    <button id="view-grid" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <i class='bx bx-grid-alt text-xl'></i>
+                    </button>
+                    <button id="view-list" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <i class='bx bx-list-ul text-xl'></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Featured Jobs -->
+            <div id="featured-jobs" class="mb-6"></div>
+            
+            <!-- Regular Jobs Container -->
+            <div id="jobs-container" class="space-y-4">
+                <div class="skeleton h-40 rounded-lg"></div>
+                <div class="skeleton h-40 rounded-lg"></div>
+                <div class="skeleton h-40 rounded-lg"></div>
+            </div>
+            
+            <!-- Load More -->
+            <div id="load-more-trigger" class="h-10 mt-4"></div>
+        </div>
+    </div>
+</main>
+
+<!-- Filter Overlay (Mobile) -->
+<div id="filter-overlay" class="filter-overlay"></div>
+
+<script src="/assets/js/config.js"></script>
+
+<script>
+// ============================================
+// JOBS PAGE - Fully Updated
+// ============================================
+
+const API_URL = window.ENV?.API_URL || 'https://mgzon-server.hf.space';
+const cleanApiUrl = API_URL.replace(/\/$/, '');
+let userToken = localStorage.getItem('userToken');
+let currentUser = null;
+let isLoggedIn = !!userToken;
+
+// Pagination
+let currentPage = 1;
+let isLoading = false;
+let hasMore = true;
+
+// View mode
+let viewMode = localStorage.getItem('jobsViewMode') || 'list';
+
+// Observer for infinite scroll
+const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !isLoading && hasMore) {
+        loadJobs();
+    }
+}, { threshold: 0.1 });
+
+// ============================================
+// Utility Functions
+// ============================================
+
+function showToast(message, type = 'success') {
+    if (typeof Toastify !== 'undefined') {
+        Toastify({
+            text: message,
+            duration: 3000,
+            gravity: 'top',
+            position: 'right',
+            style: {
+                background: type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : type === 'warning' ? '#f59e0b' : '#3b82f6',
+                borderRadius: '12px',
+                fontFamily: 'Inter, sans-serif'
+            }
+        }).showToast();
+    } else {
+        console.log(message);
+    }
+}
+
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
+}
+
+function formatDate(date) {
+    const d = new Date(date);
+    const now = new Date();
+    const diff = now - d;
+    if (diff < 60000) return 'Just now';
+    if (diff < 3600000) return `${Math.floor(diff / 60000)}m ago`;
+    if (diff < 86400000) return `${Math.floor(diff / 3600000)}h ago`;
+    if (diff < 604800000) return `${Math.floor(diff / 86400000)}d ago`;
+    return d.toLocaleDateString();
+}
+
+function formatSalary(amount) {
+    if (amount >= 1000000) return `${(amount / 1000000).toFixed(1)}M`;
+    if (amount >= 1000) return `${(amount / 1000).toFixed(0)}K`;
+    return amount.toString();
+}
+
+async function fetchCsrfToken() {
+    try {
+        const response = await fetch(`${cleanApiUrl}/api/csrf-token`, { 
+            method: 'GET', 
+            credentials: 'include' 
+        });
+        const data = await response.json();
+        return data.csrfToken;
+    } catch (error) {
+        console.error('Error fetching CSRF token:', error);
+        return null;
+    }
+}
+
+async function fetchWithRefresh(url, options = {}) {
+    try {
+        let csrfToken = await fetchCsrfToken();
+        options.headers = {
+            ...options.headers,
+            'Authorization': userToken ? `Bearer ${userToken}` : '',
+            'X-CSRF-Token': csrfToken || ''
+        };
+        let response = await fetch(url, { ...options, credentials: 'include' });
+        
+        if (response.status === 401 && userToken) {
+            const refreshed = await refreshToken();
+            if (refreshed) {
+                options.headers['Authorization'] = `Bearer ${userToken}`;
+                response = await fetch(url, options);
+            }
+        }
+        return response;
+    } catch (error) {
+        console.error('Fetch error:', error);
+        throw error;
+    }
+}
+
+async function refreshToken() {
+    try {
+        const refreshToken = localStorage.getItem('refreshToken');
+        if (!refreshToken) throw new Error('No refresh token');
+        const csrfToken = await fetchCsrfToken();
+        const response = await fetch(`${cleanApiUrl}/api/refresh-token`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+            body: JSON.stringify({ refreshToken })
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error('Refresh failed');
+        localStorage.setItem('userToken', data.accessToken || data.token);
+        localStorage.setItem('refreshToken', data.refreshToken);
+        userToken = data.accessToken || data.token;
+        return userToken;
+    } catch (error) {
+        console.error('Refresh error:', error);
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('refreshToken');
+        userToken = null;
+        return null;
+    }
+}
+
+// ============================================
+// Load Site Settings
+// ============================================
+async function loadSiteSettings() {
+    try {
+        const response = await fetch(`${cleanApiUrl}/api/site-settings`);
+        if (response.ok) {
+            const data = await response.json();
+            const logoImg = document.querySelector('#nav-logo');
+            if (logoImg && data.logo) {
+                logoImg.src = data.logo;
+                logoImg.onerror = () => logoImg.src = '/assets/img/logo.svg';
+            }
+            const siteNameSpan = document.getElementById('site-name');
+            if (siteNameSpan && data.siteName) {
+                siteNameSpan.textContent = data.siteName;
+            }
+            const favicon = document.getElementById('dynamic-favicon');
+            if (favicon && data.logo) {
+                favicon.href = data.logo;
+            }
+        }
+    } catch (error) {
+        console.error('Error loading site settings:', error);
+    }
+}
+
+// ============================================
+// Load Current User & Navbar
+// ============================================
+async function loadCurrentUser() {
+    if (!userToken) {
+        isLoggedIn = false;
+        await updateNavbar();
+        return null;
+    }
+    try {
+        const response = await fetchWithRefresh(`${cleanApiUrl}/api/verify-token`);
+        if (response.ok) {
+            currentUser = await response.json();
+            isLoggedIn = true;
+            await updateNavbar();
+            return currentUser;
+        }
+        isLoggedIn = false;
+        await updateNavbar();
+        return null;
+    } catch (error) {
+        console.error('Error loading current user:', error);
+        isLoggedIn = false;
+        await updateNavbar();
+        return null;
+    }
+}
+
+async function updateNavbar() {
+    const navbarContainer = document.getElementById('navbar-links');
+    if (!navbarContainer) return;
+    
+    if (!isLoggedIn) {
+        navbarContainer.innerHTML = `
+            <a href="/login.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition px-3 py-2">Sign in</a>
+            <a href="/register.html" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">Join now</a>
+            <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition p-2">
+                <img id="modeToggle" src="/assets/img/theme_light.png" alt="Theme" style="width: 20px; height: 20px;">
+            </button>
+        `;
+        return;
+    }
+    
+    const userAvatarSrc = currentUser?.profile?.avatar || '/assets/img/default-avatar.png';
+    
+    navbarContainer.innerHTML = `
+        <a href="/feed.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition"><i class='bx bx-home text-2xl'></i></a>
+        <a href="/network.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition"><i class='bx bx-group text-2xl'></i></a>
+        <a href="/jobs.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition"><i class='bx bx-briefcase text-2xl'></i></a>
+        <a href="/messages.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition"><i class='bx bx-message-dots text-2xl'></i></a>
+        <div class="relative">
+            <button id="profile-menu-btn" class="flex items-center gap-1 text-gray-600 dark:text-gray-300">
+                <img src="${userAvatarSrc}" class="w-8 h-8 rounded-full object-cover">
+                <i class='bx bx-chevron-down text-xl'></i>
+            </button>
+            <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 overflow-hidden">
+                <a href="/profile/me" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition">My Profile</a>
+                <a href="/settings.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition">Settings</a>
+                <a href="/my-jobs.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition">My Jobs</a>
+                <a href="/job-applications.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition">My Applications</a>
+                <hr class="my-1 dark:border-gray-700">
+                <button id="logout-btn" class="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-red-600 transition">Sign Out</button>
+            </div>
+        </div>
+        <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition p-2">
+            <img id="modeToggle" src="/assets/img/theme_light.png" alt="Theme" style="width: 20px; height: 20px;">
+        </button>
+    `;
+    
+    attachNavbarEvents();
+}
+
+function attachNavbarEvents() {
+    const profileMenuBtn = document.getElementById('profile-menu-btn');
+    const profileDropdown = document.getElementById('profile-dropdown');
+    if (profileMenuBtn && profileDropdown) {
+        profileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('hidden');
+        });
+    }
+    
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', handleLogout);
+    }
+    
+    document.addEventListener('click', () => {
+        if (profileDropdown) profileDropdown.classList.add('hidden');
+    });
+}
+
+async function handleLogout() {
+    try {
+        const csrfToken = await fetchCsrfToken();
+        await fetch(`${cleanApiUrl}/api/logout`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${userToken}`,
+                'X-CSRF-Token': csrfToken
+            }
+        });
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('refreshToken');
+        window.location.href = '/';
+    } catch (error) {
+        console.error('Logout error:', error);
+    }
+}
+// ============================================
+// Load Categories (متعدد اللغات)
+// ============================================
+async function loadCategories() {
+    try {
+        // تحديد اللغة المفضلة من المتصفح أو localStorage
+        const userLang = localStorage.getItem('language') || navigator.language.split('-')[0] || 'en';
+        const lang = userLang === 'ar' ? 'ar' : 'en';
+        
+        const response = await fetch(`${cleanApiUrl}/api/jobs/categories?lang=${lang}`);
+        const result = await response.json();
+        
+        if (response.ok && result.data) {
+            const categorySelect = document.getElementById('filter-category');
+            
+            // إضافة خيار الكل أولاً
+            categorySelect.innerHTML = '<option value="">📋 All Categories</option>';
+            
+            result.data.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.name;
+                // ✅ استخدام displayName (عربي أو إنجليزي حسب اللغة)
+                option.textContent = `${cat.icon} ${cat.displayName} (${cat.count})`;
+                option.style.color = cat.color;
+                categorySelect.appendChild(option);
+            });
+            
+            // ✅ تحديث الفلاتر السريعة (filter chips)
+            const filtersSection = document.getElementById('filters-section');
+            if (filtersSection && result.data.length > 0) {
+                // إضافة فلاتر سريعة لأهم 5 تصنيفات
+                const topCategories = result.data.slice(0, 5);
+                const existingChips = filtersSection.querySelectorAll('.filter-chip:not(#all-filter)');
+                existingChips.forEach(chip => chip.remove());
+                
+                topCategories.forEach(cat => {
+                    const chip = document.createElement('button');
+                    chip.dataset.filter = cat.name;
+                    chip.className = 'filter-chip';
+                    chip.innerHTML = `${cat.icon} ${cat.displayName}`;
+                    chip.style.borderLeftColor = cat.color;
+                    chip.style.borderLeftWidth = '3px';
+                    chip.onclick = () => {
+                        document.getElementById('filter-category').value = cat.name;
+                        resetAndSearch();
+                    };
+                    filtersSection.appendChild(chip);
+                });
+            }
+        }
+    } catch (error) {
+        console.error('Error loading categories:', error);
+    }
+}
+// ============================================
+// Load Jobs
+// ============================================
+async function loadJobs() {
+    if (isLoading) return;
+    isLoading = true;
+    
+    try {
+        const params = new URLSearchParams();
+        params.append('page', currentPage);
+        params.append('limit', 10);
+        
+        const searchInput = document.getElementById('search-input')?.value;
+        if (searchInput) params.append('search', searchInput);
+        
+        const location = document.getElementById('location-input')?.value;
+        if (location) params.append('location', location);
+        
+        const category = document.getElementById('filter-category')?.value;
+        if (category) params.append('category', category);
+        
+        const jobType = document.getElementById('filter-job-type')?.value;
+        if (jobType) params.append('jobType', jobType);
+        
+        const experience = document.getElementById('filter-experience')?.value;
+        if (experience) params.append('experienceLevel', experience);
+        
+        const salaryMin = document.getElementById('filter-salary-min')?.value;
+        if (salaryMin) params.append('salaryMin', salaryMin);
+        
+        const salaryMax = document.getElementById('filter-salary-max')?.value;
+        if (salaryMax) params.append('salaryMax', salaryMax);
+        
+        const remote = document.getElementById('filter-remote')?.checked;
+        if (remote) params.append('isRemote', 'true');
+        
+        const sortBy = document.getElementById('sort-by')?.value;
+        if (sortBy) params.append('sortBy', sortBy);
+        
+        const response = await fetch(`${cleanApiUrl}/api/jobs?${params.toString()}`, {
+            headers: userToken ? { 'Authorization': `Bearer ${userToken}` } : {}
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok) throw new Error(result.error);
+        
+        const container = document.getElementById('jobs-container');
+        const featuredContainer = document.getElementById('featured-jobs');
+        const jobsCount = document.getElementById('jobs-count');
+        
+        if (currentPage === 1) {
+            container.innerHTML = '';
+            
+            // Show featured jobs
+            if (result.featured && result.featured.length > 0) {
+                featuredContainer.innerHTML = `
+                    <h2 class="text-lg font-semibold mb-3 flex items-center gap-2">
+                        <i class='bx bx-star text-yellow-500'></i> Featured Jobs
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        ${result.featured.map(job => createJobCardHTML(job, true)).join('')}
+                    </div>
+                `;
+            } else {
+                featuredContainer.innerHTML = '';
+            }
+            
+            jobsCount.textContent = result.pagination.total;
+        }
+        
+        if (result.data.length === 0 && currentPage === 1) {
+            container.innerHTML = `
+                <div class="text-center py-12 bg-white dark:bg-gray-800 rounded-lg">
+                    <i class='bx bx-briefcase-alt-2 text-6xl text-gray-400 mb-3'></i>
+                    <h3 class="text-lg font-semibold mb-2">No jobs found</h3>
+                    <p class="text-gray-500">Try adjusting your filters or search terms</p>
+                </div>
+            `;
+            hasMore = false;
+            return;
+        }
+        
+        result.data.forEach(job => {
+            const card = createJobCardElement(job);
+            container.appendChild(card);
+        });
+        
+        hasMore = result.data.length === 10;
+        if (hasMore) currentPage++;
+        
+    } catch (error) {
+        console.error('Error loading jobs:', error);
+        showToast('Failed to load jobs', 'error');
+    } finally {
+        isLoading = false;
+    }
+}
+
+function createJobCardHTML(job, isFeatured = false) {
+    const salaryText = job.salaryMin && job.salaryMax 
+        ? `${formatSalary(job.salaryMin)} - ${formatSalary(job.salaryMax)} ${job.salaryCurrency}`
+        : job.isSalaryNegotiable ? 'Salary negotiable' : 'Salary not specified';
+    
+    const postedDate = formatDate(job.postedAt);
+    const deadlineDate = formatDate(job.deadline);
+    const isDeadlineSoon = new Date(job.deadline) - new Date() < 7 * 24 * 60 * 60 * 1000;
+    
+    const jobTypeIcon = {
+        'full-time': 'bx-briefcase',
+        'part-time': 'bx-time',
+        'contract': 'bx-file',
+        'freelance': 'bx-user',
+        'internship': 'bx-graduation',
+        'remote': 'bx-wifi'
+    }[job.jobType] || 'bx-briefcase';
+    
+    return `
+        <div class="job-card p-5">
+            <div class="flex flex-col md:flex-row justify-between items-start gap-4">
+                <div class="flex-1">
+                    <div class="flex items-center gap-2 flex-wrap mb-2">
+                        <h3 class="text-lg font-semibold hover:text-blue-500">${escapeHtml(job.title)}</h3>
+                        ${isFeatured ? '<span class="featured-badge text-white text-xs px-2 py-1 rounded-full">Featured</span>' : ''}
+                        ${job.isRemote ? '<span class="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-xs px-2 py-1 rounded-full">🌍 Remote</span>' : ''}
+                        ${isDeadlineSoon ? '<span class="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-xs px-2 py-1 rounded-full">⚠️ Deadline soon</span>' : ''}
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-2">${escapeHtml(job.companyName || job.employerId?.profile?.nickname || 'Company')}</p>
+                    <div class="flex flex-wrap gap-3 text-sm text-gray-500 mb-3">
+                        <span><i class='bx ${jobTypeIcon}'></i> ${job.jobType}</span>
+                        <span><i class='bx bx-map'></i> ${job.isRemote ? 'Remote' : job.location}</span>
+                        <span><i class='bx bx-dollar-circle'></i> ${salaryText}</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm line-clamp-2 mb-3">${stripHtml(job.description).substring(0, 150)}${job.description.length > 150 ? '...' : ''}</p>
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        ${job.requiredSkills?.slice(0, 3).map(skill => `
+                            <span class="bg-gray-100 dark:bg-gray-700 text-xs px-2 py-1 rounded-full">${escapeHtml(skill)}</span>
+                        `).join('')}
+                        ${job.requiredSkills?.length > 3 ? `<span class="text-xs text-gray-500">+${job.requiredSkills.length - 3}</span>` : ''}
+                    </div>
+                    <div class="flex justify-between items-center flex-wrap gap-2">
+                        <div class="text-xs text-gray-400">
+                            <span>Posted ${postedDate}</span>
+                            <span class="mx-2">•</span>
+                            <span class="${isDeadlineSoon ? 'text-red-500' : ''}">Deadline ${deadlineDate}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            ${!job.hasApplied ? `
+                                <a href="/apply-job.html?id=${job._id}" class="px-4 py-1.5 bg-blue-500 text-white rounded-lg text-sm hover:bg-blue-600 transition" onclick="event.stopPropagation()">
+                                    Apply Now
+                                </a>
+                            ` : `
+                                <span class="px-4 py-1.5 bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-400 rounded-lg text-sm">
+                                    ${job.applicationStatus === 'accepted' ? '✅ Accepted' : 
+                                      job.applicationStatus === 'rejected' ? '❌ Rejected' : 
+                                      '📝 Applied'}
+                                </span>
+                            `}
+                            <button class="save-job-btn p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 ${job.isSaved ? 'saved' : ''}" onclick="event.stopPropagation()">
+                                <i class='bx ${job.isSaved ? 'bxs-bookmark' : 'bx-bookmark'} text-xl'></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+
+function stripHtml(html) {
+    if (!html) return '';
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || '';
+}
+
+
+function createJobCardElement(job) {
+    const div = document.createElement('div');
+    div.className = viewMode === 'grid' ? 'grid-view' : '';
+    div.innerHTML = createJobCardHTML(job, false);
+    
+    const saveBtn = div.querySelector('.save-job-btn');
+    if (saveBtn) {
+        saveBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleSaveJob(job._id, saveBtn);
+        });
+    }
+    
+    div.addEventListener('click', (e) => {
+        if (!e.target.closest('.save-job-btn') && !e.target.closest('a')) {
+            window.location.href = `/job-details.html?id=${job._id}`;
+        }
+    });
+    div.style.cursor = 'pointer';
+    
+    return div;
+}
+
+async function toggleSaveJob(jobId, button) {
+    if (!isLoggedIn) {
+        showToast('Please login to save jobs', 'warning');
+        window.location.href = '/login.html';
+        return;
+    }
+    
+    try {
+        const csrfToken = await fetchCsrfToken();
+        const response = await fetch(`${cleanApiUrl}/api/jobs/${jobId}/save`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Authorization': `Bearer ${userToken}`,
+                'X-CSRF-Token': csrfToken
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            const icon = button.querySelector('i');
+            if (result.isSaved) {
+                icon.className = 'bxs-bookmark text-xl';
+                button.classList.add('saved');
+                showToast('Job saved!', 'success');
+            } else {
+                icon.className = 'bx-bookmark text-xl';
+                button.classList.remove('saved');
+                showToast('Job removed from saved', 'info');
+            }
+        }
+    } catch (error) {
+        console.error('Error saving job:', error);
+        showToast('Failed to save job', 'error');
+    }
+}
+
+// ============================================
+// Setup Event Listeners
+// ============================================
+function setupEventListeners() {
+    // Search
+    const searchBtn = document.getElementById('search-btn');
+    if (searchBtn) {
+        searchBtn.addEventListener('click', resetAndSearch);
+    }
+    
+    // Filter inputs
+    const filterInputs = ['filter-category', 'filter-job-type', 'filter-experience', 'filter-salary-min', 'filter-salary-max', 'filter-remote', 'sort-by'];
+    filterInputs.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.addEventListener('change', resetAndSearch);
+        }
+    });
+    
+    // Debounced inputs
+    const locationInput = document.getElementById('location-input');
+    if (locationInput) {
+        let timeout;
+        locationInput.addEventListener('input', () => {
+            clearTimeout(timeout);
+            timeout = setTimeout(resetAndSearch, 500);
+        });
+    }
+    
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+        let timeout;
+        searchInput.addEventListener('input', () => {
+            clearTimeout(timeout);
+            timeout = setTimeout(resetAndSearch, 500);
+        });
+    }
+    
+    // Clear filters
+    const clearFilters = document.getElementById('clear-filters');
+    if (clearFilters) {
+        clearFilters.addEventListener('click', () => {
+            document.getElementById('filter-category').value = '';
+            document.getElementById('filter-job-type').value = '';
+            document.getElementById('filter-experience').value = '';
+            document.getElementById('filter-salary-min').value = '';
+            document.getElementById('filter-salary-max').value = '';
+            document.getElementById('filter-remote').checked = false;
+            document.getElementById('sort-by').value = 'latest';
+            document.getElementById('search-input').value = '';
+            document.getElementById('location-input').value = '';
+            resetAndSearch();
+        });
+    }
+    
+    // View mode
+    const viewGrid = document.getElementById('view-grid');
+    const viewList = document.getElementById('view-list');
+    
+    if (viewGrid) {
+        viewGrid.addEventListener('click', () => {
+            viewMode = 'grid';
+            localStorage.setItem('jobsViewMode', 'grid');
+            applyViewMode();
+            resetAndSearch();
+        });
+    }
+    
+    if (viewList) {
+        viewList.addEventListener('click', () => {
+            viewMode = 'list';
+            localStorage.setItem('jobsViewMode', 'list');
+            applyViewMode();
+            resetAndSearch();
+        });
+    }
+    
+    // Mobile filter
+    const mobileToggle = document.getElementById('mobile-filter-toggle');
+    const filterSidebar = document.querySelector('.filter-sidebar');
+    const filterOverlay = document.getElementById('filter-overlay');
+    const applyFiltersMobile = document.getElementById('apply-filters-mobile');
+    
+    if (mobileToggle && filterSidebar) {
+        mobileToggle.addEventListener('click', () => {
+            filterSidebar.classList.add('open');
+            if (filterOverlay) filterOverlay.classList.add('open');
+        });
+    }
+    
+    if (applyFiltersMobile && filterSidebar) {
+        applyFiltersMobile.addEventListener('click', () => {
+            filterSidebar.classList.remove('open');
+            if (filterOverlay) filterOverlay.classList.remove('open');
+        });
+    }
+    
+    if (filterOverlay) {
+        filterOverlay.addEventListener('click', () => {
+            filterSidebar?.classList.remove('open');
+            filterOverlay.classList.remove('open');
+        });
+    }
+}
+
+function resetAndSearch() {
+    currentPage = 1;
+    hasMore = true;
+    loadJobs();
+}
+
+function applyViewMode() {
+    const container = document.getElementById('jobs-container');
+    if (container) {
+        if (viewMode === 'grid') {
+            container.className = 'grid grid-cols-1 md:grid-cols-2 gap-4';
+        } else {
+            container.className = 'space-y-4';
+        }
+    }
+}
+
+// ============================================
+// Theme Toggle
+// ============================================
+function setupThemeToggle() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+    }
+    
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.body.classList.toggle('dark');
+            const isDark = document.body.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const modeToggle = document.getElementById('modeToggle');
+            if (modeToggle) {
+                modeToggle.src = isDark ? '/assets/img/theme_dark.png' : '/assets/img/theme_light.png';
+            }
+        });
+    }
+}
+
+// ============================================
+// Initialize
+// ============================================
+async function init() {
+    await loadSiteSettings();
+    await loadCurrentUser();
+    await loadCategories();
+    await loadJobs();
+    setupEventListeners();
+    setupThemeToggle();
+    applyViewMode();
+    
+    const trigger = document.getElementById('load-more-trigger');
+    if (trigger) observer.observe(trigger);
+}
+
+// Make functions global
+window.toggleSaveJob = toggleSaveJob;
+
+init();
+</script>
+
+</body>
+</html>

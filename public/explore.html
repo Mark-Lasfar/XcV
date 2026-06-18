@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore - MGZon</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+    <style>
+        .user-card {
+            transition: all 0.2s ease;
+        }
+        .user-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+        }
+        .follow-btn {
+            transition: all 0.2s;
+        }
+        .follow-btn.following {
+            background-color: #ef4444;
+        }
+        .follow-btn.following:hover {
+            background-color: #dc2626;
+        }
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900">
+
+<!-- Header (same as feed.html) -->
+<header class="fixed top-0 w-full bg-white dark:bg-gray-800 shadow-md z-50">
+    <nav class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+        <a href="/feed.html" class="flex items-center gap-2 text-xl font-bold text-blue-600">
+            <img src="/assets/img/logo.svg" alt="Logo" class="w-8 h-8">
+            <span id="site-name">MGZon</span>
+        </a>
+        <div class="flex items-center gap-4">
+            <a href="/feed.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600">
+                <i class='bx bx-home text-2xl'></i>
+            </a>
+            <a href="/explore.html" class="text-blue-600">
+                <i class='bx bx-compass text-2xl'></i>
+            </a>
+            <div class="relative">
+                <button id="notifications-btn" class="relative">
+                    <i class='bx bx-bell text-2xl text-gray-600 dark:text-gray-300'></i>
+                    <span id="notif-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center hidden">0</span>
+                </button>
+            </div>
+            <a href="/profile/me" class="flex items-center gap-2">
+                <img id="user-avatar" src="/assets/img/default-avatar.png" class="w-8 h-8 rounded-full object-cover">
+            </a>
+        </div>
+    </nav>
+</header>
+
+<main class="max-w-6xl mx-auto px-4 pt-20 pb-12">
+    <!-- Search Bar -->
+    <div class="mb-6">
+        <div class="relative">
+            <i class='bx bx-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400'></i>
+            <input type="text" id="search-input" placeholder="Search users by name or nickname..." 
+                class="w-full pl-10 pr-4 py-3 border rounded-lg dark:bg-gray-800 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex gap-2 mb-6 border-b dark:border-gray-700">
+        <button data-tab="suggested" class="tab-btn px-4 py-2 font-semibold text-blue-600 border-b-2 border-blue-600">Suggested for you</button>
+        <button data-tab="popular" class="tab-btn px-4 py-2 font-semibold text-gray-600 dark:text-gray-400 hover:text-blue-600">Popular</button>
+        <button data-tab="recent" class="tab-btn px-4 py-2 font-semibold text-gray-600 dark:text-gray-400 hover:text-blue-600">Recent</button>
+        <button data-tab="following" class="tab-btn px-4 py-2 font-semibold text-gray-600 dark:text-gray-400 hover:text-blue-600">Following</button>
+    </div>
+
+    <!-- Users Grid -->
+    <div id="users-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <!-- Skeleton loaders -->
+        <div class="skeleton h-64 rounded-lg"></div>
+        <div class="skeleton h-64 rounded-lg"></div>
+        <div class="skeleton h-64 rounded-lg"></div>
+        <div class="skeleton h-64 rounded-lg"></div>
+    </div>
+
+    <!-- Load More -->
+    <div id="load-more-trigger" class="h-10 mt-4"></div>
+</main>
+
+<script src="/assets/js/config.js"></script>
+<script>
+
+
+    // js/explore.js
+const API_URL = window.ENV.API_URL;
+const cleanApiUrl = API_URL.replace(/\/$/, '');
+let userToken = localStorage.getItem('userToken');
+let currentTab = 'suggested';
+let currentPage = 1;
+let isLoading = false;
+let hasMore = true;
+let searchTimeout = null;
+
+// Intersection Observer
+const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !isLoading && hasMore) {
+        loadUsers();
+    }
+}, { threshold: 0.1 });
+
+document.addEventListener('DOMContentLoaded', async () => {
+    if (!userToken) {
+        window.location.href = '/login.html?redirect=/explore.html';
+        return;
+    }
+    
+    await loadCurrentUser();
+    await loadUsers();
+    setupEventListeners();
+    
+    const trigger = document.getElementById('load-more-trigger');
+    if (trigger) observer.observe(trigger);
+});
+
+async function loadCurrentUser() {
+    try {
+        const response = await fetch(`${cleanApiUrl}/api/verify-token`, {
+            headers: { 'Authorization': `Bearer ${userToken}` }
+        });
+        if (response.ok) {
+            const user = await response.json();
+            document.getElementById('user-avatar').src = user.profile?.avatar || '/assets/img/default-avatar.png';
+        }
+    } catch (error) {
+        console.error('Error loading user:', error);
+    }
+}
+
+async function loadUsers() {
+    if (isLoading) return;
+    isLoading = true;
+    
+    const searchQuery = document.getElementById('search-input')?.value || '';
+    
+    try {
+        let url;
+        if (searchQuery) {
+            url = `${cleanApiUrl}/api/users/search?query=${encodeURIComponent(searchQuery)}&page=${currentPage}&limit=20`;
+        } else {
+            url = `${cleanApiUrl}/api/users/explore?type=${currentTab}&page=${currentPage}&limit=20`;
+        }
+        
+        const response = await fetch(url, {
+            headers: { 'Authorization': `Bearer ${userToken}` }
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok) throw new Error(result.error);
+        
+        const container = document.getElementById('users-container');
+        
+        if (currentPage === 1) {
+            container.innerHTML = '';
+        }
+        
+        if (result.data.length === 0 && currentPage === 1) {
+            container.innerHTML = `
+                <div class="col-span-full text-center py-12">
+                    <i class='bx bx-user-x text-6xl text-gray-400 mb-3'></i>
+                    <p class="text-gray-500">No users found</p>
+                    ${!searchQuery ? '<p class="text-sm text-gray-400 mt-2">Try following more users to get suggestions</p>' : ''}
+                </div>
+            `;
+            hasMore = false;
+            return;
+        }
+        
+        result.data.forEach(user => {
+            container.appendChild(createUserCard(user));
+        });
+        
+        hasMore = result.data.length === 20;
+        if (hasMore) currentPage++;
+        else {
+            const trigger = document.getElementById('load-more-trigger');
+            if (trigger) observer.unobserve(trigger);
+        }
+        
+    } catch (error) {
+        console.error('Error loading users:', error);
+        showToast('Failed to load users', 'error');
+    } finally {
+        isLoading = false;
+    }
+}
+
+function createUserCard(user) {
+    const div = document.createElement('div');
+    div.className = 'user-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden';
+    
+    const isFollowing = user.isFollowing || false;
+    
+    div.innerHTML = `
+        <a href="/profile/${user.profile?.nickname || user.username}" class="block">
+            <div class="relative h-32 bg-gradient-to-r from-blue-500 to-purple-600">
+                <img src="${user.profile?.coverImage || '/assets/img/default-cover.jpg'}" class="w-full h-full object-cover">
+            </div>
+            <div class="relative px-4 pb-4">
+                <img src="${user.profile?.avatar || '/assets/img/default-avatar.png'}" 
+                     class="w-20 h-20 rounded-full border-4 border-white dark:border-gray-800 -mt-10 mx-auto object-cover">
+                <h3 class="text-center font-semibold mt-2">${escapeHtml(user.profile?.nickname || user.username)}</h3>
+                <p class="text-center text-sm text-gray-500">${escapeHtml(user.profile?.jobTitle || '')}</p>
+                
+                <!-- Stats -->
+                <div class="flex justify-around mt-3 text-center">
+                    <div>
+                        <p class="font-bold">${user.stats?.posts || 0}</p>
+                        <p class="text-xs text-gray-500">Posts</p>
+                    </div>
+                    <div>
+                        <p class="font-bold">${user.stats?.followers || 0}</p>
+                        <p class="text-xs text-gray-500">Followers</p>
+                    </div>
+                    <div>
+                        <p class="font-bold">${user.stats?.following || 0}</p>
+                        <p class="text-xs text-gray-500">Following</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <div class="px-4 pb-4">
+            <button onclick="toggleFollow('${user._id}', this)" 
+                class="follow-btn w-full py-2 rounded-lg transition ${isFollowing ? 'following bg-red-500 hover:bg-red-600' : 'bg-blue-500 hover:bg-blue-600'} text-white">
+                ${isFollowing ? 'Following' : 'Follow'}
+            </button>
+        </div>
+    `;
+    
+    return div;
+}
+
+async function toggleFollow(userId, button) {
+    try {
+        const csrfToken = await fetchCsrfToken();
+        const response = await fetch(`${cleanApiUrl}/api/users/${userId}/follow`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${userToken}`,
+                'X-CSRF-Token': csrfToken
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            if (result.isFollowing) {
+                button.textContent = 'Following';
+                button.classList.add('following', 'bg-red-500');
+                button.classList.remove('bg-blue-500');
+                showToast('Followed successfully!', 'success');
+            } else {
+                button.textContent = 'Follow';
+                button.classList.remove('following', 'bg-red-500');
+                button.classList.add('bg-blue-500');
+                showToast('Unfollowed', 'info');
+            }
+        }
+    } catch (error) {
+        console.error('Error toggling follow:', error);
+        showToast('Failed to follow/unfollow', 'error');
+    }
+}
+
+function setupEventListeners() {
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tab = btn.dataset.tab;
+            if (tab === currentTab) return;
+            
+            // Update active tab style
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('text-blue-600', 'border-blue-600');
+                b.classList.add('text-gray-600', 'dark:text-gray-400');
+            });
+            btn.classList.add('text-blue-600', 'border-blue-600');
+            btn.classList.remove('text-gray-600', 'dark:text-gray-400');
+            
+            currentTab = tab;
+            currentPage = 1;
+            hasMore = true;
+            loadUsers();
+        });
+    });
+    
+    // Search with debounce
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            if (searchTimeout) clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                currentPage = 1;
+                hasMore = true;
+                loadUsers();
+            }, 500);
+        });
+    }
+}
+
+function showToast(message, type = 'success') {
+    Toastify({
+        text: message,
+        duration: 3000,
+        style: { background: type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6' }
+    }).showToast();
+}
+
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
+}
+
+async function fetchCsrfToken() {
+    const response = await fetch(`${cleanApiUrl}/api/csrf-token`, { credentials: 'include' });
+    const data = await response.json();
+    return data.csrfToken;
+}
+</script>
+</body>
+</html>

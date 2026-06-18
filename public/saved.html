@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saved Posts - MGZon</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+    <style>
+        .post-card {
+            transition: all 0.2s ease;
+        }
+        .post-card:hover {
+            transform: translateY(-2px);
+        }
+        .save-btn.saved {
+            color: #f59e0b;
+        }
+        .empty-state {
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900">
+
+<header class="fixed top-0 w-full bg-white dark:bg-gray-800 shadow-md z-50">
+    <nav class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+        <a href="/feed.html" class="flex items-center gap-2 text-xl font-bold text-blue-600">
+            <img src="/assets/img/logo.svg" alt="Logo" class="w-8 h-8">
+            <span id="site-name">MGZon</span>
+        </a>
+        <div class="flex items-center gap-4">
+            <a href="/feed.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600">
+                <i class='bx bx-home text-2xl'></i>
+            </a>
+            <a href="/saved.html" class="text-blue-600">
+                <i class='bx bx-bookmark text-2xl'></i>
+            </a>
+            <a href="/profile/me" class="flex items-center gap-2">
+                <img id="user-avatar" src="/assets/img/default-avatar.png" class="w-8 h-8 rounded-full object-cover">
+            </a>
+        </div>
+    </nav>
+</header>
+
+<main class="max-w-3xl mx-auto px-4 pt-20 pb-12">
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-2xl font-bold">Saved Posts</h1>
+        <button id="clear-all" class="text-sm text-red-500 hover:text-red-600">Clear all</button>
+    </div>
+    
+    <div id="saved-container" class="space-y-4">
+        <div class="text-center py-8 text-gray-500">Loading saved posts...</div>
+    </div>
+    
+    <div id="load-more-trigger" class="h-10"></div>
+</main>
+
+<script src="/assets/js/config.js"></script>
+<script>
+
+    // js/saved.js
+const API_URL = window.ENV.API_URL;
+const cleanApiUrl = API_URL.replace(/\/$/, '');
+let userToken = localStorage.getItem('userToken');
+let currentPage = 1;
+let isLoading = false;
+let hasMore = true;
+
+const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !isLoading && hasMore) {
+        loadSavedPosts();
+    }
+}, { threshold: 0.1 });
+
+document.addEventListener('DOMContentLoaded', async () => {
+    if (!userToken) {
+        window.location.href = '/login.html?redirect=/saved.html';
+        return;
+    }
+    
+    await loadCurrentUser();
+    await loadSavedPosts();
+    
+    const trigger = document.getElementById('load-more-trigger');
+    if (trigger) observer.observe(trigger);
+    
+    document.getElementById('clear-all')?.addEventListener('click', clearAllSaved);
+});
+
+async function loadCurrentUser() {
+    try {
+        const response = await fetch(`${cleanApiUrl}/api/verify-token`, {
+            headers: { 'Authorization': `Bearer ${userToken}` }
+        });
+        if (response.ok) {
+            const user = await response.json();
+            document.getElementById('user-avatar').src = user.profile?.avatar || '/assets/img/default-avatar.png';
+        }
+    } catch (error) {
+        console.error('Error loading user:', error);
+    }
+}
+
+async function loadSavedPosts() {
+    if (isLoading) return;
+    isLoading = true;
+    
+    try {
+        const response = await fetch(`${cleanApiUrl}/api/posts/saved?page=${currentPage}&limit=10`, {
+            headers: { 'Authorization': `Bearer ${userToken}` }
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok) throw new Error(result.error);
+        
+        const container = document.getElementById('saved-container');
+        
+        if (currentPage === 1) {
+            container.innerHTML = '';
+        }
+        
+        if (result.data.length === 0 && currentPage === 1) {
+            container.innerHTML = `
+                <div class="empty-state text-center py-12 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                    <i class='bx bx-bookmark text-6xl text-gray-400 mb-3'></i>
+                    <h3 class="text-lg font-semibold mb-2">No saved posts yet</h3>
+                    <p class="text-gray-500 mb-4">Save posts you like and they'll appear here</p>
+                    <a href="/feed.html" class="inline-block px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                        Explore feed →
+                    </a>
+                </div>
+            `;
+            hasMore = false;
+            return;
+        }
+        
+        result.data.forEach(post => {
+            container.appendChild(createPostElement(post));
+        });
+        
+        hasMore = result.data.length === 10;
+        if (hasMore) currentPage++;
+        
+    } catch (error) {
+        console.error('Error loading saved posts:', error);
+        showToast('Failed to load saved posts', 'error');
+    } finally {
+        isLoading = false;
+    }
+}
+
+function createPostElement(post) {
+    const div = document.createElement('div');
+    div.className = 'post-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden';
+    div.dataset.postId = post._id;
+    
+    let imagesHtml = '';
+    if (post.images && post.images.length > 0) {
+        imagesHtml = `
+            <div class="grid grid-cols-${Math.min(post.images.length, 3)} gap-1 p-2">
+                ${post.images.map(img => `
+                    <img src="${img.url}" class="rounded-lg cursor-pointer h-48 object-cover" onclick="openImageModal('${img.url}')">
+                `).join('')}
+            </div>
+        `;
+    }
+    
+    div.innerHTML = `
+        <div class="p-4">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-3">
+                    <img src="${post.userId?.profile?.avatar || '/assets/img/default-avatar.png'}" class="w-10 h-10 rounded-full object-cover">
+                    <div>
+                        <a href="/profile/${post.userId?.profile?.nickname || post.userId?.username}" class="font-semibold hover:text-blue-500">
+                            ${escapeHtml(post.userId?.profile?.nickname || post.userId?.username)}
+                        </a>
+                        <p class="text-xs text-gray-500">${formatDate(post.createdAt)}</p>
+                    </div>
+                </div>
+                <button onclick="removeFromSaved('${post._id}', this)" class="text-red-500 hover:text-red-600">
+                    <i class='bx bx-trash text-xl'></i>
+                </button>
+            </div>
+            
+            <p class="text-gray-800 dark:text-gray-200 mb-3">${escapeHtml(post.content)}</p>
+            ${imagesHtml}
+            
+            <div class="flex items-center gap-4 mt-3 pt-3 border-t dark:border-gray-700">
+                <button class="like-btn flex items-center gap-1" onclick="toggleLike('${post._id}', this)">
+                    <i class='bx bx-heart text-xl'></i>
+                    <span class="likes-count">${post.likesCount || 0}</span>
+                </button>
+                <a href="/feed.html?post=${post._id}" class="flex items-center gap-1 text-gray-500 hover:text-blue-500">
+                    <i class='bx bx-comment text-xl'></i>
+                    <span>${post.commentsCount || 0}</span>
+                </a>
+            </div>
+        </div>
+    `;
+    
+    return div;
+}
+
+async function removeFromSaved(postId, button) {
+    try {
+        const csrfToken = await fetchCsrfToken();
+        const response = await fetch(`${cleanApiUrl}/api/posts/${postId}/save`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${userToken}`,
+                'X-CSRF-Token': csrfToken
+            }
+        });
+        
+        if (response.ok) {
+            const postCard = button.closest('.post-card');
+            postCard.remove();
+            showToast('Removed from saved', 'success');
+            
+            // Check if container is empty
+            const container = document.getElementById('saved-container');
+            if (container.children.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                        <i class='bx bx-bookmark text-6xl text-gray-400 mb-3'></i>
+                        <h3 class="text-lg font-semibold mb-2">No saved posts</h3>
+                        <p class="text-gray-500">Save posts you like and they'll appear here</p>
+                    </div>
+                `;
+            }
+        }
+    } catch (error) {
+        console.error('Error removing from saved:', error);
+        showToast('Failed to remove', 'error');
+    }
+}
+
+async function clearAllSaved() {
+    if (!confirm('Are you sure you want to clear all saved posts?')) return;
+    
+    try {
+        const csrfToken = await fetchCsrfToken();
+        const posts = document.querySelectorAll('.post-card');
+        
+        for (const post of posts) {
+            const postId = post.dataset.postId;
+            await fetch(`${cleanApiUrl}/api/posts/${postId}/save`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${userToken}`,
+                    'X-CSRF-Token': csrfToken
+                }
+            });
+        }
+        
+        await loadSavedPosts();
+        showToast('All saved posts cleared', 'success');
+    } catch (error) {
+        console.error('Error clearing saved:', error);
+        showToast('Failed to clear saved posts', 'error');
+    }
+}
+
+// Utility functions (same as feed.js)
+function formatDate(date) {
+    const d = new Date(date);
+    const now = new Date();
+    const diff = now - d;
+    
+    if (diff < 60000) return 'Just now';
+    if (diff < 3600000) return `${Math.floor(diff / 60000)}m ago`;
+    if (diff < 86400000) return `${Math.floor(diff / 3600000)}h ago`;
+    if (diff < 604800000) return `${Math.floor(diff / 86400000)}d ago`;
+    return d.toLocaleDateString();
+}
+
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
+}
+
+function showToast(message, type) {
+    Toastify({
+        text: message,
+        duration: 3000,
+        style: { background: type === 'success' ? '#10b981' : '#ef4444' }
+    }).showToast();
+}
+
+async function fetchCsrfToken() {
+    const response = await fetch(`${cleanApiUrl}/api/csrf-token`, { credentials: 'include' });
+    const data = await response.json();
+    return data.csrfToken;
+}
+</script>
+</body>
+</html>

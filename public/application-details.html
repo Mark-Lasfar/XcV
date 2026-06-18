@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    
+    <meta name="description" content="View application details">
+    <meta name="author" content="MGZon">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Application Details - MGZon">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="MGZon">
+    
+    <title>Application Details - MGZon</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" id="dynamic-favicon" href="/assets/img/logo.svg" type="image/x-icon">
+    
+    <!-- Stylesheets -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background-color: #f3f4f6; transition: background-color 0.3s; }
+        body.dark { background-color: #111827; }
+        
+        .l-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        body.dark .l-header { background-color: #1f2937; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+        
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .nav__logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #1f2937;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        body.dark .nav__logo { color: #f3f4f6; }
+        .nav__logo img { width: 1.75rem; height: 1.75rem; margin-right: 0.5rem; object-fit: contain; }
+        
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 5rem 1rem 2rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        body.dark .card { background: #1f2937; border: 1px solid #374151; }
+        
+        .card-header {
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        body.dark .card-header { border-bottom-color: #374151; color: #f3f4f6; }
+        
+        .card-content { padding: 1rem; }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .status-pending { background: #fef3c7; color: #d97706; }
+        .status-reviewed { background: #dbeafe; color: #2563eb; }
+        .status-shortlisted { background: #e0e7ff; color: #4338ca; }
+        .status-interview { background: #fce7f3; color: #db2777; }
+        .status-accepted { background: #d1fae5; color: #059669; }
+        .status-rejected { background: #fee2e2; color: #dc2626; }
+        body.dark .status-pending { background: #78350f; color: #fbbf24; }
+        body.dark .status-reviewed { background: #1e3a5f; color: #60a5fa; }
+        body.dark .status-shortlisted { background: #312e81; color: #a5b4fc; }
+        body.dark .status-interview { background: #831843; color: #f9a8d4; }
+        body.dark .status-accepted { background: #064e3b; color: #34d399; }
+        body.dark .status-rejected { background: #7f1d1d; color: #f87171; }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            margin-bottom: 1rem;
+            background: white;
+            border-radius: 9999px;
+            text-decoration: none;
+            color: #1f2937;
+            font-size: 0.875rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        body.dark .back-button { background: #1f2937; color: #f3f4f6; }
+        
+        .btn-primary {
+            background: #0a66c2;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-primary:hover { background: #004182; transform: translateY(-1px); }
+        
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #1f2937;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        body.dark .btn-secondary { background: #374151; color: #f3f4f6; }
+        .btn-secondary:hover { transform: translateY(-1px); filter: brightness(0.95); }
+        
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-danger:hover { background: #dc2626; transform: translateY(-1px); }
+        
+        .info-row {
+            display: flex;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        body.dark .info-row { border-bottom-color: #374151; }
+        .info-label { width: 120px; font-weight: 500; color: #6b7280; }
+        .info-value { flex: 1; color: #1f2937; }
+        body.dark .info-value { color: #f3f4f6; }
+        
+        .skeleton {
+            background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 0.5rem;
+        }
+        body.dark .skeleton {
+            background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+        }
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .toastify { border-radius: 0.75rem !important; font-family: 'Inter', sans-serif !important; }
+        
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        .modal-overlay.show { display: flex; }
+        .modal-content {
+            background: white;
+            border-radius: 1rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        body.dark .modal-content { background: #1f2937; }
+        .modal-header {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        body.dark .modal-header { border-bottom-color: #374151; }
+        .modal-body { padding: 1rem; }
+    </style>
+</head>
+<body>
+
+<header class="l-header">
+    <nav class="nav">
+        <a href="/feed.html" class="nav__logo">
+            <img id="nav-logo" src="/assets/img/logo.svg" alt="Logo">
+            <span id="site-name">MGZon</span>
+        </a>
+        <div class="flex items-center gap-3" id="navbar-links"></div>
+    </nav>
+</header>
+
+<main class="main-container">
+    <a href="/my-jobs.html" class="back-button" id="back-link">
+        <i class='bx bx-arrow-back'></i> Back to My Jobs
+    </a>
+    
+    <div id="application-container">
+        <div class="skeleton" style="height: 400px;"></div>
+    </div>
+</main>
+
+<!-- Interview Modal -->
+<div id="interview-modal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span>Schedule Interview</span>
+            <button class="close-modal text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Date & Time *</label>
+                    <input type="datetime-local" id="interview-datetime" class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Interview Type *</label>
+                    <select id="interview-type" class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                        <option value="phone">Phone Call</option>
+                        <option value="video">Video Call</option>
+                        <option value="onsite">Onsite</option>
+                        <option value="technical">Technical Assessment</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Meeting Link (Optional)</label>
+                    <input type="url" id="interview-link" placeholder="https://meet.google.com/..." class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Notes (Optional)</label>
+                    <textarea id="interview-notes" rows="2" placeholder="Additional instructions for the candidate..." class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600"></textarea>
+                </div>
+            </div>
+            <div class="flex gap-3 mt-6">
+                <button id="schedule-interview" class="flex-1 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">Schedule</button>
+                <button id="close-interview-modal" class="flex-1 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Note Modal -->
+<div id="note-modal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span>Add Note</span>
+            <button class="close-note-modal text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+        </div>
+        <div class="modal-body">
+            <textarea id="note-text" rows="4" placeholder="Add your notes about this candidate..." class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 mb-4"></textarea>
+            <div class="flex gap-3">
+                <button id="save-note" class="flex-1 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">Save Note</button>
+                <button id="close-note-modal" class="flex-1 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/assets/js/config.js"></script>
+
+<script>
+// ============================================
+// APPLICATION DETAILS PAGE (Employer View) - Fully Updated
+// ============================================
+
+const API_URL = window.ENV?.API_URL || 'https://mgzon-server.hf.space';
+const cleanApiUrl = API_URL.replace(/\/$/, '');
+let userToken = localStorage.getItem('userToken');
+let currentUser = null;
+let applicationData = null;
+let applicationId = null;
+let isLoggedIn = !!userToken;
+
+// ============================================
+// Utility Functions
+// ============================================
+
+function showToast(message, type = 'success') {
+    if (typeof Toastify !== 'undefined') {
+        Toastify({
+            text: message,
+            duration: 3000,
+            gravity: 'top',
+            position: 'right',
+            style: {
+                background: type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : type === 'warning' ? '#f59e0b' : '#3b82f6',
+                borderRadius: '12px',
+                fontFamily: 'Inter, sans-serif'
+            }
+        }).showToast();
+    } else {
+        console.log(message);
+    }
+}
+
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
+}
+
+function formatDate(date) {
+    if (!date) return 'N/A';
+    const d = new Date(date);
+    const now = new Date();
+    const diff = now - d;
+    if (diff < 60000) return 'Just now';
+    if (diff < 3600000) return `${Math.floor(diff / 60000)}m ago`;
+    if (diff < 86400000) return `${Math.floor(diff / 3600000)}h ago`;
+    if (diff < 604800000) return `${Math.floor(diff / 86400000)}d ago`;
+    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+async function fetchCsrfToken() {
+    try {
+        const response = await fetch(`${cleanApiUrl}/api/csrf-token`, { 
+            method: 'GET', 
+            credentials: 'include' 
+        });
+        const data = await response.json();
+        return data.csrfToken;
+    } catch (error) {
+        console.error('Error fetching CSRF token:', error);
+        return null;
+    }
+}
+
+async function fetchWithRefresh(url, options = {}) {
+    try {
+        let csrfToken = await fetchCsrfToken();
+        options.headers = {
+            ...options.headers,
+            'Authorization': userToken ? `Bearer ${userToken}` : '',
+            'X-CSRF-Token': csrfToken || ''
+        };
+        let response = await fetch(url, { ...options, credentials: 'include' });
+        
+        if (response.status === 401 && userToken) {
+            const refreshed = await refreshToken();
+            if (refreshed) {
+                options.headers['Authorization'] = `Bearer ${userToken}`;
+                response = await fetch(url, options);
+            }
+        }
+        return response;
+    } catch (error) {
+        console.error('Fetch error:', error);
+        throw error;
+    }
+}
+
+async function refreshToken() {
+    try {
+        const refreshToken = localStorage.getItem('refreshToken');
+        if (!refreshToken) throw new Error('No refresh token');
+        const csrfToken = await fetchCsrfToken();
+        const response = await fetch(`${cleanApiUrl}/api/refresh-token`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+            body: JSON.stringify({ refreshToken })
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error('Refresh failed');
+        localStorage.setItem('userToken', data.accessToken || data.token);
+        localStorage.setItem('refreshToken', data.refreshToken);
+        userToken = data.accessToken || data.token;
+        return userToken;
+    } catch (error) {
+        console.error('Refresh error:', error);
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('refreshToken');
+        userToken = null;
+        return null;
+    }
+}
+
+// ============================================
+// Load Site Settings
+// ============================================
+async function loadSiteSettings() {
+    try {
+        const response = await fetch(`${cleanApiUrl}/api/site-settings`);
+        if (response.ok) {
+            const data = await response.json();
+            const logoImg = document.querySelector('#nav-logo');
+            if (logoImg && data.logo) {
+                logoImg.src = data.logo;
+                logoImg.onerror = () => logoImg.src = '/assets/img/logo.svg';
+            }
+            const siteNameSpan = document.getElementById('site-name');
+            if (siteNameSpan && data.siteName) {
+                siteNameSpan.textContent = data.siteName;
+            }
+            const favicon = document.getElementById('dynamic-favicon');
+            if (favicon && data.logo) {
+                favicon.href = data.logo;
+            }
+        }
+    } catch (error) {
+        console.error('Error loading site settings:', error);
+    }
+}
+
+// ============================================
+// Load Current User & Navbar
+// ============================================
+async function loadCurrentUser() {
+    if (!userToken) {
+        isLoggedIn = false;
+        await updateNavbar();
+        return null;
+    }
+    try {
+        const response = await fetchWithRefresh(`${cleanApiUrl}/api/verify-token`);
+        if (response.ok) {
+            currentUser = await response.json();
+            isLoggedIn = true;
+            await updateNavbar();
+            return currentUser;
+        }
+        isLoggedIn = false;
+        await updateNavbar();
+        return null;
+    } catch (error) {
+        console.error('Error loading current user:', error);
+        isLoggedIn = false;
+        await updateNavbar();
+        return null;
+    }
+}
+
+async function updateNavbar() {
+    const navbarContainer = document.getElementById('navbar-links');
+    if (!navbarContainer) return;
+    
+    if (!isLoggedIn) {
+        navbarContainer.innerHTML = `
+            <a href="/login.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition px-3 py-2">Sign in</a>
+            <a href="/register.html" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">Join now</a>
+            <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition p-2">
+                <img id="modeToggle" src="/assets/img/theme_light.png" alt="Theme" style="width: 20px; height: 20px;">
+            </button>
+        `;
+        return;
+    }
+    
+    const userAvatarSrc = currentUser?.profile?.avatar || '/assets/img/default-avatar.png';
+    
+    navbarContainer.innerHTML = `
+        <a href="/feed.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition"><i class='bx bx-home text-2xl'></i></a>
+        <a href="/network.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition"><i class='bx bx-group text-2xl'></i></a>
+        <a href="/jobs.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition"><i class='bx bx-briefcase text-2xl'></i></a>
+        <a href="/messages.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition"><i class='bx bx-message-dots text-2xl'></i></a>
+        <div class="relative">
+            <button id="profile-menu-btn" class="flex items-center gap-1 text-gray-600 dark:text-gray-300">
+                <img src="${userAvatarSrc}" class="w-8 h-8 rounded-full object-cover">
+                <i class='bx bx-chevron-down text-xl'></i>
+            </button>
+            <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 overflow-hidden">
+                <a href="/profile/me" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition">My Profile</a>
+                <a href="/settings.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition">Settings</a>
+                <a href="/my-jobs.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition">My Jobs</a>
+                <a href="/job-applications.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition">Applications</a>
+                <hr class="my-1 dark:border-gray-700">
+                <button id="logout-btn" class="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-red-600 transition">Sign Out</button>
+            </div>
+        </div>
+        <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition p-2">
+            <img id="modeToggle" src="/assets/img/theme_light.png" alt="Theme" style="width: 20px; height: 20px;">
+        </button>
+    `;
+    
+    attachNavbarEvents();
+}
+
+function attachNavbarEvents() {
+    const profileMenuBtn = document.getElementById('profile-menu-btn');
+    const profileDropdown = document.getElementById('profile-dropdown');
+    if (profileMenuBtn && profileDropdown) {
+        profileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('hidden');
+        });
+    }
+    
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', handleLogout);
+    }
+    
+    document.addEventListener('click', () => {
+        if (profileDropdown) profileDropdown.classList.add('hidden');
+    });
+}
+
+async function handleLogout() {
+    try {
+        const csrfToken = await fetchCsrfToken();
+        await fetch(`${cleanApiUrl}/api/logout`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${userToken}`,
+                'X-CSRF-Token': csrfToken
+            }
+        });
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('refreshToken');
+        window.location.href = '/';
+    } catch (error) {
+        console.error('Logout error:', error);
+    }
+}
+
+// ============================================
+// Load Application Details
+// ============================================
+async function loadApplication() {
+    const container = document.getElementById('application-container');
+    
+    if (!applicationId) {
+        container.innerHTML = `
+            <div class="card p-8 text-center">
+                <i class='bx bx-error-circle text-5xl text-gray-400 mb-3'></i>
+                <p class="text-gray-500">Application not found</p>
+                <a href="/my-jobs.html" class="inline-block mt-3 text-blue-500 hover:text-blue-600">Back to My Jobs</a>
+            </div>
+        `;
+        return;
+    }
+    
+    container.innerHTML = '<div class="skeleton" style="height: 400px;"></div>';
+    
+    try {
+        const response = await fetchWithRefresh(`${cleanApiUrl}/api/jobs/applications/${applicationId}`);
+        
+        if (!response.ok) {
+            if (response.status === 403) {
+                throw new Error('You do not have permission to view this application');
+            }
+            throw new Error('Application not found');
+        }
+        
+        const result = await response.json();
+        applicationData = result.data || result;
+        renderApplication(applicationData);
+        
+    } catch (error) {
+        console.error('Error loading application:', error);
+        container.innerHTML = `
+            <div class="card p-8 text-center">
+                <i class='bx bx-error-circle text-5xl text-gray-400 mb-3'></i>
+                <p class="text-gray-500">${error.message}</p>
+                <a href="/my-jobs.html" class="inline-block mt-3 text-blue-500 hover:text-blue-600">Back to My Jobs</a>
+            </div>
+        `;
+    }
+}
+
+function renderApplication(app) {
+    const container = document.getElementById('application-container');
+    const job = app.jobId || {};
+    const applicant = app.applicantId || {};
+    
+    const statusClasses = {
+        pending: 'status-pending',
+        reviewed: 'status-reviewed',
+        shortlisted: 'status-shortlisted',
+        interview: 'status-interview',
+        accepted: 'status-accepted',
+        rejected: 'status-rejected'
+    };
+    
+    const statusNames = {
+        pending: 'Pending Review',
+        reviewed: 'Reviewed',
+        shortlisted: 'Shortlisted',
+        interview: 'Interview',
+        accepted: 'Accepted',
+        rejected: 'Rejected'
+    };
+    
+    container.innerHTML = `
+        <div class="card">
+            <div class="card-header">
+                <span>Application Details</span>
+                <div class="flex gap-2">
+                    <span class="status-badge ${statusClasses[app.status] || 'status-pending'}">
+                        ${statusNames[app.status] || app.status?.toUpperCase() || 'PENDING'}
+                    </span>
+                    ${app.status === 'pending' ? `
+                        <select id="status-select" class="text-sm border rounded-lg px-2 py-1 dark:bg-gray-700">
+                            <option value="reviewed">Mark as Reviewed</option>
+                            <option value="shortlisted">Shortlist</option>
+                            <option value="interview">Schedule Interview</option>
+                            <option value="accepted">Accept</option>
+                            <option value="rejected">Reject</option>
+                        </select>
+                        <button onclick="updateStatusFromSelect()" class="btn-primary !py-1 !px-3 text-sm">Update</button>
+                    ` : ''}
+                </div>
+            </div>
+            <div class="card-content space-y-4">
+                <!-- Job Information -->
+                <div>
+                    <h3 class="font-bold text-lg">${escapeHtml(job.title || 'Job Position')}</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm">${escapeHtml(job.companyName || 'Company')}</p>
+                </div>
+                
+                <!-- Applicant Information -->
+                <div class="border-t dark:border-gray-700 pt-3">
+                    <h4 class="font-semibold mb-3 flex items-center gap-2">
+                        <i class='bx bx-user'></i> Applicant Information
+                    </h4>
+                    <div class="space-y-2">
+                        <div class="info-row">
+                            <span class="info-label">Full Name</span>
+                            <span class="info-value">${escapeHtml(app.fullName)}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Email</span>
+                            <span class="info-value">${escapeHtml(app.email)}</span>
+                        </div>
+                        ${app.phone ? `
+                            <div class="info-row">
+                                <span class="info-label">Phone</span>
+                                <span class="info-value">${escapeHtml(app.phone)}</span>
+                            </div>
+                        ` : ''}
+                        <div class="info-row">
+                            <span class="info-label">Applied on</span>
+                            <span class="info-value">${formatDate(app.appliedAt)}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Applicant Profile (if available) -->
+                ${applicant._id ? `
+                    <div class="border-t dark:border-gray-700 pt-3">
+                        <h4 class="font-semibold mb-3 flex items-center gap-2">
+                            <i class='bx bx-id-card'></i> Applicant Profile
+                        </h4>
+                        <div class="flex items-center gap-3">
+                            <img src="${applicant.profile?.avatar || '/assets/img/default-avatar.png'}" class="w-12 h-12 rounded-full object-cover">
+                            <div>
+                                <a href="/profile/${applicant.profile?.nickname || applicant.username}" class="font-semibold hover:text-blue-500">
+                                    ${escapeHtml(applicant.profile?.nickname || applicant.username)}
+                                </a>
+                                <p class="text-sm text-gray-500">${escapeHtml(applicant.profile?.jobTitle || 'Professional')}</p>
+                            </div>
+                        </div>
+                        ${applicant.profile?.bio ? `
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">${escapeHtml(applicant.profile.bio.substring(0, 200))}${applicant.profile.bio.length > 200 ? '...' : ''}</p>
+                        ` : ''}
+                    </div>
+                ` : ''}
+                
+                <!-- Cover Letter -->
+                ${app.coverLetter ? `
+                    <div class="border-t dark:border-gray-700 pt-3">
+                        <h4 class="font-semibold mb-2 flex items-center gap-2">
+                            <i class='bx bx-envelope'></i> Cover Letter
+                        </h4>
+                        <div class="text-sm whitespace-pre-wrap bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
+                            ${escapeHtml(app.coverLetter)}
+                        </div>
+                    </div>
+                ` : ''}
+                
+                <!-- Links & Documents -->
+                <div class="border-t dark:border-gray-700 pt-3">
+                    <h4 class="font-semibold mb-2 flex items-center gap-2">
+                        <i class='bx bx-link-alt'></i> Links & Documents
+                    </h4>
+                    <div class="flex flex-wrap gap-3">
+                        ${app.resume?.url ? `
+                            <a href="${app.resume.url}" target="_blank" class="btn-secondary">
+                                <i class='bx bx-file'></i> View Resume
+                            </a>
+                        ` : ''}
+                        ${app.portfolio ? `
+                            <a href="${app.portfolio}" target="_blank" class="btn-secondary">
+                                <i class='bx bx-globe'></i> Portfolio
+                            </a>
+                        ` : ''}
+                        ${app.linkedin ? `
+                            <a href="${app.linkedin}" target="_blank" class="btn-secondary">
+                                <i class='bx bxl-linkedin'></i> LinkedIn
+                            </a>
+                        ` : ''}
+                        ${app.github ? `
+                            <a href="${app.github}" target="_blank" class="btn-secondary">
+                                <i class='bx bxl-github'></i> GitHub
+                            </a>
+                        ` : ''}
+                    </div>
+                </div>
+                
+                <!-- Employer Note -->
+                <div class="border-t dark:border-gray-700 pt-3">
+                    <h4 class="font-semibold mb-2 flex items-center gap-2">
+                        <i class='bx bx-note'></i> Your Note
+                    </h4>
+                    <div class="bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-lg">
+                        ${app.employerNotes ? `
+                            <p class="text-sm">${escapeHtml(app.employerNotes)}</p>
+                            <button onclick="openNoteModal('${app._id}', '${escapeHtml(app.employerNotes).replace(/'/g, "\\'")}')" class="text-xs text-blue-500 mt-2">Edit Note</button>
+                        ` : `
+                            <p class="text-sm text-gray-500">No notes added yet</p>
+                            <button onclick="openNoteModal('${app._id}', '')" class="text-xs text-blue-500 mt-2">Add Note</button>
+                        `}
+                    </div>
+                </div>
+                
+                <!-- Interviews Section -->
+                ${app.interviews && app.interviews.length > 0 ? `
+                    <div class="border-t dark:border-gray-700 pt-3">
+                        <h4 class="font-semibold mb-2 flex items-center gap-2">
+                            <i class='bx bx-calendar-event'></i> Interview History
+                        </h4>
+                        <div class="space-y-2">
+                            ${app.interviews.map(interview => `
+                                <div class="bg-gray-50 dark:bg-gray-800 p-3 rounded-lg">
+                                    <div class="flex justify-between items-start flex-wrap gap-2">
+                                        <div>
+                                            <p class="font-medium text-sm">${interview.type?.toUpperCase() || 'Interview'}</p>
+                                            <p class="text-xs text-gray-500">${formatDate(interview.scheduledAt)}</p>
+                                        </div>
+                                        <span class="text-xs px-2 py-1 rounded-full bg-${interview.status === 'scheduled' ? 'yellow' : interview.status === 'completed' ? 'green' : 'red'}-100 text-${interview.status === 'scheduled' ? 'yellow' : interview.status === 'completed' ? 'green' : 'red'}-800">
+                                            ${interview.status || 'Scheduled'}
+                                        </span>
+                                    </div>
+                                    ${interview.meetingLink ? `
+                                        <a href="${interview.meetingLink}" target="_blank" class="text-xs text-blue-500 hover:underline mt-1 inline-block">
+                                            <i class='bx bx-link-external'></i> Join Meeting
+                                        </a>
+                                    ` : ''}
+                                    ${interview.notes ? `<p class="text-xs text-gray-500 mt-1">${escapeHtml(interview.notes)}</p>` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+                
+                <div class="flex gap-3 pt-3">
+                    <button onclick="openInterviewModal('${app._id}')" class="btn-primary flex-1">
+                        <i class='bx bx-calendar'></i> Schedule Interview
+                    </button>
+                    <a href="/job-details.html?id=${job._id}" class="btn-secondary flex-1 text-center">
+                        <i class='bx bx-briefcase'></i> View Job
+                    </a>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// ============================================
+// Application Actions
+// ============================================
+async function updateStatus(applicationId, status) {
+    try {
+        const csrfToken = await fetchCsrfToken();
+        const response = await fetch(`${cleanApiUrl}/api/jobs/applications/${applicationId}/status`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${userToken}`,
+                'X-CSRF-Token': csrfToken
+            },
+            body: JSON.stringify({ status })
+        });
+        
+        if (response.ok) {
+            showToast(`Application ${status} successfully!`, 'success');
+            await loadApplication();
+        } else {
+            const error = await response.json();
+            throw new Error(error.error);
+        }
+    } catch (error) {
+        console.error('Error updating status:', error);
+        showToast(error.message, 'error');
+    }
+}
+
+async function updateStatusFromSelect() {
+    const select = document.getElementById('status-select');
+    if (select) {
+        const status = select.value;
+        if (status === 'interview') {
+            openInterviewModal(applicationId);
+        } else {
+            await updateStatus(applicationId, status);
+        }
+    }
+}
+
+async function updateNote(applicationId, note) {
+    try {
+        const csrfToken = await fetchCsrfToken();
+        const response = await fetch(`${cleanApiUrl}/api/jobs/applications/${applicationId}/status`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${userToken}`,
+                'X-CSRF-Token': csrfToken
+            },
+            body: JSON.stringify({ employerNotes: note })
+        });
+        
+        if (response.ok) {
+            showToast('Note saved successfully!', 'success');
+            await loadApplication();
+        } else {
+            const error = await response.json();
+            throw new Error(error.error);
+        }
+    } catch (error) {
+        console.error('Error saving note:', error);
+        showToast(error.message, 'error');
+    }
+}
+
+// ============================================
+// Interview Functions
+// ============================================
+function openInterviewModal(appId) {
+    const modal = document.getElementById('interview-modal');
+    modal.classList.add('show');
+    
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(10, 0, 0, 0);
+    document.getElementById('interview-datetime').value = tomorrow.toISOString().slice(0, 16);
+    document.getElementById('interview-link').value = '';
+    document.getElementById('interview-notes').value = '';
+    
+    window.currentInterviewAppId = appId;
+}
+
+async function scheduleInterview() {
+    if (!window.currentInterviewAppId) return;
+    
+    const scheduledAt = document.getElementById('interview-datetime').value;
+    const type = document.getElementById('interview-type').value;
+    const meetingLink = document.getElementById('interview-link').value;
+    const notes = document.getElementById('interview-notes').value;
+    
+    if (!scheduledAt) {
+        showToast('Please select date and time', 'error');
+        return;
+    }
+    
+    try {
+        const csrfToken = await fetchCsrfToken();
+        const response = await fetch(`${cleanApiUrl}/api/jobs/applications/${window.currentInterviewAppId}/interview`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${userToken}`,
+                'X-CSRF-Token': csrfToken
+            },
+            body: JSON.stringify({ scheduledAt, type, meetingLink, notes })
+        });
+        
+        if (response.ok) {
+            showToast('Interview scheduled successfully!', 'success');
+            closeInterviewModal();
+            await loadApplication();
+        } else {
+            const error = await response.json();
+            throw new Error(error.error);
+        }
+    } catch (error) {
+        console.error('Error scheduling interview:', error);
+        showToast(error.message, 'error');
+    }
+}
+
+function closeInterviewModal() {
+    const modal = document.getElementById('interview-modal');
+    modal.classList.remove('show');
+    window.currentInterviewAppId = null;
+}
+
+// ============================================
+// Note Functions
+// ============================================
+function openNoteModal(appId, currentNote) {
+    window.currentNoteAppId = appId;
+    const modal = document.getElementById('note-modal');
+    const noteText = document.getElementById('note-text');
+    noteText.value = currentNote;
+    modal.classList.add('show');
+}
+
+function saveNote() {
+    if (!window.currentNoteAppId) return;
+    
+    const note = document.getElementById('note-text').value.trim();
+    updateNote(window.currentNoteAppId, note);
+    closeNoteModal();
+}
+
+function closeNoteModal() {
+    const modal = document.getElementById('note-modal');
+    modal.classList.remove('show');
+    window.currentNoteAppId = null;
+}
+
+// ============================================
+// Theme Toggle
+// ============================================
+function setupThemeToggle() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+    }
+    
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.body.classList.toggle('dark');
+            const isDark = document.body.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const modeToggle = document.getElementById('modeToggle');
+            if (modeToggle) {
+                modeToggle.src = isDark ? '/assets/img/theme_dark.png' : '/assets/img/theme_light.png';
+            }
+        });
+    }
+}
+
+// ============================================
+// Initialize
+// ============================================
+async function init() {
+    const urlParams = new URLSearchParams(window.location.search);
+    applicationId = urlParams.get('id');
+    
+    if (!applicationId) {
+        window.location.href = '/my-jobs.html';
+        return;
+    }
+    
+    await loadSiteSettings();
+    await loadCurrentUser();
+    await loadApplication();
+    setupThemeToggle();
+    
+    // Modal listeners
+    document.getElementById('schedule-interview')?.addEventListener('click', scheduleInterview);
+    document.getElementById('close-interview-modal')?.addEventListener('click', closeInterviewModal);
+    document.querySelectorAll('.close-modal').forEach(btn => {
+        btn.addEventListener('click', closeInterviewModal);
+    });
+    
+    document.getElementById('save-note')?.addEventListener('click', saveNote);
+    document.getElementById('close-note-modal')?.addEventListener('click', closeNoteModal);
+    document.querySelectorAll('.close-note-modal').forEach(btn => {
+        btn.addEventListener('click', closeNoteModal);
+    });
+    
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                overlay.classList.remove('show');
+            }
+        });
+    });
+}
+
+// Make functions global
+window.updateStatusFromSelect = updateStatusFromSelect;
+window.openInterviewModal = openInterviewModal;
+window.openNoteModal = openNoteModal;
+window.updateStatus = updateStatus;
+
+init();
+</script>
+
+</body>
+</html>

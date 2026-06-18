@@ -1,0 +1,1752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="View post details, comments, and interactions">
+    <meta name="author" content="MGZon">
+    <meta name="robots" content="index, follow">
+    <meta name="google-site-verification" content="cMqMKs3WVFS5S9D2cLZ2_iHzeda4B7oNyOPOneZCjqg" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Post - MGZon">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="MGZon">
+    
+    <title>Post - MGZon</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" id="dynamic-favicon" href="/assets/img/logo.svg" type="image/x-icon">
+    
+    <!-- Stylesheets -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background-color: #f3f4f6;
+            transition: background-color 0.3s;
+        }
+        
+        body.dark {
+            background-color: #111827;
+        }
+        
+        /* Header Styles */
+        .l-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        body.dark .l-header {
+            background-color: #1f2937;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .nav__logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #1f2937;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        
+        body.dark .nav__logo {
+            color: #f3f4f6;
+        }
+        
+        .nav__logo img {
+            width: 1.75rem;
+            height: 1.75rem;
+            margin-right: 0.5rem;
+            object-fit: contain;
+        }
+        
+        .nav__list {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        
+        .nav__link {
+            padding: 0.5rem 0.75rem;
+            text-decoration: none;
+            color: #4b5563;
+            font-size: 0.875rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+        
+        body.dark .nav__link {
+            color: #9ca3af;
+        }
+        
+        .nav__link:hover {
+            background-color: #e5e7eb;
+            color: #1f2937;
+        }
+        
+        body.dark .nav__link:hover {
+            background-color: #374151;
+            color: #f3f4f6;
+        }
+        
+        #theme-toggle img {
+            width: 1.25rem;
+            height: 1.25rem;
+            vertical-align: middle;
+        }
+        
+        /* Main Content */
+        .main-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 5rem 1rem 2rem;
+        }
+        
+        /* Post Card */
+        .post-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        
+        body.dark .post-card {
+            background: #1f2937;
+            border: 1px solid #374151;
+        }
+        
+        .post-header {
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        body.dark .post-header {
+            border-bottom-color: #374151;
+        }
+        
+        .post-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        
+        .post-author {
+            font-weight: 600;
+            font-size: 0.9375rem;
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .post-time {
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        
+        body.dark .post-time {
+            color: #9ca3af;
+        }
+        
+        .post-content {
+            padding: 1rem;
+            font-size: 0.9375rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+        
+        .post-image {
+            width: 100%;
+            max-height: 500px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        
+        .post-actions {
+            padding: 0.75rem 1rem;
+            display: flex;
+            gap: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        body.dark .post-actions {
+            border-color: #374151;
+        }
+        
+        .post-action {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .post-action:hover {
+            color: #3b82f6;
+        }
+        
+        .post-action.liked {
+            color: #ef4444;
+        }
+        
+        .post-action.saved {
+            color: #f59e0b;
+        }
+        
+        /* Comments Section */
+        .comments-section {
+            padding: 1rem;
+        }
+        
+        .comments-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .comment-input-area {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .comment-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 9999px;
+            background: white;
+            font-size: 0.875rem;
+        }
+        
+        body.dark .comment-input {
+            background: #374151;
+            border-color: #4b5563;
+            color: #f3f4f6;
+        }
+        
+        .comment-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+        }
+        
+        .comment-item {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            transition: background 0.2s;
+        }
+        
+        .comment-item:hover {
+            background: #f9fafb;
+        }
+        
+        body.dark .comment-item:hover {
+            background: #374151;
+        }
+        
+        .comment-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        
+        .comment-author {
+            font-weight: 600;
+            font-size: 0.8125rem;
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .comment-text {
+            font-size: 0.8125rem;
+            margin-top: 0.25rem;
+        }
+        
+        .comment-time {
+            font-size: 0.6875rem;
+            color: #9ca3af;
+            margin-top: 0.25rem;
+        }
+        
+        .comment-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .comment-action {
+            font-size: 0.6875rem;
+            color: #6b7280;
+            cursor: pointer;
+        }
+        
+        .comment-action:hover {
+            color: #3b82f6;
+        }
+        
+        .comment-action.liked {
+            color: #ef4444;
+        }
+        
+        /* Nested Replies */
+        .replies-container {
+            margin-left: 2rem;
+            margin-top: 0.5rem;
+            padding-left: 0.75rem;
+            border-left: 2px solid #e5e7eb;
+        }
+        
+        body.dark .replies-container {
+            border-left-color: #374151;
+        }
+        
+        .reply-form {
+            margin-left: 2rem;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: #f9fafb;
+            border-radius: 0.75rem;
+        }
+        
+        body.dark .reply-form {
+            background: #374151;
+        }
+        
+        /* Back Button */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            margin-bottom: 1rem;
+            background: white;
+            border-radius: 9999px;
+            text-decoration: none;
+            color: #1f2937;
+            font-size: 0.875rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        
+        body.dark .back-button {
+            background: #1f2937;
+            color: #f3f4f6;
+        }
+        
+        /* Loading Skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 0.5rem;
+        }
+        
+        body.dark .skeleton {
+            background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* Toast */
+        .toastify {
+            border-radius: 0.75rem !important;
+            font-family: 'Inter', sans-serif !important;
+        }
+        
+        /* Share modal social buttons */
+        .share-btn-social {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .share-btn-social:hover {
+            transform: scale(1.1);
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        
+        .modal-overlay.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 1rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        body.dark .modal-content {
+            background: #1f2937;
+        }
+        
+        .modal-header {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        body.dark .modal-header {
+            border-bottom-color: #374151;
+        }
+        
+        .modal-body {
+            padding: 1rem;
+        }
+        
+        .url-card {
+            background: #f9fafb;
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+        }
+        
+        body.dark .url-card {
+            background: #374151;
+        }
+        
+        /* Hover Card Styles */
+        .hover-card {
+            position: fixed;
+            z-index: 10000;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 20px 35px -8px rgba(0,0,0,0.2);
+            width: 320px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        body.dark .hover-card {
+            background: #1f2937;
+            border: 1px solid #374151;
+        }
+        
+        .hover-card.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        /* Share to Profile Modal */
+        .share-option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .share-option:hover {
+            background: #f3f4f6;
+        }
+        
+        body.dark .share-option:hover {
+            background: #374151;
+        }
+        
+        .share-option-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #e5e7eb;
+        }
+        
+        body.dark .share-option-icon {
+            background: #4b5563;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="l-header">
+    <nav class="nav">
+        <a href="/feed.html" class="nav__logo">
+            <img id="nav-logo" src="/assets/img/logo.svg" alt="Logo">
+            <span id="site-name">MGZon</span>
+        </a>
+        
+        <div class="flex items-center gap-3" id="navbar-links"></div>
+    </nav>
+</header>
+
+<main class="main-container">
+    <a href="javascript:history.back()" class="back-button">
+        <i class='bx bx-arrow-back'></i> Back
+    </a>
+    
+    <!-- Post Card -->
+    <div id="post-container">
+        <div class="skeleton" style="height: 400px;"></div>
+    </div>
+</main>
+
+<!-- Share Modal -->
+<div id="share-modal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span>Share this post</span>
+            <button class="close-share-modal text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="url-card mb-4">
+                <p id="share-link" class="text-sm break-all">Loading...</p>
+            </div>
+            <div class="flex justify-center gap-4 mb-4">
+                <div class="share-btn-social" style="background: #1877f2;" onclick="shareToFacebook()">
+                    <i class='bx bxl-facebook text-white text-2xl'></i>
+                </div>
+                <div class="share-btn-social" style="background: #1da1f2;" onclick="shareToTwitter()">
+                    <i class='bx bxl-twitter text-white text-2xl'></i>
+                </div>
+                <div class="share-btn-social" style="background: #0a66c2;" onclick="shareToLinkedIn()">
+                    <i class='bx bxl-linkedin text-white text-2xl'></i>
+                </div>
+                <div class="share-btn-social" style="background: #25d366;" onclick="shareToWhatsApp()">
+                    <i class='bx bxl-whatsapp text-white text-2xl'></i>
+                </div>
+            </div>
+            <div class="border-t dark:border-gray-700 pt-4">
+                <p class="text-sm font-medium mb-2">Share to MGZon</p>
+                <div class="share-option" onclick="shareToProfile()">
+                    <div class="share-option-icon">
+                        <i class='bx bx-user text-xl'></i>
+                    </div>
+                    <div>
+                        <div class="font-medium">Share to Profile</div>
+                        <div class="text-xs text-gray-500">Share this post on your profile</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Report Modal -->
+<div id="report-modal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span>Report Comment</span>
+            <button class="close-report-modal text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Why are you reporting this comment?</p>
+            <textarea id="report-reason" rows="3" class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600" placeholder="Optional - Provide more details..."></textarea>
+            <div class="flex gap-3 mt-4">
+                <button id="submit-report" class="flex-1 bg-yellow-500 text-white py-2 rounded-lg hover:bg-yellow-600">Submit Report</button>
+                <button id="cancel-report" class="flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/assets/js/config.js"></script>
+
+<script>
+// ============================================
+// POST PAGE - Full Featured with Nested Replies
+// ============================================
+    
+const API_URL = window.ENV?.API_URL || 'https://mgzon-server.hf.space';
+const cleanApiUrl = API_URL.replace(/\/$/, '');
+let userToken = localStorage.getItem('userToken');
+let currentUser = null;
+let postData = null;
+let isLoggedIn = !!userToken;
+let currentReportCommentId = null;
+
+// ============================================
+// Utility Functions
+// ============================================
+    
+function showToast(message, type = 'success') {
+    if (typeof Toastify !== 'undefined') {
+        Toastify({
+            text: message,
+            duration: 3000,
+            gravity: 'top',
+            position: 'right',
+            style: {
+                background: type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : type === 'warning' ? '#f59e0b' : '#3b82f6',
+                borderRadius: '12px',
+                fontFamily: 'Inter, sans-serif'
+            }
+        }).showToast();
+    } else {
+        console.log(message);
+    }
+}
+
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
+}
+
+function formatDate(date) {
+    const d = new Date(date);
+    const now = new Date();
+    const diff = now - d;
+    if (diff < 60000) return 'Just now';
+    if (diff < 3600000) return `${Math.floor(diff / 60000)}m ago`;
+    if (diff < 86400000) return `${Math.floor(diff / 3600000)}h ago`;
+    if (diff < 604800000) return `${Math.floor(diff / 86400000)}d ago`;
+    return d.toLocaleDateString();
+}
+
+async function fetchCsrfToken() {
+    try {
+        const response = await fetch(`${cleanApiUrl}/api/csrf-token`, { 
+            method: 'GET', 
+            credentials: 'include' 
+        });
+        const data = await response.json();
+        return data.csrfToken;
+    } catch (error) {
+        console.error('Error fetching CSRF token:', error);
+        return null;
+    }
+}
+
+async function fetchWithRefresh(url, options = {}) {
+    try {
+        let csrfToken = await fetchCsrfToken();
+        options.headers = {
+            ...options.headers,
+            'Authorization': userToken ? `Bearer ${userToken}` : '',
+            'X-CSRF-Token': csrfToken || ''
+        };
+        let response = await fetch(url, { ...options, credentials: 'include' });
+        
+        if (response.status === 401 && userToken) {
+            const refreshed = await refreshToken();
+            if (refreshed) {
+                options.headers['Authorization'] = `Bearer ${userToken}`;
+                response = await fetch(url, options);
+            }
+        }
+        return response;
+    } catch (error) {
+        console.error('Fetch error:', error);
+        throw error;
+    }
+}
+
+async function refreshToken() {
+    try {
+        const refreshToken = localStorage.getItem('refreshToken');
+        if (!refreshToken) throw new Error('No refresh token');
+        const csrfToken = await fetchCsrfToken();
+        const response = await fetch(`${cleanApiUrl}/api/refresh-token`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+            body: JSON.stringify({ refreshToken })
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error('Refresh failed');
+        localStorage.setItem('userToken', data.accessToken || data.token);
+        localStorage.setItem('refreshToken', data.refreshToken);
+        userToken = data.accessToken || data.token;
+        return userToken;
+    } catch (error) {
+        console.error('Refresh error:', error);
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('refreshToken');
+        userToken = null;
+        return null;
+    }
+}
+
+// ============================================
+// Load Site Settings
+// ============================================
+async function loadSiteSettings() {
+    try {
+        const response = await fetch(`${cleanApiUrl}/api/site-settings`);
+        if (response.ok) {
+            const data = await response.json();
+            const logoImg = document.querySelector('#nav-logo');
+            if (logoImg && data.logo) {
+                logoImg.src = data.logo;
+                logoImg.onerror = () => logoImg.src = '/assets/img/logo.svg';
+            }
+            const siteNameSpan = document.getElementById('site-name');
+            if (siteNameSpan && data.siteName) {
+                siteNameSpan.textContent = data.siteName;
+            }
+            const favicon = document.getElementById('dynamic-favicon');
+            if (favicon && data.logo) {
+                favicon.href = data.logo;
+            }
+        }
+    } catch (error) {
+        console.error('Error loading site settings:', error);
+    }
+}
+
+// ============================================
+// Hover Card Function (Facebook-style)
+// ============================================
+let hoverCard = null;
+let hoverTimeout = null;
+let leaveTimeout = null;
+
+async function showHoverCard(userId, element) {
+    if (!userId) return;
+    
+    clearTimeout(hoverTimeout);
+    clearTimeout(leaveTimeout);
+    
+    hoverTimeout = setTimeout(async () => {
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/profile/id/${userId}`);
+            if (!response.ok) throw new Error('Failed to load user');
+            const user = await response.json();
+            
+            if (hoverCard) hoverCard.remove();
+            
+            hoverCard = document.createElement('div');
+            hoverCard.className = 'hover-card';
+            
+            const rect = element.getBoundingClientRect();
+            const nickname = user.profile?.nickname || user.username;
+            const avatar = user.profile?.avatar || '/assets/img/default-avatar.png';
+            const jobTitle = user.profile?.jobTitle || 'Professional';
+            const bio = user.profile?.bio || '';
+            const followers = user.stats?.followers || 0;
+            
+            hoverCard.innerHTML = `
+                <div class="p-4">
+                    <div class="flex items-center gap-3 mb-3">
+                        <img src="${avatar}" class="w-16 h-16 rounded-full object-cover">
+                        <div>
+                            <div class="font-bold text-lg">${escapeHtml(nickname)}</div>
+                            <div class="text-sm text-gray-500">${escapeHtml(jobTitle)}</div>
+                        </div>
+                    </div>
+                    ${bio ? `<p class="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">${escapeHtml(bio.substring(0, 100))}${bio.length > 100 ? '...' : ''}</p>` : ''}
+                    <div class="flex items-center gap-2 text-sm text-gray-500">
+                        <i class='bx bx-group'></i>
+                        <span>${followers.toLocaleString()} followers</span>
+                    </div>
+                    <div class="mt-3 pt-3 border-t dark:border-gray-700">
+                        <a href="/profile/${nickname}" class="text-blue-500 text-sm hover:text-blue-600">View full profile →</a>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(hoverCard);
+            
+            let top = rect.bottom + window.scrollY + 5;
+            let left = rect.left + window.scrollX;
+            
+            if (top + hoverCard.offsetHeight > window.innerHeight + window.scrollY) {
+                top = rect.top + window.scrollY - hoverCard.offsetHeight - 5;
+            }
+            if (left + hoverCard.offsetWidth > window.innerWidth) {
+                left = window.innerWidth - hoverCard.offsetWidth - 10;
+            }
+            
+            hoverCard.style.top = top + 'px';
+            hoverCard.style.left = left + 'px';
+            hoverCard.classList.add('show');
+            
+            hoverCard.addEventListener('mouseenter', () => {
+                clearTimeout(leaveTimeout);
+            });
+            
+            hoverCard.addEventListener('mouseleave', () => {
+                leaveTimeout = setTimeout(() => {
+                    if (hoverCard) hoverCard.remove();
+                    hoverCard = null;
+                }, 300);
+            });
+            
+        } catch (error) {
+            console.error('Error loading hover card:', error);
+        }
+    }, 500);
+}
+
+function hideHoverCard() {
+    leaveTimeout = setTimeout(() => {
+        if (hoverCard && !hoverCard.matches(':hover')) {
+            hoverCard.remove();
+            hoverCard = null;
+        }
+    }, 300);
+}
+
+// Attach hover listeners to username elements
+function attachHoverListeners() {
+    document.querySelectorAll('.hover-trigger').forEach(el => {
+        el.removeEventListener('mouseenter', el._hoverEnter);
+        el.removeEventListener('mouseleave', el._hoverLeave);
+        
+        const userId = el.getAttribute('data-user-id');
+        el._hoverEnter = () => showHoverCard(userId, el);
+        el._hoverLeave = hideHoverCard;
+        
+        el.addEventListener('mouseenter', el._hoverEnter);
+        el.addEventListener('mouseleave', el._hoverLeave);
+    });
+}
+
+// ============================================
+// Dynamic Navbar
+// ============================================
+async function loadCurrentUser() {
+    if (!userToken) {
+        isLoggedIn = false;
+        await updateNavbar();
+        return null;
+    }
+    try {
+        const response = await fetchWithRefresh(`${cleanApiUrl}/api/verify-token`);
+        if (response.ok) {
+            currentUser = await response.json();
+            isLoggedIn = true;
+            await updateNavbar();
+            return currentUser;
+        }
+        isLoggedIn = false;
+        await updateNavbar();
+        return null;
+    } catch (error) {
+        console.error('Error loading current user:', error);
+        isLoggedIn = false;
+        await updateNavbar();
+        return null;
+    }
+}
+
+async function updateNavbar() {
+    const navbarContainer = document.getElementById('navbar-links');
+    if (!navbarContainer) return;
+    
+    if (!isLoggedIn) {
+        navbarContainer.innerHTML = `
+            <a href="/login.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition px-3 py-2">Sign in</a>
+            <a href="/register.html" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition">Join now</a>
+            <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition p-2">
+                <img id="modeToggle" src="/assets/img/theme_light.png" alt="Theme" style="width: 20px; height: 20px;">
+            </button>
+        `;
+        return;
+    }
+    
+    const userAvatarSrc = currentUser?.profile?.avatar || '/assets/img/default-avatar.png';
+    
+    navbarContainer.innerHTML = `
+        <a href="/feed.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition"><i class='bx bx-home text-2xl'></i></a>
+        <a href="/network.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition"><i class='bx bx-group text-2xl'></i></a>
+        <a href="/jobs.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition"><i class='bx bx-briefcase text-2xl'></i></a>
+        <a href="/messages.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition"><i class='bx bx-message-dots text-2xl'></i></a>
+        <div class="relative">
+            <button id="profile-menu-btn" class="flex items-center gap-1 text-gray-600 dark:text-gray-300">
+                <img src="${userAvatarSrc}" class="w-8 h-8 rounded-full object-cover">
+                <i class='bx bx-chevron-down text-xl'></i>
+            </button>
+            <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50 overflow-hidden">
+                <a href="/profile/me" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition">My Profile</a>
+                <a href="/settings.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition">Settings</a>
+                <hr class="my-1 dark:border-gray-700">
+                <button id="logout-btn" class="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-red-600 transition">Sign Out</button>
+            </div>
+        </div>
+        <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 transition p-2">
+            <img id="modeToggle" src="/assets/img/theme_light.png" alt="Theme" style="width: 20px; height: 20px;">
+        </button>
+    `;
+    
+    attachNavbarEvents();
+}
+
+function attachNavbarEvents() {
+    const profileMenuBtn = document.getElementById('profile-menu-btn');
+    const profileDropdown = document.getElementById('profile-dropdown');
+    if (profileMenuBtn && profileDropdown) {
+        profileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('hidden');
+        });
+    }
+    
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', handleLogout);
+    }
+    
+    document.addEventListener('click', () => {
+        if (profileDropdown) profileDropdown.classList.add('hidden');
+    });
+}
+
+async function handleLogout() {
+    try {
+        const csrfToken = await fetchCsrfToken();
+        await fetch(`${cleanApiUrl}/api/logout`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${userToken}`,
+                'X-CSRF-Token': csrfToken
+            }
+        });
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('refreshToken');
+        window.location.href = '/';
+    } catch (error) {
+        console.error('Logout error:', error);
+    }
+}
+
+// ============================================
+// Load Post
+// ============================================
+async function loadPost() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = urlParams.get('id');
+    
+    if (!postId) {
+        document.getElementById('post-container').innerHTML = `
+            <div class="post-card p-8 text-center">
+                <i class='bx bx-error-circle text-5xl text-gray-400 mb-3'></i>
+                <p class="text-gray-500">Post not found</p>
+                <a href="/feed.html" class="inline-block mt-3 text-blue-500 hover:text-blue-600">Back to Feed</a>
+            </div>
+        `;
+        return;
+    }
+    
+    try {
+        const response = await fetch(`${cleanApiUrl}/api/posts/${postId}`, {
+            headers: userToken ? { 'Authorization': `Bearer ${userToken}` } : {}
+        });
+        
+        if (!response.ok) {
+            throw new Error('Post not found');
+        }
+        
+        const result = await response.json();
+        postData = result.data || result;
+        
+        renderPost(postData);
+        loadComments(postId);
+        
+    } catch (error) {
+        console.error('Error loading post:', error);
+        document.getElementById('post-container').innerHTML = `
+            <div class="post-card p-8 text-center">
+                <i class='bx bx-error-circle text-5xl text-gray-400 mb-3'></i>
+                <p class="text-gray-500">Post not found or private</p>
+                <a href="/feed.html" class="inline-block mt-3 text-blue-500 hover:text-blue-600">Back to Feed</a>
+            </div>
+        `;
+    }
+}
+
+function renderPost(post) {
+    const container = document.getElementById('post-container');
+    const isOwner = currentUser?.userId === post.userId?._id;
+    const ownerNickname = post.userId?.profile?.nickname || post.userId?.username;
+    const ownerId = post.userId?._id;
+    
+    const imagesHtml = post.images?.length > 0 ? `
+        <div class="grid grid-cols-${Math.min(post.images.length, 3)} gap-1">
+            ${post.images.map(img => `
+                <img src="${img.url}" class="post-image cursor-pointer" onclick="openImageModal('${img.url}')">
+            `).join('')}
+        </div>
+    ` : '';
+    
+    const tagsHtml = post.tags?.length > 0 ? `
+        <div class="flex flex-wrap gap-2 px-4 pb-2">
+            ${post.tags.map(tag => `<span class="text-xs text-blue-500 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded-full">#${escapeHtml(tag)}</span>`).join('')}
+        </div>
+    ` : '';
+    
+    container.innerHTML = `
+        <div class="post-card">
+            <div class="post-header">
+                <img src="${post.userId?.profile?.avatar || '/assets/img/default-avatar.png'}" class="post-avatar" onclick="window.location.href='/profile/${ownerNickname}'">
+                <div>
+                    <div class="post-author hover-trigger" data-user-id="${ownerId}" onclick="window.location.href='/profile/${ownerNickname}'">${escapeHtml(post.userId?.profile?.nickname || post.userId?.username)}</div>
+                    <div class="post-time">${formatDate(post.createdAt)}</div>
+                </div>
+                ${isOwner ? `
+                    <div class="ml-auto">
+                        <button onclick="deletePost()" class="text-red-500 hover:text-red-600">
+                            <i class='bx bx-trash text-xl'></i>
+                        </button>
+                    </div>
+                ` : ''}
+            </div>
+            
+            <div class="post-content">${escapeHtml(post.content)}</div>
+            ${imagesHtml}
+            ${tagsHtml}
+            
+            <div class="post-actions">
+                <button class="post-action ${post.isLiked ? 'liked' : ''}" onclick="toggleLike()">
+                    <i class='bx ${post.isLiked ? 'bxs-heart' : 'bx-heart'} text-xl'></i>
+                    <span id="likes-count">${post.likesCount || 0}</span>
+                </button>
+                <button class="post-action" onclick="focusCommentInput()">
+                    <i class='bx bx-comment text-xl'></i>
+                    <span id="comments-count">${post.commentsCount || 0}</span>
+                </button>
+                <button class="post-action ${post.isSaved ? 'saved' : ''}" onclick="toggleSave()">
+                    <i class='bx ${post.isSaved ? 'bxs-bookmark' : 'bx-bookmark'} text-xl'></i>
+                </button>
+                <button class="post-action" onclick="sharePost()">
+                    <i class='bx bx-share-alt text-xl'></i>
+                    <span>${post.sharesCount || 0}</span>
+                </button>
+            </div>
+            
+            <!-- Comments Section -->
+            <div class="comments-section">
+                <div class="comments-title">Comments</div>
+                
+                ${isLoggedIn ? `
+                    <div class="comment-input-area">
+                        <img src="${currentUser?.profile?.avatar || '/assets/img/default-avatar.png'}" class="comment-avatar" onclick="window.location.href='/profile/me'">
+                        <input type="text" id="comment-input" placeholder="Write a comment..." class="comment-input">
+                        <button onclick="addComment()" class="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition text-sm">
+                            Post
+                        </button>
+                    </div>
+                ` : `
+                    <div class="text-center py-4">
+                        <p class="text-gray-500 text-sm">Please <a href="/login.html" class="text-blue-500">sign in</a> to leave a comment</p>
+                    </div>
+                `}
+                
+                <div id="comments-container" class="space-y-3">
+                    <div class="text-center py-4">
+                        <div class="skeleton" style="height: 60px; margin-bottom: 0.5rem;"></div>
+                        <div class="skeleton" style="height: 60px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.title = `${post.userId?.profile?.nickname || 'User'} - Post | MGZon`;
+    attachHoverListeners();
+}
+
+// ============================================
+// Comments Functions with Nested Replies
+// ============================================
+async function loadComments(postId) {
+    const container = document.getElementById('comments-container');
+    if (!container) return;
+    
+    try {
+        const response = await fetch(`${cleanApiUrl}/api/posts/${postId}/comments`, {
+            headers: userToken ? { 'Authorization': `Bearer ${userToken}` } : {}
+        });
+        
+        if (!response.ok) throw new Error('Failed to load comments');
+        
+        const result = await response.json();
+        const comments = result.data || [];
+        
+        const commentsCountEl = document.getElementById('comments-count');
+        if (commentsCountEl) commentsCountEl.textContent = comments.length;
+        
+        if (comments.length === 0) {
+            container.innerHTML = '<div class="text-center text-gray-500 text-sm py-4">No comments yet. Be the first!</div>';
+            return;
+        }
+        
+        container.innerHTML = comments.map(comment => renderCommentItem(comment, 0)).join('');
+        
+        attachHoverListeners();
+        attachReplyButtons();
+        attachEditButtons();
+        
+    } catch (error) {
+        console.error('Error loading comments:', error);
+        container.innerHTML = '<div class="text-center text-gray-500 text-sm py-4">Error loading comments</div>';
+    }
+}
+
+function renderCommentItem(comment, depth = 0) {
+    const isOwner = currentUser?.userId === comment.userId?._id;
+    const isLiked = comment.likes?.includes(currentUser?.userId);
+    const maxDepth = 3;
+    
+    const repliesHtml = comment.replies && comment.replies.length > 0 && depth < maxDepth ? `
+        <div class="replies-container">
+            ${comment.replies.map(reply => renderCommentItem(reply, depth + 1)).join('')}
+        </div>
+    ` : '';
+    
+    return `
+        <div class="comment-item" data-comment-id="${comment._id}" data-depth="${depth}">
+            <img src="${comment.userId?.profile?.avatar || '/assets/img/default-avatar.png'}" class="comment-avatar" onclick="window.location.href='/profile/${comment.userId?.profile?.nickname || comment.userId?.username}'">
+            <div class="flex-1">
+                <div class="comment-author hover-trigger" data-user-id="${comment.userId?._id}" onclick="window.location.href='/profile/${comment.userId?.profile?.nickname || comment.userId?.username}'">
+                    ${escapeHtml(comment.userId?.profile?.nickname || comment.userId?.username)}
+                </div>
+                <div class="comment-text" data-original-text="${escapeHtml(comment.text)}">${escapeHtml(comment.text)}</div>
+                <div class="comment-time">${formatDate(comment.createdAt)}</div>
+                ${comment.isEdited ? '<div class="text-xs text-gray-400">(edited)</div>' : ''}
+                <div class="comment-actions">
+                    <button class="comment-action like-btn ${isLiked ? 'liked' : ''}" onclick="likeComment('${comment._id}', this)">
+                        <i class='bx ${isLiked ? 'bxs-heart' : 'bx-heart'}'></i> <span class="like-count">${comment.likes?.length || 0}</span>
+                    </button>
+                    <button class="comment-action" onclick="showReplyForm('${comment._id}')">
+                        <i class='bx bx-reply'></i> Reply
+                    </button>
+                    ${isOwner ? `
+                        <button class="comment-action" onclick="editComment('${comment._id}', this)">
+                            <i class='bx bx-edit-alt'></i> Edit
+                        </button>
+                        <button class="comment-action text-red-500" onclick="deleteComment('${comment._id}')">
+                            <i class='bx bx-trash'></i> Delete
+                        </button>
+                    ` : ''}
+                    ${userToken && !isOwner ? `
+                        <button class="comment-action text-yellow-500" onclick="openReportModal('${comment._id}')">
+                            <i class='bx bx-flag'></i> Report
+                        </button>
+                    ` : ''}
+                </div>
+                <div id="reply-form-${comment._id}" class="reply-form hidden">
+                    <div class="flex gap-2">
+                        <img src="${currentUser?.profile?.avatar || '/assets/img/default-avatar.png'}" class="w-6 h-6 rounded-full">
+                        <input type="text" id="reply-input-${comment._id}" placeholder="Write a reply..." class="flex-1 comment-input text-sm">
+                        <button onclick="submitReply('${comment._id}')" class="px-3 py-1 bg-blue-500 text-white rounded-full text-sm hover:bg-blue-600">Reply</button>
+                        <button onclick="hideReplyForm('${comment._id}')" class="px-3 py-1 bg-gray-500 text-white rounded-full text-sm hover:bg-gray-600">Cancel</button>
+                    </div>
+                </div>
+                ${repliesHtml}
+            </div>
+        </div>
+    `;
+}
+
+function attachReplyButtons() {
+    window.showReplyForm = (commentId) => {
+        const form = document.getElementById(`reply-form-${commentId}`);
+        if (form) form.classList.toggle('hidden');
+    };
+    
+    window.hideReplyForm = (commentId) => {
+        const form = document.getElementById(`reply-form-${commentId}`);
+        if (form) form.classList.add('hidden');
+    };
+    
+    window.submitReply = async (parentCommentId) => {
+        if (!isLoggedIn) {
+            showToast('Please login to reply', 'warning');
+            window.location.href = '/login.html';
+            return;
+        }
+        
+        const input = document.getElementById(`reply-input-${parentCommentId}`);
+        const text = input?.value.trim();
+        if (!text) {
+            showToast('Please enter a reply', 'error');
+            return;
+        }
+        
+        try {
+            const csrfToken = await fetchCsrfToken();
+            const response = await fetch(`${cleanApiUrl}/api/posts/${postData._id}/comments`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Authorization': `Bearer ${userToken}`,
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': csrfToken
+                },
+                body: JSON.stringify({ text, parentCommentId })
+            });
+            
+            if (response.ok) {
+                input.value = '';
+                hideReplyForm(parentCommentId);
+                await loadComments(postData._id);
+                showToast('Reply added!', 'success');
+            } else {
+                const error = await response.json();
+                throw new Error(error.error);
+            }
+        } catch (error) {
+            console.error('Error submitting reply:', error);
+            showToast(error.message, 'error');
+        }
+    };
+}
+
+function attachEditButtons() {
+    window.editComment = (commentId, button) => {
+        const commentDiv = button.closest('.comment-item');
+        const textDiv = commentDiv.querySelector('.comment-text');
+        const originalText = textDiv.getAttribute('data-original-text');
+        
+        const editHtml = `
+            <div class="edit-form mt-2">
+                <textarea class="edit-textarea w-full p-2 border rounded-lg dark:bg-gray-700" rows="2">${escapeHtml(originalText)}</textarea>
+                <div class="flex gap-2 mt-2">
+                    <button class="save-edit px-3 py-1 bg-green-500 text-white rounded-full text-sm">Save</button>
+                    <button class="cancel-edit px-3 py-1 bg-gray-500 text-white rounded-full text-sm">Cancel</button>
+                </div>
+            </div>
+        `;
+        
+        textDiv.style.display = 'none';
+        textDiv.insertAdjacentHTML('afterend', editHtml);
+        
+        const editForm = textDiv.nextElementSibling;
+        editForm.querySelector('.save-edit').onclick = async () => {
+            const newText = editForm.querySelector('.edit-textarea').value.trim();
+            if (!newText) {
+                showToast('Comment cannot be empty', 'error');
+                return;
+            }
+            
+            try {
+                const csrfToken = await fetchCsrfToken();
+                // ✅ التغيير هنا: استخدم api/posts/comments/
+                const response = await fetch(`${cleanApiUrl}/api/posts/comments/${commentId}`, {
+                    method: 'PUT',
+                    credentials: 'include',
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfToken
+                    },
+                    body: JSON.stringify({ text: newText })
+                });
+                
+                if (response.ok) {
+                    textDiv.textContent = newText;
+                    textDiv.setAttribute('data-original-text', newText);
+                    textDiv.style.display = 'block';
+                    editForm.remove();
+                    showToast('Comment updated!', 'success');
+                    // ✅ إعادة تحميل التعليقات لتحديث حالة التعديل
+                    await loadComments(postData._id);
+                } else {
+                    const error = await response.json();
+                    showToast(error.error, 'error');
+                }
+            } catch (error) {
+                console.error('Error editing comment:', error);
+                showToast('Failed to edit comment', 'error');
+            }
+        };
+        
+        editForm.querySelector('.cancel-edit').onclick = () => {
+            textDiv.style.display = 'block';
+            editForm.remove();
+        };
+    };
+}
+
+async function addComment() {
+    if (!isLoggedIn) {
+        showToast('Please login to comment', 'warning');
+        window.location.href = '/login.html';
+        return;
+    }
+    
+    const input = document.getElementById('comment-input');
+    const text = input?.value.trim();
+    if (!text) {
+        showToast('Please enter a comment', 'error');
+        return;
+    }
+    
+    try {
+        const csrfToken = await fetchCsrfToken();
+        const response = await fetch(`${cleanApiUrl}/api/posts/${postData._id}/comments`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Authorization': `Bearer ${userToken}`,
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
+            },
+            body: JSON.stringify({ text })
+        });
+        
+        if (response.ok) {
+            input.value = '';
+            await loadComments(postData._id);
+            showToast('Comment added!', 'success');
+        } else {
+            const error = await response.json();
+            throw new Error(error.error);
+        }
+    } catch (error) {
+        console.error('Error adding comment:', error);
+        showToast(error.message, 'error');
+    }
+}
+
+async function deleteComment(commentId) {
+    if (!confirm('Are you sure you want to delete this comment?')) return;
+    
+    try {
+        const csrfToken = await fetchCsrfToken();
+        // ✅ استخدم endpoint مخصص لتعليقات البوستات
+        const response = await fetch(`${cleanApiUrl}/api/posts/comments/${commentId}`, {
+            method: 'DELETE',
+            credentials: 'include',
+            headers: {
+                'Authorization': `Bearer ${userToken}`,
+                'X-CSRF-Token': csrfToken
+            }
+        });
+        
+        if (response.ok) {
+            await loadComments(postData._id);
+            showToast('Comment deleted', 'success');
+        } else {
+            const error = await response.json();
+            showToast(error.error || 'Failed to delete', 'error');
+        }
+    } catch (error) {
+        console.error('Error deleting comment:', error);
+        showToast('Failed to delete comment', 'error');
+    }
+}
+
+async function likeComment(commentId, button) {
+    if (!isLoggedIn) {
+        showToast('Please login to like', 'warning');
+        window.location.href = '/login.html';
+        return;
+    }
+    
+    try {
+        const csrfToken = await fetchCsrfToken();
+        // ✅ استخدم endpoint مخصص لتعليقات البوستات
+        const response = await fetch(`${cleanApiUrl}/api/posts/comments/${commentId}/like`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Authorization': `Bearer ${userToken}`,
+                'X-CSRF-Token': csrfToken
+            }
+        });
+        
+        const result = await response.json();
+        if (response.ok) {
+            const likeCountSpan = button.querySelector('.like-count');
+            if (likeCountSpan) likeCountSpan.textContent = result.likesCount;
+            
+            const icon = button.querySelector('i');
+            if (result.hasLiked) {
+                icon.className = 'bxs-heart';
+                button.classList.add('liked');
+            } else {
+                icon.className = 'bx-heart';
+                button.classList.remove('liked');
+            }
+        }
+    } catch (error) {
+        console.error('Error liking comment:', error);
+    }
+}
+
+
+function openReportModal(commentId) {
+    currentReportCommentId = commentId;
+    const modal = document.getElementById('report-modal');
+    if (modal) modal.classList.add('show');
+}
+
+function closeReportModal() {
+    const modal = document.getElementById('report-modal');
+    if (modal) modal.classList.remove('show');
+    document.getElementById('report-reason').value = '';
+    currentReportCommentId = null;
+}
+
+async function submitReport() {
+    if (!currentReportCommentId) return;
+    
+    const reason = document.getElementById('report-reason').value.trim() || 'No reason provided';
+    
+    try {
+        const csrfToken = await fetchCsrfToken();
+        // ✅ استخدم endpoint مخصص لتعليقات البوستات
+        const response = await fetch(`${cleanApiUrl}/api/posts/comments/${currentReportCommentId}/report`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Authorization': `Bearer ${userToken}`,
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
+            },
+            body: JSON.stringify({ reason })
+        });
+        
+        const result = await response.json();
+        if (response.ok) {
+            if (result.reportCount >= 3) {
+                showToast('⚠️ This comment has been hidden due to multiple reports', 'warning');
+            } else {
+                showToast(`✅ Report submitted (${result.reportCount}/3)`, 'success');
+            }
+            closeReportModal();
+        } else {
+            throw new Error(result.error);
+        }
+    } catch (error) {
+        console.error('Error reporting comment:', error);
+        showToast(error.message, 'error');
+    }
+}
+
+// ============================================
+// Post Actions
+// ============================================
+async function toggleLike() {
+    if (!isLoggedIn) {
+        showToast('Please login to like', 'warning');
+        window.location.href = '/login.html';
+        return;
+    }
+    
+    try {
+        const csrfToken = await fetchCsrfToken();
+        const response = await fetch(`${cleanApiUrl}/api/posts/${postData._id}/like`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Authorization': `Bearer ${userToken}`,
+                'X-CSRF-Token': csrfToken
+            }
+        });
+        
+        const result = await response.json();
+        if (response.ok) {
+            const likesEl = document.getElementById('likes-count');
+            if (likesEl) likesEl.textContent = result.likesCount;
+            
+            const likeBtn = document.querySelector('.post-action.liked, .post-action');
+            if (likeBtn) {
+                const icon = likeBtn.querySelector('i');
+                if (result.isLiked) {
+                    icon.className = 'bxs-heart text-xl';
+                    likeBtn.classList.add('liked');
+                } else {
+                    icon.className = 'bx-heart text-xl';
+                    likeBtn.classList.remove('liked');
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error toggling like:', error);
+    }
+}
+
+async function toggleSave() {
+    if (!isLoggedIn) {
+        showToast('Please login to save', 'warning');
+        window.location.href = '/login.html';
+        return;
+    }
+    
+    try {
+        const csrfToken = await fetchCsrfToken();
+        const response = await fetch(`${cleanApiUrl}/api/posts/${postData._id}/save`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Authorization': `Bearer ${userToken}`,
+                'X-CSRF-Token': csrfToken
+            }
+        });
+        
+        const result = await response.json();
+        if (response.ok) {
+            const saveBtn = document.querySelector('.post-action.saved, .post-action');
+            if (saveBtn) {
+                const icon = saveBtn.querySelector('i');
+                if (result.isSaved) {
+                    icon.className = 'bxs-bookmark text-xl';
+                    saveBtn.classList.add('saved');
+                    showToast('Post saved!', 'success');
+                } else {
+                    icon.className = 'bx-bookmark text-xl';
+                    saveBtn.classList.remove('saved');
+                    showToast('Removed from saved', 'info');
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error toggling save:', error);
+    }
+}
+
+function sharePost() {
+    const modal = document.getElementById('share-modal');
+    const shareLink = document.getElementById('share-link');
+    if (shareLink) shareLink.textContent = window.location.href;
+    if (modal) modal.classList.add('show');
+}
+
+function closeShareModal() {
+    const modal = document.getElementById('share-modal');
+    if (modal) modal.classList.remove('show');
+}
+
+function shareToFacebook() {
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=600,height=400');
+}
+
+function shareToTwitter() {
+    const text = encodeURIComponent(`Check out this post on MGZon!`);
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank', 'width=600,height=400');
+}
+
+function shareToLinkedIn() {
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank', 'width=600,height=400');
+}
+
+function shareToWhatsApp() {
+    const text = encodeURIComponent(`Check out this post on MGZon: ${window.location.href}`);
+    window.open(`https://wa.me/?text=${text}`, '_blank');
+}
+
+async function shareToProfile() {
+    if (!isLoggedIn) {
+        showToast('Please login to share', 'warning');
+        window.location.href = '/login.html';
+        return;
+    }
+    
+    try {
+        const csrfToken = await fetchCsrfToken();
+        const response = await fetch(`${cleanApiUrl}/api/posts/share-to-profile`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Authorization': `Bearer ${userToken}`,
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
+            },
+            body: JSON.stringify({
+                originalPostId: postData._id,
+                content: `Shared a post: ${postData.content.substring(0, 200)}...`
+            })
+        });
+        
+        if (response.ok) {
+            showToast('Post shared to your profile!', 'success');
+            closeShareModal();
+        } else {
+            const error = await response.json();
+            showToast(error.error, 'error');
+        }
+    } catch (error) {
+        console.error('Error sharing to profile:', error);
+        showToast('Failed to share', 'error');
+    }
+}
+
+async function deletePost() {
+    if (!confirm('Are you sure you want to delete this post? This action cannot be undone.')) return;
+    
+    try {
+        const csrfToken = await fetchCsrfToken();
+        const response = await fetch(`${cleanApiUrl}/api/posts/${postData._id}`, {
+            method: 'DELETE',
+            credentials: 'include',
+            headers: {
+                'Authorization': `Bearer ${userToken}`,
+                'X-CSRF-Token': csrfToken
+            }
+        });
+        
+        if (response.ok) {
+            showToast('Post deleted successfully', 'success');
+            setTimeout(() => {
+                window.location.href = '/feed.html';
+            }, 1500);
+        } else {
+            const error = await response.json();
+            showToast(error.error, 'error');
+        }
+    } catch (error) {
+        console.error('Error deleting post:', error);
+        showToast('Failed to delete post', 'error');
+    }
+}
+
+function focusCommentInput() {
+    const input = document.getElementById('comment-input');
+    if (input) {
+        input.focus();
+        input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
+function openImageModal(url) {
+    const modal = document.createElement('div');
+    modal.className = 'fixed inset-0 bg-black/90 flex items-center justify-center z-[2000]';
+    modal.onclick = () => modal.remove();
+    modal.innerHTML = `
+        <img src="${url}" class="max-w-[90vw] max-h-[90vh] object-contain">
+        <button class="absolute top-4 right-4 text-white text-3xl hover:text-gray-300">&times;</button>
+    `;
+    document.body.appendChild(modal);
+}
+
+// ============================================
+// Theme Toggle
+// ============================================
+function setupThemeToggle() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+    }
+    
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.body.classList.toggle('dark');
+            const isDark = document.body.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const modeToggle = document.getElementById('modeToggle');
+            if (modeToggle) {
+                modeToggle.src = isDark ? '/assets/img/theme_dark.png' : '/assets/img/theme_light.png';
+            }
+        });
+    }
+}
+
+// ============================================
+// Initialize
+// ============================================
+async function init() {
+    await loadSiteSettings();
+    await loadCurrentUser();
+    await loadPost();
+    setupThemeToggle();
+    
+    document.querySelectorAll('.close-share-modal').forEach(btn => {
+        btn.addEventListener('click', closeShareModal);
+    });
+    
+    document.querySelectorAll('.close-report-modal').forEach(btn => {
+        btn.addEventListener('click', closeReportModal);
+    });
+    
+    document.getElementById('submit-report')?.addEventListener('click', submitReport);
+    document.getElementById('cancel-report')?.addEventListener('click', closeReportModal);
+    
+    document.addEventListener('click', () => {
+        if (hoverCard && !hoverCard.matches(':hover')) {
+            hoverCard.remove();
+            hoverCard = null;
+        }
+    });
+}
+
+// Make functions global
+window.toggleLike = toggleLike;
+window.toggleSave = toggleSave;
+window.sharePost = sharePost;
+window.shareToProfile = shareToProfile;
+window.deletePost = deletePost;
+window.addComment = addComment;
+window.deleteComment = deleteComment;
+window.likeComment = likeComment;
+window.focusCommentInput = focusCommentInput;
+window.openImageModal = openImageModal;
+window.shareToFacebook = shareToFacebook;
+window.shareToTwitter = shareToTwitter;
+window.shareToLinkedIn = shareToLinkedIn;
+window.shareToWhatsApp = shareToWhatsApp;
+window.openReportModal = openReportModal;
+window.closeReportModal = closeReportModal;
+window.submitReport = submitReport;
+
+init();
+</script>
+
+</body>
+</html>

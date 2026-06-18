@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MGZon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="glass-card p-8 max-w-md w-full mx-4">
+        <h2 class="text-2xl font-bold text-center mb-6">Welcome Back</h2>
+        
+        <div id="login-form">
+            <div class="mb-4">
+                <input type="email" id="email" placeholder="Email Address" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500">
+            </div>
+            <div class="mb-4 relative">
+                <input type="password" id="password" placeholder="Password" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500">
+                <button type="button" id="toggle-password" class="absolute inset-y-0 right-2 flex items-center text-gray-500">
+                    <i class='bx bx-show'></i>
+                </button>
+            </div>
+            <button id="login-btn" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-2 rounded-lg hover:opacity-90 transition">Login</button>
+            <p class="text-center text-sm mt-3"><a href="#" id="forgot-password-link" class="text-purple-500 hover:underline">Forgot Password?</a></p>
+            <p class="text-center text-sm mt-3">Don't have an account? <a href="/register.html" class="text-purple-500 hover:underline">Create Account</a></p>
+        </div>
+
+        <div id="forgot-password-form" class="hidden">
+            <p class="text-center mb-4">Enter your email to reset your password</p>
+            <input type="email" id="forgot-email" placeholder="Email Address" class="w-full px-4 py-2 border rounded-lg mb-4">
+            <button id="forgot-password-btn" class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">Send Code</button>
+            <p class="text-center text-sm mt-3"><a href="#" id="back-to-login" class="text-purple-500 hover:underline">Back to Login</a></p>
+        </div>
+
+        <div id="reset-password-form" class="hidden">
+            <p class="text-center mb-4">Enter the code sent to <span id="reset-email" class="font-semibold"></span></p>
+            <input type="text" id="reset-otp" placeholder="Verification code" class="w-full px-4 py-2 border rounded-lg mb-4">
+            <input type="password" id="new-password" placeholder="New password" class="w-full px-4 py-2 border rounded-lg mb-4">
+            <button id="reset-password-btn" class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600">Reset Password</button>
+            <p class="text-center text-sm mt-3"><a href="#" id="back-to-login-reset" class="text-purple-500 hover:underline">Back to Login</a></p>
+        </div>
+
+        <p id="login-error" class="text-red-500 text-center text-sm mt-3 hidden"></p>
+    </div>
+
+    <script src="/assets/js/config.js"></script>
+    <script>
+        const API_URL = window.ENV.API_URL;
+        const cleanApiUrl = API_URL.replace(/\/$/, '');
+        
+        function showToast(message, type = 'success') {
+            Toastify({ text: message, duration: 3000, style: { background: type === 'success' ? '#10b981' : '#ef4444' } }).showToast();
+        }
+
+        async function fetchCsrfToken() {
+            try {
+                const response = await fetch(`${cleanApiUrl}/api/csrf-token`, {
+                    method: 'GET', credentials: 'include'
+                });
+                const data = await response.json();
+                return data.csrfToken;
+            } catch (error) {
+                console.error('CSRF error:', error);
+                return null;
+            }
+        }
+
+        // Toggle password visibility
+        document.getElementById('toggle-password')?.addEventListener('click', () => {
+            const passwordInput = document.getElementById('password');
+            const icon = document.querySelector('#toggle-password i');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('bx-show');
+                icon.classList.add('bx-hide');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('bx-hide');
+                icon.classList.add('bx-show');
+            }
+        });
+
+        // Login handler
+        async function handleLogin() {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const errorEl = document.getElementById('login-error');
+            const loginBtn = document.getElementById('login-btn');
+            
+            if (!email || !password) {
+                errorEl.textContent = 'Please enter email and password';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            
+            errorEl.classList.add('hidden');
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Logging in...';
+            
+            try {
+                const csrfToken = await fetchCsrfToken();
+                const response = await fetch(`${cleanApiUrl}/api/login`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken || '' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.token) {
+                    localStorage.setItem('userToken', data.token);
+                    localStorage.setItem('refreshToken', data.refreshToken);
+                    showToast('Login successful!');
+                    setTimeout(() => { window.location.href = '/profile/me'; }, 1000);
+                } 
+                else if (response.status === 403 && data.requiresVerification) {
+                    sessionStorage.setItem('pendingVerificationEmail', email);
+                    window.location.href = `/verify-otp.html?email=${encodeURIComponent(email)}`;
+                }
+                else if (response.status === 401) {
+                    errorEl.textContent = 'Invalid email or password';
+                    errorEl.classList.remove('hidden');
+                }
+                else {
+                    errorEl.textContent = data.error || 'Login failed';
+                    errorEl.classList.remove('hidden');
+                }
+            } catch (error) {
+                errorEl.textContent = 'Something went wrong. Please try again.';
+                errorEl.classList.remove('hidden');
+                console.error(error);
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Login';
+            }
+        }
+
+        // Forgot password
+        async function handleForgotPassword() {
+            const email = document.getElementById('forgot-email').value.trim();
+            const errorEl = document.getElementById('login-error');
+            
+            if (!email) {
+                errorEl.textContent = 'Please enter your email';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${cleanApiUrl}/api/forgot-password`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('reset-email').textContent = email;
+                    document.getElementById('forgot-password-form').classList.add('hidden');
+                    document.getElementById('reset-password-form').classList.remove('hidden');
+                    showToast('Reset code sent!', 'success');
+                } else {
+                    errorEl.textContent = data.error || 'Email not found';
+                    errorEl.classList.remove('hidden');
+                }
+            } catch (error) {
+                errorEl.textContent = 'Something went wrong';
+                errorEl.classList.remove('hidden');
+            }
+        }
+
+        // Reset password
+        async function handleResetPassword() {
+            const email = document.getElementById('reset-email').textContent;
+            const otp = document.getElementById('reset-otp').value.trim();
+            const newPassword = document.getElementById('new-password').value.trim();
+            const errorEl = document.getElementById('login-error');
+            
+            if (!otp || !newPassword) {
+                errorEl.textContent = 'Please enter code and new password';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            
+            if (newPassword.length < 8) {
+                errorEl.textContent = 'Password must be at least 8 characters';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${cleanApiUrl}/api/reset-password`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, otp, newPassword })
+                });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showToast('Password reset successful!');
+                    document.getElementById('reset-password-form').classList.add('hidden');
+                    document.getElementById('login-form').classList.remove('hidden');
+                } else {
+                    errorEl.textContent = data.error || 'Reset failed';
+                    errorEl.classList.remove('hidden');
+                }
+            } catch (error) {
+                errorEl.textContent = 'Something went wrong';
+                errorEl.classList.remove('hidden');
+            }
+        }
+
+        // Event listeners
+        document.getElementById('login-btn')?.addEventListener('click', handleLogin);
+        document.getElementById('forgot-password-btn')?.addEventListener('click', handleForgotPassword);
+        document.getElementById('reset-password-btn')?.addEventListener('click', handleResetPassword);
+        
+        document.getElementById('forgot-password-link')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('forgot-password-form').classList.remove('hidden');
+            document.getElementById('login-error').classList.add('hidden');
+        });
+        
+        document.getElementById('back-to-login')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('forgot-password-form').classList.add('hidden');
+            document.getElementById('login-form').classList.remove('hidden');
+            document.getElementById('login-error').classList.add('hidden');
+        });
+        
+        document.getElementById('back-to-login-reset')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('reset-password-form').classList.add('hidden');
+            document.getElementById('login-form').classList.remove('hidden');
+            document.getElementById('login-error').classList.add('hidden');
+        });
+
+        // Check if already logged in
+        if (localStorage.getItem('userToken')) {
+            window.location.href = '/profile/me';
+        }
+    </script>
+</body>
+</html>

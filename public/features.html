@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover MGZon's powerful features for job seekers and employers. Build your professional network, find jobs, and grow your career.">
+    <meta name="keywords" content="features, job matching, professional network, career analytics, portfolio builder">
+    <title>Features - MGZon Platform Capabilities</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" id="dynamic-favicon" href="/assets/img/logo.svg">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .dark {
+            background: #1a1a2e;
+            color: #fff;
+        }
+        .dark .bg-white { background-color: #1f2937 !important; }
+        .dark .text-gray-600 { color: #9ca3af !important; }
+        .dark .bg-gray-50 { background-color: #111827 !important; }
+        .dark .border-gray-200 { border-color: #374151 !important; }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+<!-- Header -->
+<nav class="bg-white dark:bg-gray-800 shadow-lg fixed top-0 w-full z-50 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <a href="/" class="flex items-center space-x-3">
+                <img id="nav-logo" src="/assets/img/logo.svg" alt="MGZon Logo" class="h-10 w-10 object-contain">
+                <span id="site-name" class="text-xl font-bold gradient-text">MGZon</span>
+            </a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="/features.html" class="text-purple-600 font-semibold">Features</a>
+                <a href="/jobs.html" class="text-gray-700 dark:text-gray-300 hover:text-purple-600 transition">Jobs</a>
+                <a href="/success-stories.html" class="text-gray-700 dark:text-gray-300 hover:text-purple-600 transition">Success Stories</a>
+                <a href="/about.html" class="text-gray-700 dark:text-gray-300 hover:text-purple-600 transition">About</a>
+                <a href="/help.html" class="text-gray-700 dark:text-gray-300 hover:text-purple-600 transition">Help</a>
+            </div>
+            <div class="flex items-center space-x-4" id="auth-buttons">
+                <a href="/login.html" class="px-4 py-2 text-purple-600 font-semibold hover:text-purple-700 transition">Sign In</a>
+                <a href="/register.html" class="px-5 py-2 gradient-bg text-white rounded-full font-semibold hover:shadow-lg transition">Join Now</a>
+            </div>
+            <button id="mobile-menu-btn" class="md:hidden text-gray-600 dark:text-gray-300">
+                <i class='bx bx-menu text-2xl'></i>
+            </button>
+        </div>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t dark:border-gray-700 py-4 px-4">
+        <div class="flex flex-col space-y-3">
+            <a href="/features.html" class="text-purple-600 font-semibold py-2">Features</a>
+            <a href="/jobs.html" class="text-gray-700 dark:text-gray-300 py-2">Jobs</a>
+            <a href="/success-stories.html" class="text-gray-700 dark:text-gray-300 py-2">Success Stories</a>
+            <a href="/about.html" class="text-gray-700 dark:text-gray-300 py-2">About</a>
+            <a href="/help.html" class="text-gray-700 dark:text-gray-300 py-2">Help</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="gradient-bg pt-28 pb-16 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Powerful Features for <span class="text-yellow-300">Professionals</span></h1>
+        <p class="text-xl text-white opacity-90">Everything you need to build, grow, and succeed in your career</p>
+    </div>
+</section>
+
+<!-- Features Grid -->
+<section class="py-16 px-4">
+    <div class="max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="feature-card bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg">
+                <div class="w-14 h-14 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mb-4">
+                    <i class='bx bx-briefcase text-2xl text-purple-600'></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Smart Job Matching</h3>
+                <p class="text-gray-600 dark:text-gray-400">AI-powered job recommendations based on your skills, experience, and preferences.</p>
+            </div>
+            <div class="feature-card bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg">
+                <div class="w-14 h-14 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mb-4">
+                    <i class='bx bx-network-chart text-2xl text-purple-600'></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Professional Network</h3>
+                <p class="text-gray-600 dark:text-gray-400">Connect with industry professionals, join groups, and expand your network.</p>
+            </div>
+            <div class="feature-card bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg">
+                <div class="w-14 h-14 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mb-4">
+                    <i class='bx bx-line-chart text-2xl text-purple-600'></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Career Analytics</h3>
+                <p class="text-gray-600 dark:text-gray-400">Track your profile views, post engagement, and application success rates.</p>
+            </div>
+            <div class="feature-card bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg">
+                <div class="w-14 h-14 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mb-4">
+                    <i class='bx bx-buildings text-2xl text-purple-600'></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Company Insights</h3>
+                <p class="text-gray-600 dark:text-gray-400">Research companies, read reviews, and see salary information before applying.</p>
+            </div>
+            <div class="feature-card bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg">
+                <div class="w-14 h-14 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mb-4">
+                    <i class='bx bx-message-detail text-2xl text-purple-600'></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Direct Messaging</h3>
+                <p class="text-gray-600 dark:text-gray-400">Communicate directly with recruiters and hiring managers.</p>
+            </div>
+            <div class="feature-card bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg">
+                <div class="w-14 h-14 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center mb-4">
+                    <i class='bx bx-file text-2xl text-purple-600'></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Portfolio Builder</h3>
+                <p class="text-gray-600 dark:text-gray-400">Showcase your work with an elegant portfolio that stands out to employers.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="gradient-bg py-16 px-4 text-center">
+    <div class="max-w-3xl mx-auto">
+        <h2 class="text-3xl font-bold text-white mb-4">Ready to experience MGZon?</h2>
+        <p class="text-lg text-white mb-6 opacity-90">Join thousands of professionals already using our platform</p>
+        <a href="/register.html" class="inline-block bg-white text-purple-600 px-8 py-3 rounded-full font-semibold hover:shadow-lg transition">Get Started Free</a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-white py-12 px-4">
+    <div class="max-w-7xl mx-auto text-center">
+        <p>&copy; <span id="current-year"></span> MGZon. All rights reserved.</p>
+        <div class="flex justify-center space-x-4 mt-4">
+            <a href="/privacy.html" class="text-gray-400 hover:text-white text-sm">Privacy</a>
+            <a href="/terms.html" class="text-gray-400 hover:text-white text-sm">Terms</a>
+            <a href="/help.html" class="text-gray-400 hover:text-white text-sm">Help</a>
+        </div>
+    </div>
+</footer>
+
+<script src="/assets/js/config.js"></script>
+<script>
+    const API_URL = window.ENV?.API_URL || 'https://mgzon-server.hf.space';
+    const cleanApiUrl = API_URL.replace(/\/$/, '');
+    let userToken = localStorage.getItem('userToken');
+
+    async function loadSiteSettings() {
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/site-settings`);
+            if (response.ok) {
+                const data = await response.json();
+                const logoImg = document.querySelector('#nav-logo');
+                if (logoImg && data.logo) logoImg.src = data.logo;
+                const siteNameSpan = document.getElementById('site-name');
+                if (siteNameSpan && data.siteName) siteNameSpan.textContent = data.siteName;
+                const favicon = document.getElementById('dynamic-favicon');
+                if (favicon && data.logo) favicon.href = data.logo;
+            }
+        } catch (error) { console.error('Error loading site settings:', error); }
+    }
+
+    function updateNav() {
+        const authButtons = document.getElementById('auth-buttons');
+        if (userToken) {
+            authButtons.innerHTML = `
+                <a href="/feed.html" class="px-4 py-2 text-purple-600 font-semibold">Feed</a>
+                <a href="/profile/me" class="px-5 py-2 gradient-bg text-white rounded-full font-semibold">Profile</a>
+            `;
+        }
+    }
+
+    function initMobileMenu() {
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+    }
+
+    function initTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') document.body.classList.add('dark');
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark');
+                localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+            });
+        }
+    }
+
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+    loadSiteSettings();
+    updateNav();
+    initMobileMenu();
+    initTheme();
+</script>
+</body>
+</html>

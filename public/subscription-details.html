@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Details - MGZon</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 24px; }
+        body.dark .glass-card { background: rgba(31, 41, 55, 0.95); }
+        .loader-spinner {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .status-timeline { position: relative; }
+        .status-step { position: relative; z-index: 1; }
+        .status-step.completed .status-icon { background: #10b981; border-color: #10b981; }
+        .status-step.active .status-icon { background: #3b82f6; border-color: #3b82f6; animation: pulse 2s infinite; }
+        .status-step .status-icon {
+            width: 40px; height: 40px; border-radius: 50%; background: #9ca3af;
+            border: 3px solid #e5e7eb; display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s;
+        }
+        .status-line { position: absolute; top: 20px; left: 0; right: 0; height: 2px; background: #e5e7eb; z-index: 0; }
+        .status-line .line-fill { width: 0%; height: 100%; background: #10b981; transition: width 0.5s ease; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(59,130,246,0.4); } 70% { box-shadow: 0 0 0 10px rgba(59,130,246,0); } 100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); } }
+    </style>
+</head>
+<body class="dark:bg-gray-900">
+
+<header class="fixed top-0 w-full bg-white dark:bg-gray-800 shadow-md z-50">
+    <nav class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+        <a href="/" class="text-xl font-bold text-gray-800 dark:text-white">MGZon</a>
+        <div class="flex gap-4">
+            <a href="/feed.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-500 transition">Feed</a>
+            <a href="/profile/me" class="text-gray-600 dark:text-gray-300 hover:text-blue-500 transition">Profile</a>
+            <a href="/settings.html?section=my-subscription" class="text-gray-600 dark:text-gray-300 hover:text-blue-500 transition">
+                <i class='bx bx-arrow-back text-xl'></i> Back
+            </a>
+            <button id="theme-toggle" class="text-gray-600 dark:text-gray-300 hover:text-blue-500 transition">
+                <img id="modeToggle" src="/assets/img/theme_light.png" alt="Theme" class="w-5 h-5">
+            </button>
+        </div>
+    </nav>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 pt-24 pb-12">
+    <div id="loading-state" class="text-center py-16">
+        <div class="loader-spinner mx-auto"></div>
+        <p class="text-white mt-4">Loading subscription details...</p>
+    </div>
+
+    <div id="subscription-content" style="display: none;">
+        <!-- Subscription Header -->
+        <div class="glass-card p-6 mb-6">
+            <div class="flex justify-between items-start flex-wrap gap-4">
+                <div>
+                    <p class="text-sm text-gray-500">Current Plan</p>
+                    <h1 id="plan-name" class="text-3xl font-bold"></h1>
+                    <p id="plan-description" class="text-gray-600 mt-1"></p>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm text-gray-500">Status</p>
+                    <span id="status-badge" class="inline-block px-3 py-1 text-sm rounded-full"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subscription Timeline -->
+        <div class="glass-card p-6 mb-6">
+            <h3 class="font-semibold mb-6">Subscription Timeline</h3>
+            <div class="relative status-timeline">
+                <div class="status-line"><div id="timeline-fill" class="line-fill"></div></div>
+                <div class="flex justify-between relative z-10">
+                    <div id="status-created" class="status-step text-center flex-1"><div class="status-icon mx-auto"><i class='bx bx-calendar text-white text-xl'></i></div><p class="text-xs font-medium mt-2">Created</p></div>
+                    <div id="status-approved" class="status-step text-center flex-1"><div class="status-icon mx-auto"><i class='bx bx-check-circle text-white text-xl'></i></div><p class="text-xs font-medium mt-2">Approved</p></div>
+                    <div id="status-active" class="status-step text-center flex-1"><div class="status-icon mx-auto"><i class='bx bx-play-circle text-white text-xl'></i></div><p class="text-xs font-medium mt-2">Active</p></div>
+                    <div id="status-expired" class="status-step text-center flex-1"><div class="status-icon mx-auto"><i class='bx bx-stop-circle text-white text-xl'></i></div><p class="text-xs font-medium mt-2">End</p></div>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mt-6 text-center">
+                <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"><p class="text-xs text-gray-500">Start Date</p><p id="start-date" class="font-semibold"></p></div>
+                <div class="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"><p class="text-xs text-gray-500">End Date</p><p id="end-date" class="font-semibold"></p></div>
+            </div>
+        </div>
+
+        <!-- Plan Features -->
+        <div class="glass-card p-6 mb-6">
+            <h3 class="font-semibold mb-4 flex items-center gap-2"><i class='bx bx-star text-yellow-500'></i> Plan Features</h3>
+            <div id="features-list" class="grid grid-cols-2 md:grid-cols-3 gap-3"></div>
+        </div>
+
+        <!-- Payment History -->
+        <div class="glass-card p-6">
+            <h3 class="font-semibold mb-4 flex items-center gap-2"><i class='bx bx-history text-blue-500'></i> Payment History</h3>
+            <div id="payment-history" class="space-y-3">
+                <div class="text-center py-8 text-gray-500">No payment records</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="not-found" class="text-center py-16" style="display: none;">
+        <i class='bx bx-error-circle text-6xl text-white mb-4'></i>
+        <h2 class="text-2xl font-bold text-white mb-2">Subscription Not Found</h2>
+        <a href="/subscription.html" class="inline-block mt-4 px-6 py-3 bg-white text-purple-600 rounded-lg">View Plans →</a>
+    </div>
+</main>
+
+<script src="/assets/js/config.js"></script>
+<script>
+    const API_URL = window.ENV?.API_URL || 'https://mgzon-server.hf.space';
+    const cleanApiUrl = API_URL.replace(/\/$/, '');
+    let userToken = localStorage.getItem('userToken');
+    let subscription = null;
+
+    async function loadSubscription() {
+        if (!userToken) { window.location.href = '/login.html?redirect=/subscription-details.html'; return; }
+        
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/subscription/my`, { headers: { 'Authorization': `Bearer ${userToken}` } });
+            if (response.ok) {
+                const data = await response.json();
+                subscription = data.subscription;
+                if (!subscription) { document.getElementById('loading-state').style.display = 'none'; document.getElementById('not-found').style.display = 'block'; return; }
+                renderSubscription();
+                document.getElementById('loading-state').style.display = 'none';
+                document.getElementById('subscription-content').style.display = 'block';
+            } else { throw new Error('Failed to load'); }
+        } catch (error) {
+            document.getElementById('loading-state').style.display = 'none';
+            document.getElementById('not-found').style.display = 'block';
+        }
+    }
+
+    function renderSubscription() {
+        const plan = subscription.planId;
+        document.getElementById('plan-name').textContent = plan.name;
+        document.getElementById('plan-description').textContent = plan.description || 'No description';
+        
+        const statusConfig = { pending: { text: '⏳ Pending Approval', class: 'bg-yellow-100 text-yellow-700' }, active: { text: '✅ Active', class: 'bg-green-100 text-green-700' }, expired: { text: '📅 Expired', class: 'bg-red-100 text-red-700' }, cancelled: { text: '❌ Cancelled', class: 'bg-gray-100 text-gray-700' } };
+        const config = statusConfig[subscription.status] || statusConfig.pending;
+        document.getElementById('status-badge').textContent = config.text;
+        document.getElementById('status-badge').className = `inline-block px-3 py-1 text-sm rounded-full ${config.class}`;
+        
+        document.getElementById('start-date').textContent = subscription.startDate ? new Date(subscription.startDate).toLocaleDateString() : '-';
+        document.getElementById('end-date').textContent = subscription.endDate ? new Date(subscription.endDate).toLocaleDateString() : '-';
+        
+        const features = [];
+        if (plan.features.storeEnabled) features.push({ icon: '🛒', name: 'Digital Store', desc: 'Sell products online' });
+        if (plan.features.pageBuilderEnabled) features.push({ icon: '🎨', name: 'Page Builder', desc: 'Drag & drop builder' });
+        if (plan.features.customDomain) features.push({ icon: '🌐', name: 'Custom Domain', desc: 'Use your own domain' });
+        if (plan.features.analyticsEnabled) features.push({ icon: '📊', name: 'Advanced Analytics', desc: 'Detailed insights' });
+        if (plan.features.prioritySupport) features.push({ icon: '⭐', name: 'Priority Support', desc: '24/7 priority support' });
+        if (plan.features.maxProducts > 0) features.push({ icon: '📦', name: `${plan.features.maxProducts === 0 ? 'Unlimited' : plan.features.maxProducts} Products`, desc: 'Product limit' });
+        
+        document.getElementById('features-list').innerHTML = features.map(f => `<div class="flex items-center gap-2 p-2 bg-gray-50 dark:bg-gray-700 rounded-lg"><span class="text-xl">${f.icon}</span><div><p class="font-medium text-sm">${f.name}</p><p class="text-xs text-gray-500">${f.desc}</p></div></div>`).join('');
+        
+        updateTimeline();
+    }
+
+    function updateTimeline() {
+        const statusOrder = ['pending', 'active', 'expired'];
+        const currentIndex = statusOrder.indexOf(subscription.status);
+        const fillPercent = (currentIndex / (statusOrder.length - 1)) * 100;
+        document.getElementById('timeline-fill').style.width = `${fillPercent}%`;
+        
+        const steps = ['created', 'approved', 'active', 'expired'];
+        steps.forEach((step, i) => {
+            const element = document.getElementById(`status-${step}`);
+            if (i <= currentIndex + 1) element.classList.add('completed');
+            if (i === currentIndex + 1) element.classList.add('active');
+        });
+    }
+
+    function setupThemeToggle() {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') document.body.classList.add('dark');
+        document.getElementById('theme-toggle')?.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+        });
+    }
+
+    setupThemeToggle();
+    loadSubscription();
+</script>
+</body>
+</html>

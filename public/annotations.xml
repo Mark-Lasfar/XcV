@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Annotations>
+  <Annotation about="elasfar.vercel.app/*" timestamp="0x00064e0373fedb91" score="1.0">
+    <Label name="_include_"/>
+    <AdditionalData attribute="original_url" value="https://elasfar.vercel.app"/>
+  </Annotation>
+  <Annotation about="mark-elasfar.web.app/*" timestamp="0x00064e0369b03ba9" score="1.0">
+    <Label name="_include_"/>
+    <AdditionalData attribute="original_url" value="https://mark-elasfar.web.app"/>
+  </Annotation>
+  <Annotation about="hager-zon.vercel.app/*" timestamp="0x00064e0373fedb90" score="1.0">
+    <Label name="_include_"/>
+    <AdditionalData attribute="original_url" value="https://hager-zon.vercel.app"/>
+  </Annotation>
+  <Annotation about="https://github.com/Mark-Lasfar/*" timestamp="0x00064e02c6d5af5f" score="1.0">
+    <Label name="_include_"/>
+    <AdditionalData attribute="original_url" value="https://github.com/Mark-Lasfar"/>
+  </Annotation>
+  <Annotation about="*://github.com/*" timestamp="0x00064e02c6d5af5f" score="0.8">
+    <Label name="_include_"/>
+    <AdditionalData attribute="original_url" value="https://github.com"/>
+  </Annotation>
+  <Annotation about="https://gitlab.com/Mark-Lasfar/*" timestamp="0x00064e036d00763f" score="0.7">
+    <Label name="_include_"/>
+    <AdditionalData attribute="original_url" value="https://gitlab.com/Mark-Lasfar"/>
+  </Annotation>
+  <Annotation about="https://stackoverflow.com/users/22294099/mark-al-asafar/*" timestamp="0x00064e0373fedb92" score="0.8">
+    <Label name="_include_"/>
+    <AdditionalData attribute="original_url" value="https://stackoverflow.com/users/22294099/mark-al-asafar"/>
+  </Annotation>
+  <Annotation about="https://medium.com/@marklasfar/*" timestamp="0x00064e0373fedb93" score="0.6">
+    <Label name="_include_"/>
+    <AdditionalData attribute="original_url" value="https://medium.com/@marklasfar"/>
+  </Annotation>
+  <Annotation about="https://dev.to/marklasfar/*" timestamp="0x00064e0373fedb94" score="0.6">
+    <Label name="_include_"/>
+    <AdditionalData attribute="original_url" value="https://dev.to/marklasfar"/>
+  </Annotation>
+
+  <Annotation about="*wikipedia.org/*" timestamp="0x00064e0373fedb95" score="0.5">
+    <Label name="_include_"/>
+    <AdditionalData attribute="original_url" value="https://wikipedia.org"/>
+  </Annotation>
+  <Annotation about="*://britannica.com/*" timestamp="0x00064e0373fedb96" score="0.4">
+    <Label name="_include_"/>
+    <AdditionalData attribute="original_url" value="https://britannica.com"/>
+  </Annotation>
+
+  <Annotation about="developer.mozilla.org/*" timestamp="0x00064e0373fedb97" score="0.8">
+    <Label name="_include_"/>
+    <AdditionalData attribute="original_url" value="https://developer.mozilla.org"/>
+  </Annotation>
+  <Annotation about="*://w3schools.com/*" timestamp="0x00064e0373fedb98" score="0.6">
+    <Label name="_include_"/>
+    <AdditionalData attribute="original_url" value="https://w3schools.com"/>
+  </Annotation>
+  <Annotation about="*freecodecamp.org/*" timestamp="0x00064e0373fedb99" score="0.7">
+    <Label name="_include_"/>
+    <AdditionalData attribute="original_url" value="https://freecodecamp.org"/>
+  </Annotation>
+
+  <Annotation about="linkedin.com/in/ibrahimelasfar/*" timestamp="0x00064e0373fedb9a" score="1.0">
+    <Label name="_include_"/>
+    <AdditionalData attribute="original_url" value="https://www.linkedin.com/in/ibrahimelasfar"/>
+  </Annotation>
+
+  <Annotation about="https://profile.indeed.com/p/marka-xqv3zl6/*" timestamp="0x00064e0373fedb9b" score="0.5">
+    <Label name="_include_"/>
+    <AdditionalData attribute="original_url" value="https://profile.indeed.com/p/marka-xqv3zl6"/>
+  </Annotation>
+
+  <Annotation about="*://hsoub.com/*" timestamp="0x00064e0373fedb9c" score="0.6">
+    <Label name="_include_"/>
+    <AdditionalData attribute="original_url" value="https://academy.hsoub.com"/>
+  </Annotation>
+  <Annotation about="*://arabianbytes.com/*" timestamp="0x00064e0373fedb9d" score="0.5">
+    <Label name="_include_"/>
+    <AdditionalData attribute="original_url" value="https://arabianbytes.com"/>
+  </Annotation>
+  <Annotation about="*about.me/*" timestamp="0x00064e0373fedb9f" score="0.4">
+    <Label name="_include_"/>
+    <AdditionalData attribute="original_url" value="https://about.me"/>
+  </Annotation>
+</Annotations>

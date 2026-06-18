@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loading...</title>
+  <link href="/assets/css/style.css" rel="stylesheet">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="bg-gray-800 p-4 sticky top-0 z-10">
+    <div class="container mx-auto flex justify-between items-center">
+      <a href="/" class="text-white text-2xl font-bold">
+        <img src="/assets/img/logo.svg" alt="MGZon AI Logo" class="w-12 h-12 inline-block">
+        MGZon AI
+      </a>
+      <div class="space-x-4">
+        <a href="/" class="text-gray-300 hover:text-white">Home</a>
+        <a href="/about" class="text-gray-300 hover:text-white">About</a>
+        <a href="/profile/mark-elasfar" class="text-gray-300 hover:text-white">Profile</a>
+        <a href="/contact" class="text-gray-300 hover:text-white">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Article Content -->
+  <article id="article-content" class="max-w-4xl mx-auto p-6">
+    <h1 id="article-title" class="text-4xl font-bold mb-4">Loading...</h1>
+    <div id="article-meta" class="text-sm text-gray-500 mb-4"></div>
+    <img id="article-image" class="w-full h-64 object-cover mb-4 rounded-lg" src="/assets/img/default-article.jpg" alt="Article Image">
+    <div class="flex items-center space-x-4 mb-4">
+      <button id="like-button" class="flex items-center space-x-2 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+        <i class="bx bx-heart"></i>
+        <span id="like-count">0</span> Likes
+      </button>
+      <span id="view-count" class="text-gray-500">0 Views</span>
+    </div>
+    <div id="article-body" class="prose prose-lg mb-8"></div>
+  </article>
+
+  <!-- Social Share Bar -->
+  <div class="fixed left-4 top-1/2 transform -translate-y-1/2 space-y-4">
+    <a href="#" id="share-facebook" class="block p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700"><i class="bx bxl-facebook"></i></a>
+    <a href="#" id="share-twitter" class="block p-2 bg-blue-400 text-white rounded-full hover:bg-blue-500"><i class="bx bxl-twitter"></i></a>
+    <a href="#" id="share-linkedin" class="block p-2 bg-blue-800 text-white rounded-full hover:bg-blue-900"><i class="bx bxl-linkedin"></i></a>
+  </div>
+
+  <!-- Related Articles -->
+  <section class="max-w-4xl mx-auto p-6">
+    <h2 class="text-3xl font-bold mb-6 text-center">Related Articles</h2>
+    <div id="related-articles" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </section>
+
+  <!-- Comments Section -->
+  <section class="max-w-4xl mx-auto p-6">
+    <h2 class="text-3xl font-bold mb-6 text-center">Comments</h2>
+    <div id="utterances"></div>
+    <script>
+      (function() {
+        var script = document.createElement('script');
+        script.src = 'https://utteranc.es/client.js';
+        script.setAttribute('repo', 'Mark-Lasfar/MGZon');
+        script.setAttribute('issue-term', 'pathname');
+        script.setAttribute('theme', 'github-light');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+        document.getElementById('utterances').appendChild(script);
+      })();
+    </script>
+  </section>
+
+  <script>
+    async function fetchArticle() {
+      try {
+        const slug = window.location.pathname.split('/').pop().replace('.html', '');
+        
+        // Try hager database first
+        let article = null;
+        let response = await fetch(`/api/articles/${slug}`);
+        if (response.ok) {
+          const contentType = response.headers.get('content-type');
+          if (contentType && contentType.includes('application/json')) {
+            article = await response.json();
+          }
+        }
+
+        // If not found in hager, try mgzon
+        if (!article || !article.success) {
+          response = await fetch(`/api/mgzon/articles/${slug}`);
+          if (response.ok) {
+            const contentType = response.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+              article = await response.json();
+            }
+          }
+        }
+
+        if (!article || !article.success) {
+          document.getElementById('article-title').innerText = 'Article Not Found';
+          return;
+        }
+
+        document.title = article.metaTitle;
+        document.getElementById('article-title').innerText = article.title;
+        document.getElementById('article-meta').innerHTML = `
+          By <a href="/profile/mark-elasfar">${article.authorId.name}</a> | Published on: ${new Date(article.createdAt).toLocaleDateString()} | Tags: ${article.tags.join(', ')}
+        `;
+        document.getElementById('article-image').src = article.image;
+        document.getElementById('article-image').alt = article.title;
+        document.getElementById('article-body').innerHTML = article.content.replace(/\n/g, '<br>');
+        document.getElementById('like-count').innerText = article.likes;
+        document.getElementById('view-count').innerText = `${article.views} Views`;
+
+        // Like button functionality
+        document.getElementById('like-button').addEventListener('click', async () => {
+          try {
+            const likeResponse = await fetch(`/api/articles/${slug}/like`, { method: 'POST' });
+            if (!likeResponse.ok) {
+              throw new Error('Failed to like article');
+            }
+            const likeData = await likeResponse.json();
+            if (likeData.success) {
+              document.getElementById('like-count').innerText = likeData.likes;
+            }
+          } catch (error) {
+            console.error('Error liking article:', error);
+          }
+        });
+
+        // Update social share links
+        const shareUrl = encodeURIComponent(window.location.href);
+        const shareTitle = encodeURIComponent(article.title);
+        document.getElementById('share-facebook').href = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
+        document.getElementById('share-twitter').href = `https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}`;
+        document.getElementById('share-linkedin').href = `https://www.linkedin.com/shareArticle?mini=true&url=${shareUrl}&title=${shareTitle}`;
+
+        // Add Schema
+        const schemaScript = document.createElement('script');
+        schemaScript.type = 'application/ld+json';
+        schemaScript.text = JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'NewsArticle',
+          headline: article.title,
+          image: [article.image],
+          datePublished: article.createdAt,
+          author: {
+            '@type': 'Person',
+            name: article.authorId.name,
+            url: 'https://mark-elasfar.web.app/profile/mark-elasfar'
+          },
+          publisher: {
+            '@type': 'Organization',
+            name: 'MGZon AI',
+            logo: {
+              '@type': 'ImageObject',
+              url: 'https://mark-elasfar.web.app/assets/img/logo.svg'
+            }
+          },
+          keywords: article.tags.join(','),
+          description: article.metaDescription
+        });
+        document.head.appendChild(schemaScript);
+
+        // Fetch related articles from both databases
+        const relatedResponses = await Promise.all([
+          fetch(`/api/articles?limit=3&tags=${article.tags.join(',')}`),
+          fetch(`/api/mgzon/articles?limit=3&tags=${article.tags.join(',')}`)
+        ]);
+
+        const relatedArticles = [];
+        for (const relatedResponse of relatedResponses) {
+          if (relatedResponse.ok) {
+            const contentType = relatedResponse.headers.get('content-type');
+            if (contentType && contentType.includes('application/json')) {
+              const data = await relatedResponse.json();
+              relatedArticles.push(...data);
+            }
+          }
+        }
+
+        const relatedSection = document.getElementById('related-articles');
+        relatedSection.innerHTML = relatedArticles
+          .filter(relArticle => relArticle.slug !== slug)
+          .slice(0, 3)
+          .map(relArticle => `
+            <div class="bg-gray-100 p-4 rounded-lg">
+              <img src="${relArticle.image}" alt="${relArticle.title}" class="w-full h-32 object-cover mb-2 rounded">
+              <h3 class="text-lg font-semibold"><a href="/article/${relArticle.slug}.html">${relArticle.title}</a></h3>
+              <p class="text-sm text-gray-600">${relArticle.excerpt}</p>
+            </div>
+          `).join('');
+
+        // Auto-boost likes and views for new articles
+        if ((new Date() - new Date(article.createdAt)) / (1000 * 60 * 60) <= 1) {
+          await fetch(`/api/articles/${slug}/boost`, { method: 'POST' });
+        }
+      } catch (error) {
+        console.error('Error fetching article:', error);
+        document.getElementById('article-title').innerText = 'Error Loading Article';
+        document.getElementById('article-body').innerText = 'An error occurred while loading the article. Please try again later.';
+      }
+    }
+
+    fetchArticle();
+  </script>
+</body>
+</html>

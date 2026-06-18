@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Manage your professional network on MGZon. View your followers, people you follow, discover new connections, and grow your network.">
+    <meta name="keywords" content="network, followers, following, connections, professional network, networking">
+    <meta name="author" content="MGZon">
+    <meta name="robots" content="index, follow">
+    <meta name="google-site-verification" content="cMqMKs3WVFS5S9D2cLZ2_iHzeda4B7oNyOPOneZCjqg" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="My Network - MGZon Connections">
+    <meta property="og:description" content="Manage your professional connections on MGZon. See who follows you and who you follow.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mark-elasfar.web.app/network.html">
+    <meta property="og:image" content="https://mark-elasfar.web.app/assets/img/og.png">
+    <meta property="og:site_name" content="MGZon">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="My Network - MGZon">
+    <meta name="twitter:description" content="Manage your professional connections">
+    <meta name="twitter:image" content="https://mark-elasfar.web.app/assets/img/og.png">
+    
+    <link rel="canonical" href="https://mark-elasfar.web.app/network.html">
+    <title>My Network - Connections | MGZon</title>
+    
+    <link rel="icon" id="dynamic-favicon" href="/assets/img/logo.svg" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        
+        .network-card {
+            transition: all 0.2s ease;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .network-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .dark .network-card {
+            background: #1f2937;
+            border: 1px solid #374151;
+        }
+        .dark body {
+            background: #111827;
+        }
+        .tab-btn {
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .tab-btn.active {
+            color: #3b82f6;
+            border-bottom-color: #3b82f6;
+        }
+        .follow-btn {
+            transition: all 0.2s;
+        }
+        .follow-btn.following {
+            background: #ef4444;
+        }
+        .follow-btn.following:hover {
+            background: #dc2626;
+        }
+        .skeleton-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1rem;
+        }
+        .dark .skeleton-card {
+            background: #1f2937;
+        }
+        .skeleton-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        .skeleton-line {
+            height: 16px;
+            background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .dark .skeleton-avatar,
+        .dark .skeleton-line {
+            background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+            background-size: 200% 100%;
+        }
+        .stats-card {
+            transition: all 0.2s;
+        }
+        .stats-card:hover {
+            transform: translateY(-2px);
+        }
+        .invite-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+<!-- Header -->
+<header class="fixed top-0 w-full bg-white dark:bg-gray-800 shadow-md z-50">
+    <nav class="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center">
+        <a href="/feed.html" class="flex items-center gap-2">
+            <img id="nav-logo" src="/assets/img/logo.svg" alt="Logo" class="w-8 h-8">
+            <span id="site-name" class="text-xl font-bold text-blue-600">MGZon</span>
+        </a>
+        
+        <!-- Search Bar -->
+        <div class="hidden md:flex items-center bg-gray-100 dark:bg-gray-700 rounded-full px-4 py-2 w-96">
+            <i class='bx bx-search text-gray-500'></i>
+            <input type="text" id="global-search" placeholder="Search for people..." class="bg-transparent border-none outline-none w-full ml-2 text-sm">
+        </div>
+        
+        <div class="flex items-center gap-3">
+            <a href="/feed.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600"><i class='bx bx-home text-2xl'></i></a>
+            <a href="/network.html" class="text-blue-600"><i class='bx bx-group text-2xl'></i></a>
+            <a href="/jobs.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600"><i class='bx bx-briefcase text-2xl'></i></a>
+            <a href="/messages.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600"><i class='bx bx-message-dots text-2xl'></i></a>
+            
+            <!-- Notifications -->
+            <div class="relative">
+                <button id="notifications-btn" class="relative text-gray-600 dark:text-gray-300">
+                    <i class='bx bx-bell text-2xl'></i>
+                    <span id="notif-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 hidden">0</span>
+                </button>
+                <div id="notifications-dropdown" class="hidden absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto">
+                    <div class="p-3 border-b dark:border-gray-700">Notifications</div>
+                    <div id="notifications-list" class="divide-y dark:divide-gray-700">
+                        <div class="p-4 text-center text-gray-500">No notifications</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Profile Menu -->
+            <div class="relative">
+                <button id="profile-menu-btn" class="flex items-center gap-1">
+                    <img id="user-avatar" src="/assets/img/default-avatar.png" class="w-8 h-8 rounded-full object-cover">
+                    <i class='bx bx-chevron-down text-gray-600'></i>
+                </button>
+                <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50">
+                    <a href="/profile/me" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Profile</a>
+                    <a href="/settings.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Settings</a>
+                    <a href="/saved.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Saved Posts</a>
+                    <hr class="my-1">
+                    <button id="logout-btn" class="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700">Sign Out</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="max-w-6xl mx-auto px-4 pt-20 pb-12">
+    
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div class="stats-card bg-white dark:bg-gray-800 rounded-2xl p-4 text-center shadow-md">
+            <i class='bx bx-group text-3xl text-blue-600 mb-2'></i>
+            <p class="text-2xl font-bold" id="followers-count">0</p>
+            <p class="text-sm text-gray-500">Followers</p>
+        </div>
+        <div class="stats-card bg-white dark:bg-gray-800 rounded-2xl p-4 text-center shadow-md">
+            <i class='bx bx-user-plus text-3xl text-green-600 mb-2'></i>
+            <p class="text-2xl font-bold" id="following-count">0</p>
+            <p class="text-sm text-gray-500">Following</p>
+        </div>
+        <div class="stats-card bg-white dark:bg-gray-800 rounded-2xl p-4 text-center shadow-md">
+            <i class='bx bx-user-check text-3xl text-purple-600 mb-2'></i>
+            <p class="text-2xl font-bold" id="pending-count">0</p>
+            <p class="text-sm text-gray-500">Pending</p>
+        </div>
+        <div class="stats-card bg-white dark:bg-gray-800 rounded-2xl p-4 text-center shadow-md">
+            <i class='bx bx-chart text-3xl text-yellow-600 mb-2'></i>
+            <p class="text-2xl font-bold" id="invite-count">0</p>
+            <p class="text-sm text-gray-500">Invites Sent</p>
+        </div>
+    </div>
+
+    <!-- Invite Card -->
+    <div class="invite-card rounded-2xl p-5 mb-6 text-white">
+        <div class="flex items-center justify-between flex-wrap gap-4">
+            <div>
+                <h3 class="text-lg font-semibold">Invite your colleagues</h3>
+                <p class="text-sm opacity-90">Grow your network by inviting friends and colleagues</p>
+            </div>
+            <button id="invite-btn" class="px-5 py-2 bg-white text-purple-600 rounded-full font-semibold hover:shadow-lg transition">
+                <i class='bx bx-share-alt mr-1'></i> Invite People
+            </button>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex gap-6 border-b dark:border-gray-700 mb-6">
+        <button data-tab="followers" class="tab-btn pb-3 px-2 font-semibold text-gray-600 dark:text-gray-400 border-b-2 border-transparent active">
+            <i class='bx bx-group mr-1'></i> Followers
+        </button>
+        <button data-tab="following" class="tab-btn pb-3 px-2 font-semibold text-gray-600 dark:text-gray-400 border-b-2 border-transparent">
+            <i class='bx bx-user-plus mr-1'></i> Following
+        </button>
+        <button data-tab="suggestions" class="tab-btn pb-3 px-2 font-semibold text-gray-600 dark:text-gray-400 border-b-2 border-transparent">
+            <i class='bx bx-star mr-1'></i> Suggestions
+        </button>
+        <button data-tab="pending" class="tab-btn pb-3 px-2 font-semibold text-gray-600 dark:text-gray-400 border-b-2 border-transparent">
+            <i class='bx bx-time mr-1'></i> Pending
+        </button>
+    </div>
+
+    <!-- Users Container -->
+    <div id="users-container" class="space-y-4">
+        <!-- Skeleton Loaders -->
+        <div class="skeleton-card"><div class="flex gap-4"><div class="skeleton-avatar"></div><div class="flex-1"><div class="skeleton-line w-40"></div><div class="skeleton-line w-32 mt-2"></div><div class="skeleton-line w-48 mt-2"></div></div></div></div>
+        <div class="skeleton-card"><div class="flex gap-4"><div class="skeleton-avatar"></div><div class="flex-1"><div class="skeleton-line w-40"></div><div class="skeleton-line w-32 mt-2"></div><div class="skeleton-line w-48 mt-2"></div></div></div></div>
+        <div class="skeleton-card"><div class="flex gap-4"><div class="skeleton-avatar"></div><div class="flex-1"><div class="skeleton-line w-40"></div><div class="skeleton-line w-32 mt-2"></div><div class="skeleton-line w-48 mt-2"></div></div></div></div>
+    </div>
+
+    <!-- Load More -->
+    <div id="load-more-trigger" class="h-10 mt-4"></div>
+</main>
+
+<!-- Invite Modal -->
+<div id="invite-modal" class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center">
+    <div class="bg-white dark:bg-gray-800 rounded-xl w-full max-w-md mx-4 p-6">
+        <h3 class="text-xl font-semibold mb-4">Invite People to MGZon</h3>
+        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">Share your unique invite link with friends and colleagues</p>
+        <div class="flex gap-2 mb-4">
+            <input type="text" id="invite-link" class="flex-1 p-2 border rounded-lg dark:bg-gray-700 text-sm" readonly>
+            <button id="copy-link-btn" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Copy</button>
+        </div>
+        <p class="text-xs text-gray-500 text-center">When they join, they'll automatically follow you!</p>
+        <button id="close-invite-modal" class="mt-4 w-full py-2 bg-gray-500 text-white rounded-lg">Close</button>
+    </div>
+</div>
+
+<script src="/assets/js/config.js"></script>
+<script>
+    const API_URL = window.ENV?.API_URL || 'https://mgzon-server.hf.space';
+    const cleanApiUrl = API_URL.replace(/\/$/, '');
+    let userToken = localStorage.getItem('userToken');
+    let currentTab = 'followers';
+    let currentPage = 1;
+    let isLoading = false;
+    let hasMore = true;
+    let currentUser = null;
+
+    async function loadSiteSettings() {
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/site-settings`);
+            if (response.ok) {
+                const data = await response.json();
+                const logoImg = document.querySelector('#nav-logo');
+                if (logoImg && data.logo) logoImg.src = data.logo;
+                const siteNameSpan = document.getElementById('site-name');
+                if (siteNameSpan && data.siteName) siteNameSpan.textContent = data.siteName;
+            }
+        } catch (error) { console.error(error); }
+    }
+
+    async function loadCurrentUser() {
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/verify-token`, {
+                headers: { 'Authorization': `Bearer ${userToken}` }
+            });
+            if (response.ok) {
+                currentUser = await response.json();
+                document.getElementById('user-avatar').src = currentUser.profile?.avatar || '/assets/img/default-avatar.png';
+                await loadStats();
+            }
+        } catch (error) { console.error(error); }
+    }
+
+    async function loadStats() {
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/users/${currentUser.userId}/stats`, {
+                headers: { 'Authorization': `Bearer ${userToken}` }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById('followers-count').textContent = data.stats?.followers || 0;
+                document.getElementById('following-count').textContent = data.stats?.following || 0;
+                document.getElementById('pending-count').textContent = data.stats?.pending || 0;
+            }
+        } catch (error) { console.error(error); }
+    }
+
+    async function loadUsers() {
+        if (isLoading) return;
+        isLoading = true;
+        
+        try {
+            let url;
+            if (currentTab === 'followers') {
+                url = `${cleanApiUrl}/api/users/me/followers?page=${currentPage}&limit=20`;
+            } else if (currentTab === 'following') {
+                url = `${cleanApiUrl}/api/users/me/following?page=${currentPage}&limit=20`;
+            } else if (currentTab === 'suggestions') {
+                url = `${cleanApiUrl}/api/users/suggestions?limit=20`;
+            } else {
+                url = `${cleanApiUrl}/api/users/me/pending?page=${currentPage}&limit=20`;
+            }
+            
+            const response = await fetch(url, {
+                headers: { 'Authorization': `Bearer ${userToken}` }
+            });
+            const result = await response.json();
+            const container = document.getElementById('users-container');
+            
+            if (currentPage === 1) container.innerHTML = '';
+            
+            let users = currentTab === 'suggestions' ? (result.data || []) : (result.data || []);
+            
+            if (users.length === 0 && currentPage === 1) {
+                const emptyMessages = {
+                    followers: 'No followers yet. Share your profile to grow your network!',
+                    following: "You're not following anyone yet. Discover interesting people!",
+                    suggestions: 'No suggestions available. Check back later!',
+                    pending: 'No pending requests'
+                };
+                container.innerHTML = `
+                    <div class="text-center py-12 bg-white dark:bg-gray-800 rounded-2xl">
+                        <i class='bx bx-group text-5xl text-gray-400 mb-3'></i>
+                        <p class="text-gray-500">${emptyMessages[currentTab]}</p>
+                        ${currentTab === 'suggestions' ? '<a href="/explore.html" class="inline-block mt-3 text-blue-600">Explore people →</a>' : ''}
+                    </div>
+                `;
+                hasMore = false;
+                return;
+            }
+            
+            users.forEach(user => {
+                container.appendChild(createUserCard(user));
+            });
+            
+            hasMore = users.length === 20;
+            if (hasMore) currentPage++;
+            
+        } catch (error) {
+            console.error('Error loading users:', error);
+            showToast('Failed to load', 'error');
+        } finally {
+            isLoading = false;
+        }
+    }
+
+    function createUserCard(user) {
+        const div = document.createElement('div');
+        div.className = 'network-card p-4';
+        
+        const isFollowing = user.isFollowing || false;
+        const displayName = user.profile?.nickname || user.username;
+        const jobTitle = user.profile?.jobTitle || 'Professional';
+        const avatar = user.profile?.avatar || user.avatar || '/assets/img/default-avatar.png';
+        const mutualConnections = user.mutualConnections || 0;
+        const status = user.status || 'accepted';
+        
+        let actionButton = '';
+        if (currentTab === 'suggestions') {
+            actionButton = `
+                <button onclick="followUser('${user._id}', this)" class="follow-btn px-5 py-2 bg-blue-600 text-white rounded-full text-sm hover:bg-blue-700 transition">
+                    <i class='bx bx-plus mr-1'></i> Follow
+                </button>
+            `;
+        } else if (currentTab === 'following') {
+            actionButton = `
+                <button onclick="unfollowUser('${user._id}', this)" class="follow-btn px-5 py-2 bg-red-500 text-white rounded-full text-sm hover:bg-red-600 transition">
+                    <i class='bx bx-x mr-1'></i> Unfollow
+                </button>
+            `;
+        } else if (currentTab === 'pending' && status === 'pending') {
+            actionButton = `
+                <div class="flex gap-2">
+                    <button onclick="acceptRequest('${user._id}', this)" class="px-4 py-2 bg-green-600 text-white rounded-full text-sm hover:bg-green-700">
+                        <i class='bx bx-check'></i> Accept
+                    </button>
+                    <button onclick="declineRequest('${user._id}', this)" class="px-4 py-2 bg-red-500 text-white rounded-full text-sm hover:bg-red-600">
+                        <i class='bx bx-x'></i> Decline
+                    </button>
+                </div>
+            `;
+        } else if (currentTab === 'followers') {
+            actionButton = `
+                <button onclick="messageUser('${user._id}')" class="px-5 py-2 bg-blue-600 text-white rounded-full text-sm hover:bg-blue-700">
+                    <i class='bx bx-message'></i> Message
+                </button>
+            `;
+        }
+        
+        div.innerHTML = `
+            <div class="flex items-center justify-between flex-wrap gap-4">
+                <div class="flex items-center gap-4">
+                    <img src="${avatar}" class="w-14 h-14 rounded-full object-cover">
+                    <div>
+                        <a href="/profile/${user.profile?.nickname || user.username}" class="font-semibold hover:text-blue-600 dark:text-white text-lg">${escapeHtml(displayName)}</a>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">${escapeHtml(jobTitle)}</p>
+                        <div class="flex gap-3 mt-1 text-xs text-gray-400">
+                            ${mutualConnections > 0 ? `<span><i class='bx bx-group'></i> ${mutualConnections} mutual connections</span>` : ''}
+                            ${user.stats?.followers ? `<span><i class='bx bx-user'></i> ${user.stats.followers} followers</span>` : ''}
+                            ${user.stats?.posts ? `<span><i class='bx bx-briefcase'></i> ${user.stats.posts} posts</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+                ${actionButton}
+            </div>
+        `;
+        
+        return div;
+    }
+
+    async function followUser(userId, btn) {
+        try {
+            const csrfToken = await fetchCsrfToken();
+            const response = await fetch(`${cleanApiUrl}/api/users/${userId}/follow`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${userToken}`, 'X-CSRF-Token': csrfToken }
+            });
+            
+            if (response.ok) {
+                btn.innerHTML = '<i class="bx bx-check mr-1"></i> Following';
+                btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                btn.classList.add('bg-gray-500', 'hover:bg-gray-600');
+                showToast('Followed!', 'success');
+                await loadStats();
+                // Refresh suggestions
+                if (currentTab === 'suggestions') {
+                    currentPage = 1;
+                    hasMore = true;
+                    loadUsers();
+                }
+            }
+        } catch (error) {
+            console.error(error);
+            showToast('Failed to follow', 'error');
+        }
+    }
+
+    async function unfollowUser(userId, btn) {
+        if (!confirm('Unfollow this user?')) return;
+        
+        try {
+            const csrfToken = await fetchCsrfToken();
+            const response = await fetch(`${cleanApiUrl}/api/users/${userId}/follow`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${userToken}`, 'X-CSRF-Token': csrfToken }
+            });
+            
+            if (response.ok) {
+                btn.closest('.network-card')?.remove();
+                showToast('Unfollowed', 'success');
+                await loadStats();
+            }
+        } catch (error) {
+            console.error(error);
+            showToast('Failed to unfollow', 'error');
+        }
+    }
+
+    async function acceptRequest(userId, btn) {
+        try {
+            const csrfToken = await fetchCsrfToken();
+            const response = await fetch(`${cleanApiUrl}/api/users/${userId}/accept`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${userToken}`, 'X-CSRF-Token': csrfToken }
+            });
+            
+            if (response.ok) {
+                btn.closest('.network-card')?.remove();
+                showToast('Request accepted!', 'success');
+                await loadStats();
+            }
+        } catch (error) {
+            console.error(error);
+            showToast('Failed to accept', 'error');
+        }
+    }
+
+    async function declineRequest(userId, btn) {
+        try {
+            const csrfToken = await fetchCsrfToken();
+            const response = await fetch(`${cleanApiUrl}/api/users/${userId}/decline`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${userToken}`, 'X-CSRF-Token': csrfToken }
+            });
+            
+            if (response.ok) {
+                btn.closest('.network-card')?.remove();
+                showToast('Request declined', 'success');
+                await loadStats();
+            }
+        } catch (error) {
+            console.error(error);
+            showToast('Failed to decline', 'error');
+        }
+    }
+
+    function messageUser(userId) {
+        window.location.href = `/messages.html?user=${userId}`;
+    }
+
+    function openInviteModal() {
+        const modal = document.getElementById('invite-modal');
+        const inviteLink = document.getElementById('invite-link');
+        const shareUrl = `${window.location.origin}/register.html?ref=${currentUser?.userId}`;
+        inviteLink.value = shareUrl;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function closeInviteModal() {
+        const modal = document.getElementById('invite-modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    function setupEventListeners() {
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => {
+                    b.classList.remove('active', 'text-blue-600', 'border-blue-600');
+                });
+                btn.classList.add('active', 'text-blue-600', 'border-blue-600');
+                currentTab = btn.dataset.tab;
+                currentPage = 1;
+                hasMore = true;
+                loadUsers();
+            });
+        });
+        
+        // Infinite scroll
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !isLoading && hasMore) {
+                loadUsers();
+            }
+        }, { threshold: 0.1 });
+        
+        const trigger = document.getElementById('load-more-trigger');
+        if (trigger) observer.observe(trigger);
+        
+        // Profile menu
+        document.getElementById('profile-menu-btn')?.addEventListener('click', () => {
+            document.getElementById('profile-dropdown')?.classList.toggle('hidden');
+        });
+        
+        // Logout
+        document.getElementById('logout-btn')?.addEventListener('click', () => {
+            localStorage.clear();
+            window.location.href = '/';
+        });
+        
+        // Invite
+        document.getElementById('invite-btn')?.addEventListener('click', openInviteModal);
+        document.getElementById('close-invite-modal')?.addEventListener('click', closeInviteModal);
+        document.getElementById('copy-link-btn')?.addEventListener('click', () => {
+            const link = document.getElementById('invite-link');
+            link.select();
+            document.execCommand('copy');
+            showToast('Link copied!', 'success');
+        });
+        
+        // Search
+        const searchInput = document.getElementById('global-search');
+        if (searchInput) {
+            let timeout;
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    const query = e.target.value.trim();
+                    if (query.length > 1) {
+                        window.location.href = `/search.html?q=${encodeURIComponent(query)}`;
+                    }
+                }, 500);
+            });
+        }
+        
+        // Notifications dropdown
+        document.getElementById('notifications-btn')?.addEventListener('click', () => {
+            const dropdown = document.getElementById('notifications-dropdown');
+            dropdown.classList.toggle('hidden');
+        });
+        
+        // Close dropdowns on outside click
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#profile-menu-btn')) {
+                document.getElementById('profile-dropdown')?.classList.add('hidden');
+            }
+            if (!e.target.closest('#notifications-btn')) {
+                document.getElementById('notifications-dropdown')?.classList.add('hidden');
+            }
+        });
+        
+        // Theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') document.body.classList.add('dark');
+    }
+
+    function showToast(message, type) {
+        Toastify({
+            text: message,
+            duration: 3000,
+            style: { background: type === 'success' ? '#10b981' : '#ef4444' }
+        }).showToast();
+    }
+    
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
+    }
+    
+    async function fetchCsrfToken() {
+        const response = await fetch(`${cleanApiUrl}/api/csrf-token`, { credentials: 'include' });
+        const data = await response.json();
+        return data.csrfToken;
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', async () => {
+        if (!userToken) {
+            window.location.href = '/login.html?redirect=/network.html';
+            return;
+        }
+        
+        await loadSiteSettings();
+        await loadCurrentUser();
+        await loadUsers();
+        setupEventListeners();
+        
+        // Load notifications badge
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/notifications/unread-count`, {
+                headers: { 'Authorization': `Bearer ${userToken}` }
+            });
+            const data = await response.json();
+            const badge = document.getElementById('notif-badge');
+            if (data.count > 0) {
+                badge.textContent = data.count > 9 ? '9+' : data.count;
+                badge.classList.remove('hidden');
+            }
+        } catch (e) {}
+    });
+    
+    window.followUser = followUser;
+    window.unfollowUser = unfollowUser;
+    window.acceptRequest = acceptRequest;
+    window.declineRequest = declineRequest;
+    window.messageUser = messageUser;
+</script>
+</body>
+</html>

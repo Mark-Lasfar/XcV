@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Synonyms>
+  
+  <!-- ========== MGzon Platform ========== -->
+  <Synonym>
+    <Original>mgzon</Original>
+    <Variant>mgzon platform</Variant>
+    <Variant>mgzon erp</Variant>
+    <Variant>mgzon system</Variant>
+    <Variant>منصة مجزون</Variant>
+    <Variant>مجزون</Variant>
+  </Synonym>
+  
+  <Synonym>
+    <Original>mgzon cli</Original>
+    <Variant>mgzon terminal</Variant>
+    <Variant>mgzon command line</Variant>
+    <Variant>@mgzon/cli</Variant>
+    <Variant>mgzon command-line tool</Variant>
+  </Synonym>
+  
+  <Synonym>
+    <Original>mgzon fintech</Original>
+    <Variant>mgzon wallet</Variant>
+    <Variant>mgzon pay</Variant>
+    <Variant>mgzon payment</Variant>
+    <Variant>mgzon digital wallet</Variant>
+  </Synonym>
+  
+  <!-- ========== Mark Alasfar ========== -->
+  <Synonym>
+    <Original>mark alasfar</Original>
+    <Variant>mark al-asfar</Variant>
+    <Variant>ibrahim alasfar</Variant>
+    <Variant>mark alasfar cv</Variant>
+    <Variant>mark alasfar portfolio</Variant>
+  </Synonym>
+  
+  <Synonym>
+    <Original>full stack developer</Original>
+    <Variant>full-stack developer</Variant>
+    <Variant>fullstack developer</Variant>
+    <Variant>full stack engineer</Variant>
+    <Variant>systems architect</Variant>
+  </Synonym>
+  
+  <!-- ========== Technical Skills ========== -->
+  <Synonym>
+    <Original>node js</Original>
+    <Variant>nodejs</Variant>
+    <Variant>node.js</Variant>
+    <Variant>node</Variant>
+  </Synonym>
+  
+  <Synonym>
+    <Original>react</Original>
+    <Variant>react js</Variant>
+    <Variant>reactjs</Variant>
+    <Variant>react.js</Variant>
+  </Synonym>
+  
+  <Synonym>
+    <Original>typescript</Original>
+    <Variant>ts</Variant>
+    <Variant>typescript language</Variant>
+  </Synonym>
+  
+  <Synonym>
+    <Original>linux</Original>
+    <Variant>linux terminal</Variant>
+    <Variant>linux os</Variant>
+    <Variant>debian</Variant>
+    <Variant>ubuntu</Variant>
+    <Variant>kali linux</Variant>
+  </Synonym>
+  
+  <Synonym>
+    <Original>docker</Original>
+    <Variant>docker container</Variant>
+    <Variant>docker engine</Variant>
+  </Synonym>
+  
+  <Synonym>
+    <Original>postgresql</Original>
+    <Variant>postgres</Variant>
+    <Variant>postgres database</Variant>
+  </Synonym>
+  
+  <!-- ========== Projects & Features ========== -->
+  <Synonym>
+    <Original>inheritance system</Original>
+    <Variant>الميراث</Variant>
+    <Variant>نظام الميراث</Variant>
+    <Variant>تقسيم الميراث</Variant>
+    <Variant>islamic inheritance</Variant>
+  </Synonym>
+  
+  <Synonym>
+    <Original>health monitoring</Original>
+    <Variant>system monitoring</Variant>
+    <Variant>observability</Variant>
+    <Variant>health check</Variant>
+  </Synonym>
+  
+  <Synonym>
+    <Original>ecommerce</Original>
+    <Variant>e-commerce</Variant>
+    <Variant>online store</Variant>
+    <Variant>متجر إلكتروني</Variant>
+  </Synonym>
+  
+  <Synonym>
+    <Original>hr system</Original>
+    <Variant>human resources</Variant>
+    <Variant>hr management</Variant>
+    <Variant>payroll system</Variant>
+  </Synonym>
+  
+  <!-- ========== Tools & Technologies ========== -->
+  <Synonym>
+    <Original>git</Original>
+    <Variant>github</Variant>
+    <Variant>version control</Variant>
+  </Synonym>
+  
+  <Synonym>
+    <Original>npm</Original>
+    <Variant>node package manager</Variant>
+    <Variant>npm package</Variant>
+  </Synonym>
+  
+  <Synonym>
+    <Original>cli</Original>
+    <Variant>command line</Variant>
+    <Variant>command line interface</Variant>
+    <Variant>terminal</Variant>
+  </Synonym>
+  
+  <!-- ========== Business Terms ========== -->
+  <Synonym>
+    <Original>erp</Original>
+    <Variant>enterprise resource planning</Variant>
+    <Variant>erp system</Variant>
+  </Synonym>
+  
+  <Synonym>
+    <Original>fintech</Original>
+    <Variant>financial technology</Variant>
+    <Variant>digital payments</Variant>
+  </Synonym>
+  
+  <Synonym>
+    <Original>pci dss</Original>
+    <Variant>pci compliance</Variant>
+    <Variant>payment security</Variant>
+  </Synonym>
+  
+  <!-- ========== Arabic Synonyms ========== -->
+  <Synonym>
+    <Original>مبرمج</Original>
+    <Variant>developer</Variant>
+    <Variant>full stack developer</Variant>
+    <Variant>مطور</Variant>
+  </Synonym>
+  
+  <Synonym>
+    <Original>نظام</Original>
+    <Variant>system</Variant>
+    <Variant>platform</Variant>
+    <Variant>منصة</Variant>
+  </Synonym>
+  
+</Synonyms>

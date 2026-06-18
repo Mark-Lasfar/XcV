@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="html-lang">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="meta-title">The Journey of MGZon AI's Founder</title>
+  <meta id="meta-desc" name="description"
+    content="Discover the story of Mark Al-Asfar from Alexandria, Egypt, and how he built MGZon AI, a global AI-driven e-commerce platform with OAuth and MGpay integrations.">
+  <meta name="keywords"
+    content="Mark Al-Asfar, Ibrahim Al-Asfar, MGZon AI, e-commerce, Alexandria, Full Stack Developer, OAuth, MGpay, TypeScript, Django, React, MongoDB, Egypt, technology, entrepreneurship, Elasfar-AI, Shopping Cart Game">
+  <meta name="author" content="Mark Al-Asfar">
+  <meta name="robots" content="index, follow">
+  <meta name="google-site-verification" content="cMqMKs3WVFS5S9D2cLZ2_iHzeda4B7oNyOPOneZCjqg">
+  <meta property="og:title" content="The Journey of MGZon AI's Founder">
+  <meta property="og:description"
+    content="Discover the story of Mark Al-Asfar from Alexandria, Egypt, and how he built MGZon AI, a global AI-driven e-commerce platform.">
+  <meta property="og:image" content="https://mark-elasfar.web.app/assets/img/mark-elasfar-profile.jpg">
+  <meta property="og:image:alt" content="Mark Al-Asfar, founder of MGZon AI">
+  <meta property="og:url" content="https://mark-elasfar.web.app/article/mark-al-asfar-mgzon-ai">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="MGZon AI">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:creator" content="@marklasfar">
+  <meta name="twitter:title" content="The Journey of MGZon AI's Founder">
+  <meta name="twitter:description"
+    content="Discover the story of Mark Al-Asfar from Alexandria, Egypt, and how he built MGZon AI, a global AI-driven e-commerce platform.">
+  <meta name="twitter:image" content="https://mark-elasfar.web.app/assets/img/mark-elasfar-profile.jpg">
+  <meta name="twitter:image:alt" content="Mark Al-Asfar, founder of MGZon AI">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="icon" href="/assets/img/logo.svg">
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+  <link rel="alternate" hreflang="ar" href="https://mark-elasfar.web.app/article/mark-al-asfar-mgzon-ai?lang=ar">
+  <link rel="alternate" hreflang="en" href="https://mark-elasfar.web.app/article/mark-al-asfar-mgzon-ai?lang=en">
+  <style>
+    .section-card {
+      background: #fff;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .section-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .dark .section-card {
+      background: #1f2937;
+    }
+
+    .integration-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .integration-card {
+      background: #f3f4f6;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      text-align: center;
+    }
+
+    .dark .integration-card {
+      background: #374151;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: #1f2937;
+      padding: 2rem;
+      border-radius: 0.5rem;
+      max-width: 700px;
+      width: 90%;
+      color: #fff;
+      position: relative;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .animate-gradient-x {
+      background: linear-gradient(270deg, #1f2937, #111827, #1f2937);
+      background-size: 200% 200%;
+      animation: gradient 15s ease infinite;
+    }
+
+    @keyframes gradient {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "headline": "The Journey of MGZon AI's Founder",
+    "image": [
+      {
+        "@type": "ImageObject",
+        "url": "https://mark-elasfar.web.app/assets/img/mark-elasfar-profile.jpg",
+        "caption": "Mark Al-Asfar, founder of MGZon AI",
+        "height": 128,
+        "width": 128
+      },
+      {
+        "@type": "ImageObject",
+        "url": "https://camo.githubusercontent.com/79edce9d878625699a6347cfe94da10f8347bf582f81c785b4e2a783681ac5b4/68747470733a2f2f63646e2d75706c6f6164732e68756767696e67666163652e636f2f70726f64756374696f6e2f75706c6f6164732f3637623865616264643639333538393066393362653762372f394366684165386c4b544533583332574636576d782e706e67",
+        "caption": "MarkAI model training visualization"
+      },
+      {
+        "@type": "ImageObject",
+        "url": "/assets/img/seller.png",
+        "caption": "MGZon seller dashboard screenshot"
+      }
+    ],
+    "datePublished": "2025-08-18",
+    "dateModified": "2026-05-10",
+    "author": {
+      "@type": "Person",
+      "name": "Mark Al-Asfar",
+      "alternateName": ["Ibrahim Al-Asfar", "Ibrahim Elasfar", "Elasfar"],
+      "url": "https://mark-elasfar.web.app",
+      "birthDate": "1999-04-15",
+      "birthPlace": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Alexandria",
+          "addressCountry": "Egypt"
+        }
+      },
+      "jobTitle": "Full Stack Developer and Founder of MGZon AI",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "MGZon AI"
+      }
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "MGZon AI",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://mark-elasfar.web.app/assets/img/logo.svg"
+      },
+      "url": "https://hager-zon.vercel.app"
+    },
+    "description": "Discover the story of Mark Al-Asfar, a Full Stack Developer from Alexandria, Egypt, who founded MGZon AI, a global AI-driven e-commerce platform with over 1.9M downloads, featuring advanced integrations, OAuth 2.0, and the Elasfar-AI model.",
+    "keywords": "Mark Al-Asfar, Ibrahim Al-Asfar, MGZon AI, e-commerce, Alexandria, Full Stack Developer, OAuth, MGpay, TypeScript, Django, React, MongoDB, Elasfar-AI, Shopping Cart Game",
+    "mainEntity": {
+      "@type": "SoftwareApplication",
+      "name": "MGZon AI",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web, Android",
+      "downloadUrl": "https://github.com/Mark-Lasfar/portfolio-markk/raw/refs/heads/main/mgzon.apk",
+      "featureList": [
+        "Personalized shopping experiences",
+        "Dynamic vendor stores",
+        "MGpay payment system",
+        "OAuth 2.0 authentication",
+        "Elasfar-AI integration",
+        "Shopping Cart Adventure game",
+        "Multi-language support",
+        "Multi-currency support",
+        "Custom seller apps and domains"
+      ]
+    }
+  }
+  </script>
+</head>
+
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans">
+  <header class="bg-gray-800 p-4 shadow">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="flex items-center">
+        <img src="/frontend/public/assets/img/mgzon.svg" alt="MGZon AI Logo" class="w-12 h-12 mr-2">
+        <h1 class="text-xl font-bold text-white">MGZon AI</h1>
+      </div>
+      <nav class="flex space-x-4 space-x-reverse">
+        <a href="/" class="text-gray-300 hover:text-white">Home</a>
+        <a href="/resume" class="text-gray-300 hover:text-white">Resume</a>
+        <a href="/about" class="text-gray-300 hover:text-white">About</a>
+        <select id="language-switcher" class="bg-gray-700 text-white p-1 rounded">
+          <option value="en">English</option>
+          <option value="ar">العربية</option>
+        </select>
+      </nav>
+    </div>
+  </header>
+  <div class="container mx-auto p-4">
+    <h1 id="main-title" class="text-4xl font-bold text-center mt-8">The Journey of MGZon AI's Founder</h1>
+    <p id="subtitle" class="text-center text-gray-600 dark:text-gray-400 mt-2">Full Stack Developer | Founder of a
+      Global E-commerce Platform</p>
+    <div class="flex justify-center mt-4">
+      <a id="download-cv" href="https://drive.google.com/uc?export=download&id=1yP-j5btmigH2SDWh2TSKw7pw-hMnXKQa"
+        class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Download CV (PDF)</a>
+    </div>
+    <img src="/assets/img/mark-elasfar-profile.jpg" alt="Mark Al-Asfar" class="w-32 h-32 rounded-full mx-auto mt-4"
+      onerror="this.style.display='none'">
+    <h2 id="name" class="text-2xl font-semibold text-center mt-4">Mark Al-Asfar</h2>
+    <section class="mt-8">
+      <div class="section-card">
+        <h2 id="section1-title" class="text-2xl font-semibold mb-4">From Alexandria to Global Impact</h2>
+        <p id="section1-text">Mark Al-Asfar (Ibrahim Al-Asfar), a Full Stack Developer from Alexandria, Egypt, turned
+          his passion for coding into a global achievement by founding MGZon AI, an AI-driven e-commerce platform
+          inspired by giants like Amazon and Shopify. He began his journey as a student at the Faculty of Computers and
+          Information, Alexandria University, earning a Bachelor's in Information Systems with Very Good honors in 2023.
+        </p>
+      </div>
+      <div class="section-card">
+        <h2 id="section2-title" class="text-2xl font-semibold mb-4">Founding MGZon AI</h2>
+        <p id="section2-text">In 2023, Mark founded MGZon AI, a platform offering personalized shopping experiences and
+          dynamic vendor stores, achieving over 1.9 million downloads. He developed MGpay, an internal payment system
+          integrated with Stripe, PayPal, and Visa. The platform is supported by integrations with warehouses in the
+          USA, Canada, and China, operating under a U.S. license. Despite frustrations and challenges, Mark's goal was
+          to empower sellers with easy-to-use tools for managing their stores.</p>
+      </div>
+      <div class="section-card">
+        <h2 id="section3-title" class="text-2xl font-semibold mb-4">MGZon AI's Vision</h2>
+        <p id="section3-text">MGZon AI's vision centers on empowering sellers and buyers through an intelligent platform
+          that combines advanced technology with ease of use. Despite the frustrations and monotony faced during
+          development, Mark persevered, driven by his belief that e-commerce should be accessible and straightforward
+          for all. The goal is to simplify operations for sellers with tools like store customization, dedicated apps,
+          and multi-language and multi-currency support.</p>
+      </div>
+      <div class="section-card">
+        <h2 id="section4-title" class="text-2xl font-semibold mb-4">Advanced Integrations in MGZon</h2>
+        <p id="section4-text">MGZon AI offers comprehensive integrations to streamline e-commerce operations via a
+          flexible dashboard without prior setup. These include:<br>
+        <div class="integration-grid">
+          <div class="integration-card"><strong>Warehouse:</strong> Inventory management across warehouses in the USA,
+            Canada, and China with real-time syncing.</div>
+          <div class="integration-card"><strong>Dropshipping:</strong> Support for dropshipping with global suppliers to
+            reduce costs and increase efficiency.</div>
+          <div class="integration-card"><strong>Marketplace:</strong> An open marketplace platform for sellers to list
+            products effortlessly.</div>
+          <div class="integration-card"><strong>Shipping:</strong> Integration with shipping providers like FedEx and
+            DHL for flexible shipping options.</div>
+          <div class="integration-card"><strong>Marketing:</strong> Built-in advertising tools integrated with Google
+            Ads and Facebook Ads to boost sales.</div>
+          <div class="integration-card"><strong>Accounting:</strong> Integration with QuickBooks and Xero for seamless
+            accounting and invoicing.</div>
+          <div class="integration-card"><strong>CRM:</strong> Customer relationship management tools with integrations
+            like Salesforce.</div>
+          <div class="integration-card"><strong>Analytics:</strong> Real-time reports powered by Google Analytics and
+            custom tools.</div>
+          <div class="integration-card"><strong>Automation:</strong> Automate processes like order management and
+            notifications via Zapier.</div>
+          <div class="integration-card"><strong>Communication:</strong> Live chat and email notifications via Twilio.
+          </div>
+          <div class="integration-card"><strong>Education:</strong> Educational resources and tutorials via MGZon’s
+            learning platform.</div>
+          <div class="integration-card"><strong>Security:</strong> Data protection with AES-256 encryption and GDPR
+            compliance.</div>
+          <div class="integration-card"><strong>Advertising:</strong> Manage ad campaigns easily through the dashboard.
+          </div>
+          <div class="integration-card"><strong>Tax:</strong> Automated tax calculations with integrations like Avalara.
+          </div>
+          <div class="integration-card"><strong>Other:</strong> Custom integrations with platforms like Shopify and
+            WooCommerce.</div>
+        </div><br>
+        These integrations can be added effortlessly via the dashboard, with a robust API enabling developers to
+        integrate MGZon with their projects using OAuth 2.0 and multiple endpoints inside and outside the platform.
+        Learn more: <a href="https://hager-zon.vercel.app/docs/oauth">OAuth Docs</a>.</p>
+      </div>
+      <div class="section-card">
+        <h2 id="section5-title" class="text-2xl font-semibold mb-4">passport-mgzon Library and User Experience</h2>
+        <p id="section5-text">MGZon offers the <code>passport-mgzon</code> library for easy authentication (<a
+            href="https://www.npmjs.com/package/passport-mgzon">npm install passport-mgzon</a>). Developers can test
+          integrations via the <a href="https://passport-mgzon.app/demo">demo</a>, which showcases login and account
+          creation using MGZon authentication (<a href="/assets/img/demo.png">Demo image</a>). After authentication,
+          users are directed to 'Shopping Cart Adventure,' an engaging endless adventure game integrated into the
+          platform. Check the quick start guide: <a
+            href="https://gist.github.com/Mark-Lasfar/525924912c80d84baf5aaab72b5b3e80">Gist</a>.</p>
+      </div>
+      <div class="section-card">
+        <h2 id="section6-title" class="text-2xl font-semibold mb-4">MGZon App and Seller Support</h2>
+        <p id="section6-text">MGZon provides an official app for the platform (<a
+            href="https://github.com/Mark-Lasfar/portfolio-markk/raw/refs/heads/main/mgzon.apk">Download mgzon.apk</a>),
+          with custom apps and subdomains for each seller (e.g., <a
+            href="https://hager-zon.vercel.app">hager-zon.vercel.app</a>). New sellers receive 50 welcome points and a
+          custom store domain upon registration (<a href="/assets/img/seller.png">Seller screenshot</a>).</p>
+      </div>
+      <div class="section-card">
+        <h2 id="section7-title" class="text-2xl font-semibold mb-4">Elasfar-AI: AI-Powered Commerce Support</h2>
+        <p id="section7-text">Mark developed Elasfar-AI (<a href="https://huggingface.co/spaces/MGZON/elasfar-ai">Model
+            link</a>), trained on diverse datasets to provide intelligent guidance, answer user queries, and support
+          sellers and buyers. Previously known as MarkAI, it took extensive effort to transform the idea into reality
+          (<a
+            href="https://camo.githubusercontent.com/79edce9d878625699a6347cfe94da10f8347bf582f81c785b4e2a783681ac5b4/68747470733a2f2f63646e2d75706c6f6164732e68756767696e67666163652e636f2f70726f64756374696f6e2f75706c6f6164732f3637623865616264643639333538393066393362653762372f394366684165386c4b544533583332574636576d782e706e67">MarkAI
+            image</a>). It also supports in-platform games like Shopping Cart Adventure.</p>
+      </div>
+      <div class="section-card">
+        <h2 id="section8-title" class="text-2xl font-semibold mb-4">Skills and Expertise</h2>
+        <p id="section8-text">Mark has over 5 years of experience in TypeScript, MongoDB, React, Django, and Linux. As a
+          Freelance Developer (2020-2023), he focused on scalability and user experience. He excels in SEO, complex
+          project management, and developing interactive games like Shopping Cart Adventure. He also developed
+          Elasfar-AI to enhance e-commerce operations.</p>
+      </div>
+      <div class="section-card">
+        <h2 id="section9-title" class="text-2xl font-semibold mb-4">Inspiring Vision</h2>
+        <p id="section9-text">Mark says: 'If you want to set a goal, set it at the stars. Because even if you miss,
+          you'll land on the moon.' This reflects his passion for innovation and vision to make MGZon AI a global
+          leader, despite the challenges and frustrations faced.</p>
+      </div>
+      <div class="section-card">
+        <h2 id="section10-title" class="text-2xl font-semibold mb-4">Connect with Mark</h2>
+        <p id="section10-text">Visit his website: <a href="https://mark-elasfar.web.app">mark-elasfar.web.app</a>, or
+          contact him at: <a href="mailto:marklasfar@gmail.com">marklasfar@gmail.com</a>. Follow him on <a
+            href="https://x.com/marklasfar">Twitter</a>, <a href="https://github.com/Mark-Lasfar">GitHub</a>, or <a
+            href="https://www.facebook.com/people/Mark-Al-Asfar/pfbid02GMisUQ8AqWkNZjoKtWFHH1tbdHuVscN1cjcFnZWy9HkRaAsmanBfT6mhySAyqpg4l/">Facebook</a>.
+          Check his CV: <a
+            href="https://drive.google.com/uc?export=download&id=1yP-j5btmigH2SDWh2TSKw7pw-hMnXKQa">CV</a>.</p>
+      </div>
+    </section>
+  </div>
+  <footer class="bg-gray-800 p-8 mt-12 animate-gradient-x">
+    <div class="container mx-auto px-6">
+      <div class="mb-12 text-center">
+        <img
+          src="https://raw.githubusercontent.com/Mark-Lasfar/MGZon/9a1b2149507ae61fec3bb7fb86d8d16c11852f3b/public/icons/mg.svg"
+          alt="MGZon Logo" class="w-24 h-24 mx-auto mb-4">
+        <p id="footer-company-desc" class="text-gray-300 max-w-2xl mx-auto text-lg">MGZon is a leading platform for
+          e-commerce integrations and API solutions.</p>
+      </div>
+      <div class="mb-12">
+        <h3 id="contact-title" class="text-3xl font-bold mb-8 text-center text-white">Contact Information</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div
+            class="footer-card bg-gray-700 p-6 rounded-lg shadow-lg hover:bg-gray-600 transition-all duration-300 cursor-pointer card"
+            data-details="contact_email_details">
+            <div class="flex justify-center mb-4"><i class="bx bx-mail-send text-4xl text-blue-400"></i></div>
+            <h4 id="contact-email-title" class="text-xl font-semibold text-center text-white">Email Us</h4>
+            <p id="contact-email-desc" class="text-gray-300 text-center mt-2">Reach out to our support team via email.
+            </p>
+            <p id="contact-email-details" class="text-gray-400 text-center text-sm mt-2 hidden">Contact our support team
+              at support@mgzon.com for assistance with technical issues, account management, or general inquiries. We
+              aim to respond within 24 hours during business days (Monday to Friday, 9 AM - 5 PM EST). For faster
+              resolution, include your account ID, order number, or a detailed description of your issue. You can also
+              submit a ticket via our support portal at mgzon.com/support.</p>
+          </div>
+          <div
+            class="footer-card bg-gray-700 p-6 rounded-lg shadow-lg hover:bg-gray-600 transition-all duration-300 cursor-pointer card"
+            data-details="contact_phone_details">
+            <div class="flex justify-center mb-4"><i class="bx bx-phone text-4xl text-blue-400"></i></div>
+            <h4 id="contact-phone-title" class="text-xl font-semibold text-center text-white">Phone Support</h4>
+            <p id="contact-phone-desc" class="text-gray-300 text-center mt-2">Call us for immediate assistance.</p>
+            <p id="contact-phone-details" class="text-gray-400 text-center text-sm mt-2 hidden">Reach us at
+              +1-800-123-4567 for immediate support. Our phone lines are open Monday to Friday, 9 AM - 5 PM EST. For
+              urgent issues outside these hours, use our email support or live chat feature. Enterprise clients can
+              access 24/7 dedicated support by contacting their account manager.</p>
+          </div>
+          <div
+            class="footer-card bg-gray-700 p-6 rounded-lg shadow-lg hover:bg-gray-600 transition-all duration-300 cursor-pointer card"
+            data-details="contact_hours_details">
+            <div class="flex justify-center mb-4"><i class="bx bx-group text-4xl text-blue-400"></i></div>
+            <h4 id="contact-hours-title" class="text-xl font-semibold text-center text-white">Support Hours</h4>
+            <p id="contact-hours-desc" class="text-gray-300 text-center mt-2">Available 9 AM - 6 PM, Monday to Friday.
+            </p>
+            <p id="contact-hours-details" class="text-gray-400 text-center text-sm mt-2 hidden">Our support team is
+              available Monday to Friday, 9 AM - 5 PM EST. Outside these hours, explore our self-service options,
+              including our comprehensive FAQ, community forums, and knowledge base. Enterprise clients can request 24/7
+              support through their dedicated account manager or by emailing enterprise@mgzon.com.</p>
+          </div>
+        </div>
+      </div>
+      <div class="mb-12">
+        <h3 id="resources-title" class="text-3xl font-bold mb-8 text-center text-white">Resources</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div
+            class="footer-card bg-gray-700 p-6 rounded-lg shadow-lg hover:bg-gray-600 transition-all duration-300 cursor-pointer card"
+            data-details="resources_api_docs_details">
+            <div class="flex justify-center mb-4"><i class="bx bx-code-alt text-4xl text-green-400"></i></div>
+            <h4 id="resources-api-docs-title" class="text-xl font-semibold text-center text-white">API Documentation
+            </h4>
+            <p id="resources-api-docs-desc" class="text-gray-300 text-center mt-2">Explore our API endpoints and
+              integration guides.</p>
+            <p id="resources-api-docs-details" class="text-gray-400 text-center text-sm mt-2 hidden">Our API
+              documentation provides detailed guides for integrating MGZon services into your applications. Learn about
+              OAuth 2.0 authentication, available endpoints (e.g., /api/v1/clients, /api/products/import), rate limits,
+              and error handling. Includes code examples in Python, JavaScript, and cURL. Visit our developer portal at
+              mgzon.com/developers.</p>
+          </div>
+          <div
+            class="footer-card bg-gray-700 p-6 rounded-lg shadow-lg hover:bg-gray-600 transition-all duration-300 cursor-pointer card"
+            data-details="resources_faq_details">
+            <div class="flex justify-center mb-4"><i class="bx bx-help-circle text-4xl text-green-400"></i></div>
+            <h4 id="resources-faq-title" class="text-xl font-semibold text-center text-white">FAQ</h4>
+            <p id="resources-faq-desc" class="text-gray-300 text-center mt-2">Find answers to common questions.</p>
+            <p id="resources-faq-details" class="text-gray-400 text-center text-sm mt-2 hidden">Find answers to common
+              questions about account setup, billing, API usage, and troubleshooting in our FAQ. Updated weekly based on
+              user feedback, it covers topics like OAuth scope management, seller integrations, and payment processing.
+              If your question isn’t answered, submit a ticket or join our community forums at mgzon.com/community.</p>
+          </div>
+          <div
+            class="footer-card bg-gray-700 p-6 rounded-lg shadow-lg hover:bg-gray-600 transition-all duration-300 cursor-pointer card"
+            data-details="resources_docs_details">
+            <div class="flex justify-center mb-4"><img
+                src="https://github.blog/wp-content/uploads/2024/07/Icon-Circle.svg" alt="Docs Icon"
+                class="w-10 h-10 text-green-400"></div>
+            <h4 id="resources-docs-title" class="text-xl font-semibold text-center text-white">Documentation</h4>
+            <p id="resources-docs-desc" class="text-gray-300 text-center mt-2">Learn how to use MGZon with our detailed
+              guides.</p>
+            <p id="resources-docs-details" class="text-gray-400 text-center text-sm mt-2 hidden">Our documentation
+              offers step-by-step guides on using MGZon’s platform, covering account management, product
+              imports/exports, advertising campaigns, and analytics. Available in multiple languages (English, Arabic,
+              etc.) with video tutorials and interactive demos. Check out advanced topics like webhook setup and
+              real-time notifications at mgzon.com/docs.</p>
+          </div>
+        </div>
+      </div>
+      <div class="mb-12">
+        <h3 id="support-title" class="text-3xl font-bold mb-8 text-center text-white">Support</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div
+            class="footer-card bg-gray-700 p-6 rounded-lg shadow-lg hover:bg-gray-600 transition-all duration-300 cursor-pointer card"
+            data-details="support_contact_us_details">
+            <div class="flex justify-center mb-4"><i class="bx bx-mail-send text-4xl text-yellow-400"></i></div>
+            <h4 id="support-contact-us-title" class="text-xl font-semibold text-center text-white">Contact Support</h4>
+            <p id="support-contact-us-desc" class="text-gray-300 text-center mt-2">Get in touch with our support team.
+            </p>
+            <p id="support-contact-us-details" class="text-gray-400 text-center text-sm mt-2 hidden">Our dedicated
+              support team is here to assist with technical issues, billing inquiries, or feature requests. Reach us via
+              live chat (available on mgzon.com/support), email (support@mgzon.com), or phone (+1-800-123-4567). For
+              complex issues, submit a ticket through our portal for detailed tracking and resolution.</p>
+          </div>
+          <div
+            class="footer-card bg-gray-700 p-6 rounded-lg shadow-lg hover:bg-gray-600 transition-all duration-300 cursor-pointer card"
+            data-details="support_community_details">
+            <div class="flex justify-center mb-4"><i class="bx bx-group text-4xl text-yellow-400"></i></div>
+            <h4 id="support-community-title" class="text-xl font-semibold text-center text-white">Community</h4>
+            <p id="support-community-desc" class="text-gray-300 text-center mt-2">Join our community forums for help and
+              discussions.</p>
+            <p id="support-community-details" class="text-gray-400 text-center text-sm mt-2 hidden">Join our global
+              community of developers and users to share knowledge, collaborate on projects, and get peer support.
+              Participate in our forums at mgzon.com/community, attend virtual meetups, or contribute to our open-source
+              projects on GitHub (github.com/Mark-Lasfar/MGZon). Monthly webinars and Q&A sessions are also available.
+            </p>
+          </div>
+          <div
+            class="footer-card bg-gray-700 p-6 rounded-lg shadow-lg hover:bg-gray-600 transition-all duration-300 cursor-pointer card"
+            data-details="support_tickets_details">
+            <div class="flex justify-center mb-4"><i class="bx bx-help-circle text-4xl text-yellow-400"></i></div>
+            <h4 id="support-tickets-title" class="text-xl font-semibold text-center text-white">Support Tickets</h4>
+            <p id="support-tickets-desc" class="text-gray-300 text-center mt-2">Submit a ticket for personalized
+              assistance.</p>
+            <p id="support-tickets-details" class="text-gray-400 text-center text-sm mt-2 hidden">Submit a support
+              ticket for personalized assistance with complex issues, such as API errors or integration challenges.
+              Track your ticket status in real-time via our support portal (mgzon.com/support/tickets). Premium users
+              and enterprise clients receive priority support with SLA-backed response times.</p>
+          </div>
+        </div>
+      </div>
+      <div class="mb-12">
+        <h3 id="about-title" class="text-3xl font-bold mb-8 text-center text-white">About MGZon</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div
+            class="footer-card bg-gray-700 p-6 rounded-lg shadow-lg hover:bg-gray-600 transition-all duration-300 cursor-pointer card"
+            data-details="about_mgzon_details">
+            <div class="flex justify-center mb-4"><i class="bx bx-info-circle text-4xl text-purple-400"></i></div>
+            <h4 id="about-mgzon-title" class="text-xl font-semibold text-center text-white">Our Story</h4>
+            <p id="about-mgzon-desc" class="text-gray-300 text-center mt-2">Learn about MGZon's journey and vision.</p>
+            <p id="about-mgzon-details" class="text-gray-400 text-center text-sm mt-2 hidden">MGZon is a leading
+              platform empowering businesses and developers with innovative tools for e-commerce, advertising, and
+              analytics. Founded in 2023, we’ve grown to support thousands of sellers globally. Learn about our history,
+              values, and commitment to privacy and security at mgzon.com/about.</p>
+          </div>
+          <div
+            class="footer-card bg-gray-700 p-6 rounded-lg shadow-lg hover:bg-gray-600 transition-all duration-300 cursor-pointer card"
+            data-details="about_team_details">
+            <div class="flex justify-center mb-4"><i class="bx bx-group text-4xl text-purple-400"></i></div>
+            <h4 id="about-team-title" class="text-xl font-semibold text-center text-white">Our Team</h4>
+            <p id="about-team-desc" class="text-gray-300 text-center mt-2">Meet the team behind MGZon.</p>
+            <p id="about-team-details" class="text-gray-400 text-center text-sm mt-2 hidden">Our team of developers,
+              designers, and support specialists is dedicated to your success. Meet our leadership, including our CTO
+              and product managers, who bring decades of experience in tech and e-commerce. Visit mgzon.com/team to
+              learn more about our expertise and open roles.</p>
+          </div>
+          <div
+            class="footer-card bg-gray-700 p-6 rounded-lg shadow-lg hover:bg-gray-600 transition-all duration-300 cursor-pointer card"
+            data-details="about_mission_details">
+            <div class="flex justify-center mb-4"><img
+                src="https://raw.githubusercontent.com/Mark-Lasfar/MGZon/9a1b2149507ae61fec3bb7fb86d8d16c11852f3b/public/icons/mg.svg"
+                alt="MGZon Logo" class="w-10 h-10 text-purple-400"></div>
+            <h4 id="about-mission-title" class="text-xl font-semibold text-center text-white">Our Mission</h4>
+            <p id="about-mission-desc" class="text-gray-300 text-center mt-2">Discover our mission to empower
+              e-commerce.</p>
+            <p id="about-mission-details" class="text-gray-400 text-center text-sm mt-2 hidden">Our mission is to drive
+              innovation by providing scalable, secure, and accessible technology solutions. We empower businesses and
+              developers to succeed through tools like our OAuth-based API, real-time analytics, and seamless
+              integrations with platforms like Shopify and ShipBob. Learn more at mgzon.com/mission.</p>
+          </div>
+        </div>
+      </div>
+      <div class="mb-12">
+        <h3 id="media-title" class="text-3xl font-bold mb-8 text-center text-white">Media</h3>
+        <div id="media-section" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <!-- Articles will be added dynamically here -->
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div
+          class="footer-card bg-gray-700 p-6 rounded-lg shadow-lg hover:bg-gray-600 transition-all duration-300 cursor-pointer card"
+          data-details="media_videos_details">
+          <div class="flex justify-center mb-4"><i class="bx bx-video text-4xl text-red-400"></i></div>
+          <h4 id="media-videos-title" class="text-xl font-semibold text-center text-white">Videos</h4>
+          <p id="media-videos-desc" class="text-gray-300 text-center mt-2">Watch tutorials and guides on YouTube.</p>
+          <p id="media-videos-details" class="text-gray-400 text-center text-sm mt-2 hidden">Explore our video library
+            at mgzon.com/videos, featuring tutorials on API integration, product demos for sellers, and webinars on
+            e-commerce trends. New content is added weekly, including beginner guides and advanced topics like real-time
+            inventory syncing. Subscribe to our YouTube channel for updates.</p>
+        </div>
+        <div
+          class="footer-card bg-gray-700 p-6 rounded-lg shadow-lg hover:bg-gray-600 transition-all duration-300 cursor-pointer card"
+          data-details="media_books_details">
+          <div class="flex justify-center mb-4"><i class="bx bx-book text-4xl text-red-400"></i></div>
+          <h4 id="media-books-title" class="text-xl font-semibold text-center text-white">Books</h4>
+          <p id="media-books-desc" class="text-gray-300 text-center mt-2">Explore recommended books for e-commerce and
+            APIs.</p>
+          <p id="media-books-details" class="text-gray-400 text-center text-sm mt-2 hidden">Discover our curated list of
+            books and eBooks on e-commerce, software development, and innovation. Titles include 'API Design Patterns'
+            and 'E-commerce Essentials.' Access free resources or purchase through our partners at
+            mgzon.com/resources/books.</p>
+        </div>
+        <div
+          class="footer-card bg-gray-700 p-6 rounded-lg shadow-lg hover:bg-gray-600 transition-all duration-300 cursor-pointer card"
+          data-details="media_articles_details">
+          <div class="flex justify-center mb-4"><i class="bx bx-news text-4xl text-red-400"></i></div>
+          <h4 id="media-articles-title" class="text-xl font-semibold text-center text-white">Articles</h4>
+          <p id="media-articles-desc" class="text-gray-300 text-center mt-2">Read our latest articles and blog posts.
+          </p>
+          <p id="media-articles-details" class="text-gray-400 text-center text-sm mt-2 hidden">Read our blog at
+            mgzon.com/blog for insights on industry trends, technical tutorials, and MGZon updates. Recent posts cover
+            OAuth best practices, seller advertising strategies, and performance optimization for APIs. Contribute your
+            own articles via our community portal.</p>
+        </div>
+      </div>
+    </div>
+    <div class="mt-12 text-center">
+      <div class="flex justify-center space-x-6 mb-6">
+        <a href="https://github.com/Mark-Lasfar/MGZon" class="text-gray-300 hover:text-blue-400"><i
+            class="bx bxl-github text-3xl"></i></a>
+        <a href="https://x.com/MGZon" class="text-gray-300 hover:text-blue-400"><i
+            class="bx bxl-twitter text-3xl"></i></a>
+        <a href="https://www.facebook.com/people/Mark-Al-Asfar/pfbid02GMisUQ8AqWkNZjoKtWFHH1tbdHuVscN1cjcFnZWy9HkRaAsmanBfT6mhySAyqpg4l/"
+          class="text-gray-300 hover:text-blue-400"><i class="bx bxl-facebook text-3xl"></i></a>
+      </div>
+      <p id="footer Rights-reserved" class="text-gray-300">© 2025 Mark Al-Asfar & MGZon AI. All rights reserved.</p>
+    </div>
+    <div id="footer-modal" class="modal">
+      <div id="modal-content" class="modal-content">
+        <span id="close-btn" class="close-btn">&times;</span>
+        <h3 id="modal-title" class="text-2xl font-bold mb-4"></h3>
+        <p id="modal-details" class="text-gray-300"></p>
+      </div>
+    </div>
+    </div>
+  </footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const translations = {
+        ar: {
+          title: "مارك الأسفار: رحلة مؤسس MGZon AI",
+          subtitle: "مطور Full Stack | مؤسس منصة تجارة إلكترونية عالمية",
+          name: "مارك الأسفار",
+          download_cv: "تحميل السيرة الذاتية (PDF)",
+          section1_title: "من الإسكندرية إلى العالمية",
+          section1_text: "مارك الأسفار (إبراهيم الأسفار)، مطور Full Stack من الإسكندرية، مصر، حول شغفه بالبرمجة إلى إنجاز عالمي بتأسيس MGZon AI، منصة تجارة إلكترونية مدعومة بالذكاء الاصطناعي مستوحاة من عمالقة مثل Amazon وShopify. بدأ رحلته كطالب في كلية الحاسبات والمعلومات بجامعة الإسكندرية، وحصل على بكالوريوس نظم المعلومات بتقدير جيد جدًا عام 2023.",
+          section2_title: "تأسيس MGZon AI",
+          section2_text: "في عام 2023، أسس مارك MGZon AI، منصة تقدم تجربة تسوق مخصصة ومتاجر ديناميكية للبائعين، محققة أكثر من 1.9 مليون تحميل. طوّر MGpay، نظام دفع داخلي مدمج مع Stripe، PayPal، وVisa. المنصة مدعومة بتكاملات مع مستودعات في الولايات المتحدة، كندا، والصين، وتعمل تحت ترخيص أمريكي. على الرغم من الإحباطات والتحديات، كان هدف مارك هو تمكين البائعين من خلال توفير حلول سهلة وفعالة لإدارة متاجرهم.",
+          section3_title: "رؤية MGZon AI",
+          section3_text: "تتمحور رؤية MGZon AI حول تمكين البائعين والمشترين عبر منصة ذكية تجمع بين التكنولوجيا المتقدمة وسهولة الاستخدام. رغم الإحباطات والملل الذي واجهه مارك خلال التطوير، استمر بفضل إيمانه بأن التجارة الإلكترونية يجب أن تكون متاحة وسهلة للجميع. الهدف هو تبسيط العمليات للبائعين من خلال أدوات مثل تخصيص المتاجر، تطبيقات مخصصة، ودعم متعدد اللغات والعملات.",
+          section4_title: "تكاملات متقدمة في MGZon",
+          section4_text: "توفر MGZon AI تكاملات شاملة تدعم عمليات التجارة الإلكترونية بسهولة من خلال لوحة تحكم مرنة بدون إعدادات مسبقة. تشمل التكاملات:<br>" +
+            "<div class='integration-grid'>" +
+            "<div class='integration-card'><strong>المستودعات:</strong> إدارة المخزون عبر مستودعات في الولايات المتحدة، كندا، والصين، مع مزامنة في الوقت الفعلي.</div>" +
+            "<div class='integration-card'><strong>الدروب شيبنج:</strong> دعم لنموذج الدروب شيبنج مع موردين عالميين لتقليل التكاليف وزيادة الكفاءة.</div>" +
+            "<div class='integration-card'><strong>السوق:</strong> منصة سوق مفتوحة تتيح للبائعين عرض منتجاتهم بسهولة.</div>" +
+            "<div class='integration-card'><strong>الشحن:</strong> تكامل مع شركات شحن مثل FedEx وDHL لتوفير خيارات شحن مرنة.</div>" +
+            "<div class='integration-card'><strong>التسويق:</strong> أدوات إعلانية مدمجة مع Google Ads وFacebook Ads لتعزيز المبيعات.</div>" +
+            "<div class='integration-card'><strong>المحاسبة:</strong> تكامل مع QuickBooks وXero لإدارة الحسابات والفواتير.</div>" +
+            "<div class='integration-card'><strong>إدارة العملاء (CRM):</strong> أدوات لإدارة علاقات العملاء مع تكاملات مثل Salesforce.</div>" +
+            "<div class='integration-card'><strong>التحليلات:</strong> تقارير في الوقت الفعلي باستخدام Google Analytics وأدوات مخصصة.</div>" +
+            "<div class='integration-card'><strong>الأتمتة:</strong> أتمتة العمليات مثل إدارة الطلبات والإشعارات عبر Zapier.</div>" +
+            "<div class='integration-card'><strong>الاتصالات:</strong> دعم الدردشة المباشرة وإشعارات البريد الإلكتروني عبر Twilio.</div>" +
+            "<div class='integration-card'><strong>التعليم:</strong> موارد تعليمية ودروس عبر منصة MGZon التعليمية.</div>" +
+            "<div class='integration-card'><strong>الأمان:</strong> حماية البيانات باستخدام تشفير AES-256 وامتثال GDPR.</div>" +
+            "<div class='integration-card'><strong>الإعلانات:</strong> إدارة الحملات الإعلانية بسهولة عبر لوحة التحكم.</div>" +
+            "<div class='integration-card'><strong>الضرائب:</strong> حساب الضرائب تلقائيًا مع تكاملات مثل Avalara.</div>" +
+            "<div class='integration-card'><strong>أخرى:</strong> تكاملات مخصصة مع منصات مثل Shopify وWooCommerce.</div>" +
+            "</div><br>يمكن إضافة هذه التكاملات بسهولة عبر لوحة التحكم، مع واجهة برمجة تطبيقات (API) قوية تتيح للمطورين دمج MGZon مع مشاريعهم باستخدام OAuth 2.0 ونقاط نهاية متعددة داخل وخارج المنصة. اطلع على التفاصيل: <a href='https://hager-zon.vercel.app/docs/oauth'>وثائق OAuth</a>.",
+          section5_title: "مكتبة passport-mgzon وتجربة المستخدم",
+          section5_text: "تقدم MGZon مكتبة <code>passport-mgzon</code> لتسهيل المصادقة (<a href='https://www.npmjs.com/package/passport-mgzon'>npm install passport-mgzon</a>). يمكن للمطورين اختبار التكامل عبر <a href='https://passport-mgzon.app/demo'>الديمو</a>، الذي يوضح تسجيل الدخول وإنشاء الحساب باستخدام مصادقة MGZon (<a href='/assets/img/demo.png'>صورة الديمو</a>). بعد المصادقة، يتم توجيه المستخدمين إلى لعبة المغامرات 'Shopping Cart Adventure'، وهي لعبة تفاعلية بلا نهاية مدمجة داخل المنصة. اطلع على دليل التشغيل السريع: <a href='https://gist.github.com/Mark-Lasfar/525924912c80d84baf5aaab72b5b3e80'>Gist</a>.",
+          section6_title: "تطبيق MGZon ودعم البائعين",
+          section6_text: "تقدم MGZon تطبيقًا رسميًا للمنصة (<a href='https://github.com/Mark-Lasfar/portfolio-markk/raw/refs/heads/main/mgzon.apk'>تحميل mgzon.apk</a>)، مع تخصيص تطبيقات ودومينات فرعية لكل بائع (مثال: <a href='https://hager-zon.vercel.app'>hager-zon.vercel.app</a>). عند تسجيل بائع جديد، يحصل على 50 نقطة ترحيبية ودومين مخصص لمتجره (<a href='/assets/img/seller.png'>صورة توضيحية</a>).",
+          section7_title: "Elasfar-AI: الذكاء الاصطناعي لدعم التجارة",
+          section7_text: "طوّر مارك نموذج Elasfar-AI (<a href='https://huggingface.co/spaces/MGZON/elasfar-ai'>رابط النموذج</a>)، الذي تم تدريبه على قواعد بيانات متعددة لتقديم إرشادات ذكية، الرد على استفسارات المستخدمين، ودعم البائعين والمشترين. النموذج، الذي كان يُعرف سابقًا بـ MarkAI، استغرق وقتًا طويلًا في التطوير لتحويل فكرة إلى واقع (<a href='https://camo.githubusercontent.com/79edce9d878625699a6347cfe94da10f8347bf582f81c785b4e2a783681ac5b4/68747470733a2f2f63646e2d75706c6f6164732e68756767696e67666163652e636f2f70726f64756374696f6e2f75706c6f6164732f3637623865616264643639333538393066393362653762372f394366684165386c4b544533583332574636576d782e706e67'>صورة MarkAI</a>). يدعم النموذج أيضًا الألعاب الداخلية مثل Shopping Cart Adventure.",
+          section8_title: "مهارات وخبرات",
+          section8_text: "يمتلك مارك خبرة 5 سنوات في TypeScript، MongoDB، React، Django، وLinux. عمل كمطور Freelance (2020-2023)، مع التركيز على القابلية للتوسع وتجربة المستخدم. يجيد تحسين محركات البحث (SEO)، إدارة المشاريع المعقدة، وتطوير ألعاب تفاعلية مثل Shopping Cart Adventure. كما طوّر نموذج Elasfar-AI لدعم التجارة الإلكترونية.",
+          section9_title: "رؤية ملهمة",
+          section9_text: "يقول مارك: 'إذا أردت وضع هدف، ضعه عند النجوم، لأنه حتى لو فشلت، ستهبط على القمر.' هذا يعكس شغفه بالابتكار ورؤيته لبناء MGZon AI كمنصة رائدة عالميًا، رغم التحديات والإحباطات التي واجهها.",
+          section10_title: "تواصلوا مع مارك",
+          section10_text: "زوروا موقعه: <a href='https://mark-elasfar.web.app'>mark-elasfar.web.app</a>، أو تواصلوا عبر: <a href='mailto:marklasfar@gmail.com'>marklasfar@gmail.com</a>. تابعوه على <a href='https://x.com/marklasfar'>Twitter</a>، <a href='https://github.com/Mark-Lasfar'>GitHub</a>، أو <a href='https://www.facebook.com/people/Mark-Al-Asfar/pfbid02GMisUQ8AqWkNZjoKtWFHH1tbdHuVscN1cjcFnZWy9HkRaAsmanBfT6mhySAyqpg4l/'>Facebook</a>. اطلعوا على سيرته الذاتية: <a href='https://drive.google.com/uc?export=download&id=1yP-j5btmigH2SDWh2TSKw7pw-hMnXKQa'>CV</a>.",
+          footer: {
+            companyDesc: "MGZon هي منصة رائدة لتكاملات التجارة الإلكترونية وحلول API.",
+            rightsReserved: "جميع الحقوق محفوظة.",
+            contact: "معلومات التواصل",
+            contact_email: "راسلنا عبر البريد الإلكتروني",
+            contact_email_desc: "تواصلوا مع فريق الدعم عبر البريد الإلكتروني.",
+            contact_email_details: "تواصلوا مع فريق الدعم على support@mgzon.com للمساعدة في المشاكل التقنية، إدارة الحسابات، أو الاستفسارات العامة. نهدف للرد خلال 24 ساعة خلال أيام العمل (الإثنين إلى الجمعة، 9 صباحًا - 5 مساءً بتوقيت EST). للحل السريع، أرفق رقم الحساب، رقم الطلب، أو وصف مفصل للمشكلة. يمكنكم أيضًا تقديم تذكرة عبر بوابة الدعم: mgzon.com/support.",
+            contact_phone: "الدعم عبر الهاتف",
+            contact_phone_desc: "اتصلوا بنا للحصول على مساعدة فورية.",
+            contact_phone_details: "تواصلوا معنا على +1-800-123-4567 للدعم الفوري. خطوطنا مفتوحة من الإثنين إلى الجمعة، 9 صباحًا - 5 مساءً بتوقيت EST. للمشاكل العاجلة خارج هذه الساعات، استخدموا البريد الإلكتروني أو الدردشة المباشرة. عملاء المؤسسات يمكنهم الوصول للدعم على مدار الساعة عبر مدير الحساب.",
+            contact_hours: "ساعات الدعم",
+            contact_hours_desc: "متوفر من 9 صباحًا إلى 6 مساءً، من الإثنين إلى الجمعة.",
+            contact_hours_details: "فريق الدعم متوفر من الإثنين إلى الجمعة، 9 صباحًا - 5 مساءً بتوقيت EST. خارج هذه الساعات، استكشفوا خيارات الخدمة الذاتية مثل الأسئلة الشائعة، المنتديات، وقاعدة المعرفة. عملاء المؤسسات يمكنهم طلب دعم 24/7 عبر enterprise@mgzon.com.",
+            resources: "الموارد",
+            resources_api_docs: "وثائق API",
+            resources_api_docs_desc: "استكشفوا نقاط نهاية API وأدلة التكامل.",
+            resources_api_docs_details: "وثائق API توفر أدلة مفصلة لتكامل خدمات MGZon في تطبيقاتكم. تعرفوا على المصادقة عبر OAuth 2.0، نقاط النهاية المتاحة (مثل /api/v1/clients، /api/products/import)، حدود المعدل، ومعالجة الأخطاء. تتضمن أمثلة برمجية بلغات Python، JavaScript، وcURL. زوروا بوابة المطورين: mgzon.com/developers.",
+            resources_faq: "الأسئلة الشائعة",
+            resources_faq_desc: "ابحثوا عن إجابات للأسئلة الشائعة.",
+            resources_faq_details: "اعثروا على إجابات حول إعداد الحساب، الفوترة، استخدام API، واستكشاف الأخطاء في الأسئلة الشائعة. يتم تحديثها أسبوعيًا بناءً على تعليقات المستخدمين، وتغطي موضوعات مثل إدارة نطاق OAuth، تكامل البائعين، ومعالجة الدفع. إذا لم تجدوا إجابة، قدموا تذكرة أو انضموا لمنتدياتنا: mgzon.com/community.",
+            resources_docs: "الوثائق",
+            resources_docs_desc: "تعلموا كيفية استخدام MGZon مع أدلتنا المفصلة.",
+            resources_docs_details: "الوثائق توفر أدلة خطوة بخطوة حول إدارة الحسابات، استيراد/تصدير المنتجات، الحملات الإعلانية، والتحليلات. متوفرة بلغات متعددة (العربية، الإنجليزية، إلخ) مع فيديوهات تعليمية وعروض تفاعلية. اطلعوا على موضوعات متقدمة مثل إعداد الـ webhook والإشعارات في الوقت الفعلي: mgzon.com/docs.",
+            support: "الدعم",
+            support_contact_us: "تواصلوا مع الدعم",
+            support_contact_us_desc: "تواصلوا مع فريق الدعم الخاص بنا.",
+            support_contact_us_details: "فريق الدعم جاهز للمساعدة في المشاكل التقنية، استفسارات الفوترة، أو طلبات الميزات. تواصلوا عبر الدردشة المباشرة (mgzon.com/support)، البريد (support@mgzon.com)، أو الهاتف (+1-800-123-4567). للمشاكل المعقدة، قدموا تذكرة عبر البوابة لتتبع الحل.",
+            support_community: "المجتمع",
+            support_community_desc: "انضموا لمنتديات المجتمع للمساعدة والنقاشات.",
+            support_community_details: "انضموا لمجتمعنا العالمي من المطورين والمستخدمين لتبادل المعرفة والتعاون. شاركوا في منتدياتنا (mgzon.com/community)، أو ساهموا في مشاريع مفتوحة المصدر على GitHub (github.com/Mark-Lasfar/MGZon). متاح أيضًا جلسات أسئلة وأجوبة شهرية.",
+            support_tickets: "تذاكر الدعم",
+            support_tickets_desc: "قدموا تذكرة للحصول على مساعدة مخصصة.",
+            support_tickets_details: "قدموا تذكرة دعم للمساعدة في مشاكل معقدة مثل أخطاء API أو تحديات التكامل. تابعوا حالة التذكرة في الوقت الفعلي عبر بوابة الدعم (mgzon.com/support/tickets). المستخدمون المميزون وعملاء المؤسسات يحصلون على دعم ذو أولوية مع أوقات استجابة مضمونة.",
+            about: "عن MGZon",
+            about_mgzon: "قصتنا",
+            about_mgzon_desc: "تعرفوا على رحلة MGZon ورؤيتها.",
+            about_mgzon_details: "MGZon هي منصة رائدة تمكّن الشركات والمطورين بأدوات مبتكرة للتجارة الإلكترونية، الإعلانات، والتحليلات. تأسست في 2023، ودعمت آلاف البائعين عالميًا. تعرفوا على تاريخنا، قيمنا، والتزامنا بالخصوصية والأمان: mgzon.com/about.",
+            about_team: "فريقنا",
+            about_team_desc: "تعرفوا على الفريق وراء MGZon.",
+            about_team_details: "فريقنا من المطورين، المصممين، وأخصائيي الدعم مكرس لنجاحكم. تعرفوا على قادتنا، بما في ذلك مدير التكنولوجيا ومديري المنتجات، الذين يمتلكون عقودًا من الخبرة في التكنولوجيا والتجارة الإلكترونية: mgzon.com/team.",
+            about_mission: "مهمتنا",
+            about_mission_desc: "اكتشفوا مهمتنا لتمكين التجارة الإلكترونية.",
+            about_mission_details: "مهمتنا هي دفع الابتكار عبر حلول تكنولوجية قابلة للتوسع وآمنة. نمكّن الشركات والمطورين من خلال أدوات مثل API المعتمد على OAuth، التحليلات في الوقت الفعلي، والتكاملات مع منصات مثل Shopify وShipBob: mgzon.com/mission.",
+            media: "الإعلام والموارد",
+            media_videos: "الفيديوهات",
+            media_videos_desc: "شاهدوا دروسًا وأدلة على YouTube.",
+            media_videos_details: "استكشفوا مكتبة الفيديوهات على mgzon.com/videos، تحتوي على دروس حول تكامل API، عروض للبائعين، وندوات عن اتجاهات التجارة الإلكترونية. يتم إضافة محتوى جديد أسبوعيًا، بما في ذلك أدلة للمبتدئين وموضوعات متقدمة مثل مزامنة المخزون في الوقت الفعلي. اشتركوا في قناتنا على YouTube.",
+            media_books: "الكتب",
+            media_books_desc: "استكشفوا الكتب الموصى بها حول التجارة الإلكترونية وAPI.",
+            media_books_details: "اكتشفوا قائمتنا المنسقة من الكتب والكتب الإلكترونية حول التجارة الإلكترونية، تطوير البرمجيات، والابتكار. تشمل العناوين 'API Design Patterns' و'E-commerce Essentials'. متوفرة مجانًا أو عبر شركائنا: mgzon.com/resources/books.",
+            media_articles: "المقالات",
+            media_articles_desc: "اقرأوا أحدث المقالات ومنشورات المدونة.",
+            media_articles_details: "اقرأوا مدونتنا على mgzon.com/blog للحصول على رؤى حول اتجاهات الصناعة، الدروس التقنية، وتحديثات MGZon. تشمل المنشورات الأخيرة أفضل ممارسات OAuth، استراتيجيات الإعلانات للبائعين، وتحسين أداء API. ساهموا بمقالاتكم عبر بوابة المجتمع."
+          }
+        },
+        en: {
+          title: "The Journey of MGZon AI's Founder",
+          subtitle: "Full Stack Developer | Founder of a Global E-commerce Platform",
+          name: "Mark Al-Asfar",
+          download_cv: "Download CV (PDF)",
+          section1_title: "From Alexandria to Global Impact",
+          section1_text: "Mark Al-Asfar (Ibrahim Al-Asfar), a Full Stack Developer from Alexandria, Egypt, turned his passion for coding into a global achievement by founding MGZon AI, an AI-driven e-commerce platform inspired by giants like Amazon and Shopify. He began his journey as a student at the Faculty of Computers and Information, Alexandria University, earning a Bachelor's in Information Systems with Very Good honors in 2023.",
+          section2_title: "Founding MGZon AI",
+          section2_text: "In 2023, Mark founded MGZon AI, a platform offering personalized shopping experiences and dynamic vendor stores, achieving over 1.9 million downloads. He developed MGpay, an internal payment system integrated with Stripe, PayPal, and Visa. The platform is supported by integrations with warehouses in the USA, Canada, and China, operating under a U.S. license. Despite frustrations and challenges, Mark's goal was to empower sellers with easy-to-use tools for managing their stores.",
+          section3_title: "MGZon AI's Vision",
+          section3_text: "MGZon AI's vision centers on empowering sellers and buyers through an intelligent platform that combines advanced technology with ease of use. Despite the frustrations and monotony faced during development, Mark persevered, driven by his belief that e-commerce should be accessible and straightforward for all. The goal is to simplify operations for sellers with tools like store customization, dedicated apps, and multi-language and multi-currency support.",
+          section4_title: "Advanced Integrations in MGZon",
+          section4_text: "MGZon AI offers comprehensive integrations to streamline e-commerce operations via a flexible dashboard without prior setup. These include:<br>" +
+            "<div class='integration-grid'>" +
+            "<div class='integration-card'><strong>Warehouse:</strong> Inventory management across warehouses in the USA, Canada, and China with real-time syncing.</div>" +
+            "<div class='integration-card'><strong>Dropshipping:</strong> Support for dropshipping with global suppliers to reduce costs and increase efficiency.</div>" +
+            "<div class='integration-card'><strong>Marketplace:</strong> An open marketplace platform for sellers to list products effortlessly.</div>" +
+            "<div class='integration-card'><strong>Shipping:</strong> Integration with shipping providers like FedEx and DHL for flexible shipping options.</div>" +
+            "<div class='integration-card'><strong>Marketing:</strong> Built-in advertising tools integrated with Google Ads and Facebook Ads to boost sales.</div>" +
+            "<div class='integration-card'><strong>Accounting:</strong> Integration with QuickBooks and Xero for seamless accounting and invoicing.</div>" +
+            "<div class='integration-card'><strong>CRM:</strong> Customer relationship management tools with integrations like Salesforce.</div>" +
+            "<div class='integration-card'><strong>Analytics:</strong> Real-time reports powered by Google Analytics and custom tools.</div>" +
+            "<div class='integration-card'><strong>Automation:</strong> Automate processes like order management and notifications via Zapier.</div>" +
+            "<div class='integration-card'><strong>Communication:</strong> Live chat and email notifications via Twilio.</div>" +
+            "<div class='integration-card'><strong>Education:</strong> Educational resources and tutorials via MGZon’s learning platform.</div>" +
+            "<div class='integration-card'><strong>Security:</strong> Data protection with AES-256 encryption and GDPR compliance.</div>" +
+            "<div class='integration-card'><strong>Advertising:</strong> Manage ad campaigns easily through the dashboard.</div>" +
+            "<div class='integration-card'><strong>Tax:</strong> Automated tax calculations with integrations like Avalara.</div>" +
+            "<div class='integration-card'><strong>Other:</strong> Custom integrations with platforms like Shopify and WooCommerce.</div>" +
+            "</div><br>These integrations can be added effortlessly via the dashboard, with a robust API enabling developers to integrate MGZon with their projects using OAuth 2.0 and multiple endpoints inside and outside the platform. Learn more: <a href='https://hager-zon.vercel.app/docs/oauth'>OAuth Docs</a>.",
+          section5_title: "passport-mgzon Library and User Experience",
+          section5_text: "MGZon offers the <code>passport-mgzon</code> library for easy authentication (<a href='https://www.npmjs.com/package/passport-mgzon'>npm install passport-mgzon</a>). Developers can test integrations via the <a href='https://passport-mgzon.app/demo'>demo</a>, which showcases login and account creation using MGZon authentication (<a href='/assets/img/demo.png'>Demo image</a>). After authentication, users are directed to 'Shopping Cart Adventure,' an engaging endless adventure game integrated into the platform. Check the quick start guide: <a href='https://gist.github.com/Mark-Lasfar/525924912c80d84baf5aaab72b5b3e80'>Gist</a>.",
+          section6_title: "MGZon App and Seller Support",
+          section6_text: "MGZon provides an official app for the platform (<a href='https://github.com/Mark-Lasfar/portfolio-markk/raw/refs/heads/main/mgzon.apk'>Download mgzon.apk</a>), with custom apps and subdomains for each seller (e.g., <a href='https://hager-zon.vercel.app'>hager-zon.vercel.app</a>). New sellers receive 50 welcome points and a custom store domain upon registration (<a href='/assets/img/seller.png'>Seller screenshot</a>).",
+          section7_title: "Elasfar-AI: AI-Powered Commerce Support",
+          section7_text: "Mark developed Elasfar-AI (<a href='https://huggingface.co/spaces/MGZON/elasfar-ai'>Model link</a>), trained on diverse datasets to provide intelligent guidance, answer user queries, and support sellers and buyers. Previously known as MarkAI, it took extensive effort to transform the idea into reality (<a href='https://camo.githubusercontent.com/79edce9d878625699a6347cfe94da10f8347bf582f81c785b4e2a783681ac5b4/68747470733a2f2f63646e2d75706c6f6164732e68756767696e67666163652e636f2f70726f64756374696f6e2f75706c6f6164732f3637623865616264643639333538393066393362653762372f394366684165386c4b544533583332574636576d782e706e67'>MarkAI image</a>). It also supports in-platform games like Shopping Cart Adventure.",
+          section8_title: "Skills and Expertise",
+          section8_text: "Mark has over 5 years of experience in TypeScript, MongoDB, React, Django, and Linux. As a Freelance Developer (2020-2023), he focused on scalability and user experience. He excels in SEO, complex project management, and developing interactive games like Shopping Cart Adventure. He also developed Elasfar-AI to enhance e-commerce operations.",
+          section9_title: "Inspiring Vision",
+          section9_text: "Mark says: 'If you want to set a goal, set it at the stars. Because even if you miss, you'll land on the moon.' This reflects his passion for innovation and vision to make MGZon AI a global leader, despite the challenges and frustrations faced.",
+          section10_title: "Connect with Mark",
+          section10_text: "Visit his website: <a href='https://mark-elasfar.web.app'>mark-elasfar.web.app</a>, or contact him at: <a href='mailto:marklasfar@gmail.com'>marklasfar@gmail.com</a>. Follow him on <a href='https://x.com/marklasfar'>Twitter</a>, <a href='https://github.com/Mark-Lasfar'>GitHub</a>, or <a href='https://www.facebook.com/people/Mark-Al-Asfar/pfbid02GMisUQ8AqWkNZjoKtWFHH1tbdHuVscN1cjcFnZWy9HkRaAsmanBfT6mhySAyqpg4l/'>Facebook</a>. Check his CV: <a href='https://drive.google.com/uc?export=download&id=1yP-j5btmigH2SDWh2TSKw7pw-hMnXKQa'>CV</a>.",
+          footer: {
+            companyDesc: "MGZon is a leading platform for e-commerce integrations and API solutions.",
+            rightsReserved: "© 2025 Mark Al-Asfar & MGZon AI. All rights reserved.",
+            contact: "Contact Information",
+            contact_email: "Email Us",
+            contact_email_desc: "Reach out to our support team via email.",
+            contact_email_details: "Contact our support team at support@mgzon.com for assistance with technical issues, account management, or general inquiries. We aim to respond within 24 hours during business days (Monday to Friday, 9 AM - 5 PM EST). For faster resolution, include your account ID, order number, or a detailed description of your issue. You can also submit a ticket via our support portal at mgzon.com/support.",
+            contact_phone: "Phone Support",
+            contact_phone_desc: "Call us for immediate assistance.",
+            contact_phone_details: "Reach us at +1-800-123-4567 for immediate support. Our phone lines are open Monday to Friday, 9 AM - 5 PM EST. For urgent issues outside these hours, use our email support or live chat feature. Enterprise clients can access 24/7 dedicated support by contacting their account manager.",
+            contact_hours: "Support Hours",
+            contact_hours_desc: "Available 9 AM - 6 PM, Monday to Friday.",
+            contact_hours_details: "Our support team is available Monday to Friday, 9 AM - 5 PM EST. Outside these hours, explore our self-service options, including our comprehensive FAQ, community forums, and knowledge base. Enterprise clients can request 24/7 support through their dedicated account manager or by emailing enterprise@mgzon.com.",
+            resources: "Resources",
+            resources_api_docs: "API Documentation",
+            resources_api_docs_desc: "Explore our API endpoints and integration guides.",
+            resources_api_docs_details: "Our API documentation provides detailed guides for integrating MGZon services into your applications. Learn about OAuth 2.0 authentication, available endpoints (e.g., /api/v1/clients, /api/products/import), rate limits, and error handling. Includes code examples in Python, JavaScript, and cURL. Visit our developer portal at mgzon.com/developers.",
+            resources_faq: "FAQ",
+            resources_faq_desc: "Find answers to common questions.",
+            resources_faq_details: "Find answers to common questions about account setup, billing, API usage, and troubleshooting in our FAQ. Updated weekly based on user feedback, it covers topics like OAuth scope management, seller integrations, and payment processing. If your question isn’t answered, submit a ticket or join our community forums at mgzon.com/community.",
+            resources_docs: "Documentation",
+            resources_docs_desc: "Learn how to use MGZon with our detailed guides.",
+            resources_docs_details: "Our documentation offers step-by-step guides on using MGZon’s platform, covering account management, product imports/exports, advertising campaigns, and analytics. Available in multiple languages (English, Arabic, etc.) with video tutorials and interactive demos. Check out advanced topics like webhook setup and real-time notifications at mgzon.com/docs.",
+            support: "Support",
+            support_contact_us: "Contact Support",
+            support_contact_us_desc: "Get in touch with our support team.",
+            support_contact_us_details: "Our dedicated support team is here to assist with technical issues, billing inquiries, or feature requests. Reach us via live chat (available on mgzon.com/support), email (support@mgzon.com), or phone (+1-800-123-4567). For complex issues, submit a ticket through our portal for detailed tracking and resolution.",
+            support_community: "Community",
+            support_community_desc: "Join our community forums for help and discussions.",
+            support_community_details: "Join our global community of developers and users to share knowledge, collaborate on projects, and get peer support. Participate in our forums at mgzon.com/community, attend virtual meetups, or contribute to our open-source projects on GitHub (github.com/Mark-Lasfar/MGZon). Monthly webinars and Q&A sessions are also available.",
+            support_tickets: "Support Tickets",
+            support_tickets_desc: "Submit a ticket for personalized assistance.",
+            support_tickets_details: "Submit a support ticket for personalized assistance with complex issues, such as API errors or integration challenges. Track your ticket status in real-time via our support portal (mgzon.com/support/tickets). Premium users and enterprise clients receive priority support with SLA-backed response times.",
+            about: "About MGZon",
+            about_mgzon: "Our Story",
+            about_mgzon_desc: "Learn about MGZon's journey and vision.",
+            about_mgzon_details: "MGZon is a leading platform empowering businesses and developers with innovative tools for e-commerce, advertising, and analytics. Founded in 2023, we’ve grown to support thousands of sellers globally. Learn about our history, values, and commitment to privacy and security at mgzon.com/about.",
+            about_team: "Our Team",
+            about_team_desc: "Meet the team behind MGZon.",
+            about_team_details: "Our team of developers, designers, and support specialists is dedicated to your success. Meet our leadership, including our CTO and product managers, who bring decades of experience in tech and e-commerce. Visit mgzon.com/team to learn more about our expertise and open roles.",
+            about_mission: "Our Mission",
+            about_mission_desc: "Discover our mission to empower e-commerce.",
+            about_mission_details: "Our mission is to drive innovation by providing scalable, secure, and accessible technology solutions. We empower businesses and developers to succeed through tools like our OAuth-based API, real-time analytics, and seamless integrations with platforms like Shopify and ShipBob. Learn more at mgzon.com/mission.",
+            media: "Media & Resources",
+            media_videos: "Videos",
+            media_videos_desc: "Watch tutorials and guides on YouTube.",
+            media_videos_details: "Explore our video library at mgzon.com/videos, featuring tutorials on API integration, product demos for sellers, and webinars on e-commerce trends. New content is added weekly, including beginner guides and advanced topics like real-time inventory syncing. Subscribe to our YouTube channel for updates.",
+            media_books: "Books",
+            media_books_desc: "Explore recommended books for e-commerce and APIs.",
+            media_books_details: "Discover our curated list of books and eBooks on e-commerce, software development, and innovation. Titles include 'API Design Patterns' and 'E-commerce Essentials.' Access free resources or purchase through our partners at mgzon.com/resources/books.",
+            media_articles: "Articles",
+            media_articles_desc: "Read our latest articles and blog posts.",
+            media_articles_details: "Read our blog at mgzon.com/blog for insights on industry trends, technical tutorials, and MGZon updates. Recent posts cover OAuth best practices, seller advertising strategies, and performance optimization for APIs. Contribute your own articles via our community portal."
+          }
+        }
+      };
+
+      const languageSwitcher = document.getElementById('language-switcher');
+      const mainTitle = document.getElementById('main-title');
+      const subtitle = document.getElementById('subtitle');
+      const name = document.getElementById('name');
+      const downloadCV = document.getElementById('download-cv');
+      const sectionTitles = Array.from(document.querySelectorAll('[id$="-title"]'));
+      const sectionTexts = Array.from(document.querySelectorAll('[id$="-text"]'));
+      const footerCompanyDesc = document.getElementById('footer-company-desc');
+      const footerRightsReserved = document.getElementById('footer Rights-reserved');
+      const contactTitle = document.getElementById('contact-title');
+      const resourcesTitle = document.getElementById('resources-title');
+      const supportTitle = document.getElementById('support-title');
+      const aboutTitle = document.getElementById('about-title');
+      const mediaTitle = document.getElementById('media-title');
+      const footerCards = Array.from(document.querySelectorAll('.footer-card'));
+
+        fetch('/api/articles?limit=5')
+    .then(res => res.json())
+    .then(articles => {
+      const mediaSection = document.getElementById('media-section');
+      mediaSection.innerHTML = articles.map(article => `
+        <div class="footer-card bg-gray-700 p-6 rounded-lg shadow-lg hover:bg-gray-600 transition-all duration-300 cursor-pointer" data-details="dynamic-${article.slug}">
+          <div class="flex justify-center mb-4"><i class="bx bx-news text-4xl text-red-400"></i></div>
+          <h4>${article.title}</h4>
+          <p>${article.metaDescription.substring(0, 100)}...</p>
+        </div>
+      `).join('');
+      document.querySelectorAll('.footer-card').forEach(card => {
+        card.addEventListener('click', () => {
+          window.location.href = `/article/${card.dataset.details.replace('dynamic-', '')}.html`;
+        });
+      });
+    });
+
+      function updateContent(lang) {
+        const translation = translations[lang];
+
+        // Update meta tags
+        document.getElementById('meta-title').textContent = translation.title;
+        document.getElementById('meta-desc').setAttribute('content', translation.title);
+        document.querySelector('meta[property="og:title"]').setAttribute('content', translation.title);
+        document.querySelector('meta[property="og:description"]').setAttribute('content', translation.title);
+        document.querySelector('meta[name="twitter:title"]').setAttribute('content', translation.title);
+        document.querySelector('meta[name="twitter:description"]').setAttribute('content', translation.title);
+
+        // Update page content
+        mainTitle.textContent = translation.title;
+        subtitle.textContent = translation.subtitle;
+        name.textContent = translation.name;
+        downloadCV.textContent = translation.download_cv;
+
+        sectionTitles.forEach((title, index) => {
+          const sectionKey = `section${index + 1}_title`;
+          if (translation[sectionKey]) {
+            title.textContent = translation[sectionKey];
+          }
+        });
+
+        sectionTexts.forEach((text, index) => {
+          const sectionKey = `section${index + 1}_text`;
+          if (translation[sectionKey]) {
+            text.innerHTML = translation[sectionKey];
+          }
+        });
+
+        footerCompanyDesc.textContent = translation.footer.companyDesc;
+        footerRightsReserved.textContent = translation.footer.rightsReserved;
+        contactTitle.textContent = translation.footer.contact;
+        resourcesTitle.textContent = translation.footer.resources;
+        supportTitle.textContent = translation.footer.support;
+        aboutTitle.textContent = translation.footer.about;
+        mediaTitle.textContent = translation.footer.media;
+
+        footerCards.forEach(card => {
+          const detailsId = card.getAttribute('data-details');
+          const titleId = card.querySelector('[id$="-title"]').id;
+          const descId = card.querySelector('[id$="-desc"]').id;
+          const detailsElement = card.querySelector('[id$="-details"]');
+
+          card.querySelector(`#${titleId}`).textContent = translation.footer[titleId.replace('-title', '')];
+          card.querySelector(`#${descId}`).textContent = translation.footer[descId.replace('-desc', '_desc')];
+          detailsElement.textContent = translation.footer[detailsId.replace('-details', '_details')];
+        });
+
+        // Update modal content dynamically
+        footerCards.forEach(card => {
+          card.addEventListener('click', () => {
+            const detailsId = card.getAttribute('data-details');
+            document.getElementById('modal-title').textContent = translation.footer[detailsId.replace('-details', '')];
+            document.getElementById('modal-details').textContent = translation.footer[detailsId.replace('-details', '_details')];
+            document.getElementById('footer-modal').classList.add('show');
+          });
+        });
+      }
+
+      languageSwitcher.addEventListener('change', (e) => {
+        const lang = e.target.value;
+        updateContent(lang);
+        window.history.pushState({}, '', `?lang=${lang}`);
+      });
+
+      // Initialize with default language or URL parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const lang = urlParams.get('lang') || 'en';
+      languageSwitcher.value = lang;
+      updateContent(lang);
+
+      // Modal functionality
+      const modal = document.getElementById('footer-modal');
+      const closeBtn = document.getElementById('close-btn');
+
+      closeBtn.addEventListener('click', () => {
+        modal.classList.remove('show');
+      });
+
+      window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('show');
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

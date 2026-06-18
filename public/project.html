@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Details - MGZon</title>
+    <link rel="icon" id="dynamic-favicon" href="/assets/img/logo.svg" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+
+    <!-- Dynamic Open Graph / SEO Meta Tags -->
+    <meta property="og:title" id="og-title" content="Project - MGZon">
+    <meta property="og:description" id="og-description" content="View project details">
+    <meta property="og:image" id="og-image" content="/assets/img/default-project.png">
+    <meta property="og:type" content="article">
+    <meta property="og:url" id="og-url" content="">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" id="twitter-title" content="Project - MGZon">
+    <meta name="twitter:description" id="twitter-description" content="View project details">
+    <meta name="twitter:image" id="twitter-image" content="/assets/img/default-project.png">
+    <style>
+        :root {
+            --first-color: #1d4ed8;
+            --second-color: #4b5563;
+            --primary-color: #fff;
+            --primary-color-2: #f3f4f6;
+            --container-border: #d1d5db;
+            --text-color: #1f2937;
+            --background-color: #f9fafb;
+        }
+        [data-theme="dark"] {
+            --first-color: #3b82f6;
+            --second-color: #9ca3af;
+            --primary-color: #1f2937;
+            --primary-color-2: #374151;
+            --container-border: #4b5563;
+            --text-color: #f3f4f6;
+            --background-color: #111827;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: all 0.3s;
+        }
+        .star-rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+            gap: 0.25rem;
+        }
+        .star-rating input {
+            display: none;
+        }
+        .star-rating label {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #ddd;
+            transition: color 0.2s;
+        }
+        .star-rating label:hover,
+        .star-rating label:hover ~ label,
+        .star-rating input:checked ~ label {
+            color: #f1c40f;
+        }
+        .comment-card {
+            transition: all 0.2s;
+        }
+        .comment-card:hover {
+            transform: translateX(4px);
+        }
+        .like-btn.liked {
+            color: #ef4444;
+        }
+        .reply-form {
+            transition: all 0.3s ease;
+        }
+
+        .project-description-markdown {
+            line-height: 1.6;
+            background: transparent;
+            color: var(--text-color);
+        }
+        .project-description-markdown h1 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 1rem 0 0.5rem;
+        }
+        .project-description-markdown h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 1rem 0 0.5rem;
+        }
+        .project-description-markdown h3 {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 0.75rem 0 0.5rem;
+        }
+        .project-description-markdown code {
+            background: var(--primary-color-2);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-family: monospace;
+            color: var(--text-color);
+        }
+        .project-description-markdown pre {
+            background: var(--primary-color-2);
+            color: var(--text-color);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+        }
+        .project-description-markdown pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+        }
+        .project-description-markdown img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+        }
+        .project-description-markdown a {
+            color: var(--first-color);
+            text-decoration: underline;
+        }
+        .project-description-markdown table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .project-description-markdown th,
+        .project-description-markdown td {
+            border: 1px solid var(--border-color);
+            padding: 0.5rem;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<header class="l-header fixed top-0 w-full z-50 bg-white dark:bg-gray-800 shadow-md">
+    <nav class="nav max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+        <a href="/" class="nav__logo flex items-center gap-2 text-xl font-bold">
+            <img src="/assets/img/logo.svg" alt="Logo" class="w-8 h-8">
+            <span id="site-name">MGZon</span>  <!-- ✅ اسم الموقع (من إعدادات الأدمن) -->
+            <span id="project-owner-name" style="display: none;"></span>  <!-- ✅ اسم صاحب المشروع (مخفي مؤقت) -->
+        </a>
+        <div class="nav__menu">
+            <ul class="nav__list flex gap-4">
+                <li><a href="/" class="nav__link hover:text-blue-500">Home</a></li>
+                <li><a href="/profile/me" class="nav__link" id="profile-link" style="display: none;">Profile</a></li>
+                <li><a href="/login.html" class="nav__link" id="login-link">Login</a></li>
+                <li><a href="/register.html" class="nav__link" id="register-link">Register</a></li>
+                <li><a href="#" class="nav__link" id="logout-link" style="display: none;">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<main class="max-w-4xl mx-auto px-4 pt-24 pb-12">
+    <!-- Project Details -->
+    <div id="project-details" class="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+        <div class="relative">
+            <img id="project-image" src="/assets/img/default-project.png" alt="Project" class="w-full h-64 object-cover">
+            <button id="back-button" class="absolute top-4 left-4 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition">
+                <i class='bx bx-arrow-back text-xl'></i>
+            </button>
+        </div>
+        <div class="p-6">
+            <h1 id="project-title" class="text-2xl md:text-3xl font-bold mb-2">Loading...</h1>
+            <div class="flex items-center gap-4 mb-4">
+                <div id="project-stars" class="flex items-center gap-1 text-yellow-500 text-lg"></div>
+                <span id="project-rating" class="text-sm text-gray-500"></span>
+            </div>
+            <div id="project-description" class="project-description-markdown"></div>
+            <div id="project-links" class="flex flex-wrap gap-3 mb-6"></div>
+
+            
+            <!-- Project Owner Info -->
+            <div id="owner-info" class="flex items-center gap-3 p-3 bg-gray-100 dark:bg-gray-700 rounded-lg mb-6">
+                <img id="owner-avatar" src="/assets/img/default-avatar.png" class="w-10 h-10 rounded-full object-cover">
+                <div>
+                    <p class="text-sm text-gray-500">Project by</p>
+                    <a id="owner-link" href="#" class="font-semibold hover:text-blue-500">Loading...</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- GitHub Stats Section (تظهر فقط للمشاريع المستوردة من GitHub) -->
+        <div id="github-stats-section" class="mt-6 p-4 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hidden">
+            <h3 class="font-semibold mb-3 flex items-center gap-2">
+                <i class='bx bxl-github text-xl'></i>
+                GitHub Repository Stats
+            </h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div class="text-center p-2 bg-white dark:bg-gray-900 rounded-lg">
+                    <i class='bx bx-star text-yellow-500 text-xl'></i>
+                    <p class="text-lg font-bold" id="github-stars">-</p>
+                    <p class="text-xs text-gray-500">Stars</p>
+                </div>
+                <div class="text-center p-2 bg-white dark:bg-gray-900 rounded-lg">
+                    <i class='bx bx-git-repo-forked text-blue-500 text-xl'></i>
+                    <p class="text-lg font-bold" id="github-forks">-</p>
+                    <p class="text-xs text-gray-500">Forks</p>
+                </div>
+                <div class="text-center p-2 bg-white dark:bg-gray-900 rounded-lg">
+                    <i class='bx bx-code-alt text-green-500 text-xl'></i>
+                    <p class="text-lg font-bold" id="github-language">-</p>
+                    <p class="text-xs text-gray-500">Main Language</p>
+                </div>
+                <div class="text-center p-2 bg-white dark:bg-gray-900 rounded-lg">
+                    <i class='bx bx-calendar text-purple-500 text-xl'></i>
+                    <p class="text-sm font-bold" id="github-updated">-</p>
+                    <p class="text-xs text-gray-500">Last Update</p>
+                </div>
+            </div>
+            <!-- ✅ لغات المشروع بالتفصيل -->
+            <div id="github-languages-detail" class="mt-3 pt-3 border-t border-gray-200 dark:border-gray-600 hidden">
+                <p class="text-sm font-semibold mb-2">Technologies Used:</p>
+                <div id="languages-list" class="flex flex-wrap gap-2"></div>
+            </div>
+            <!-- ✅ روابط GitHub الإضافية -->
+            <div class="mt-3 flex flex-wrap gap-2">
+                <a id="github-issues-link" href="#" target="_blank" class="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-500">
+                    <i class='bx bx-bug-alt'></i> Issues
+                </a>
+                <a id="github-pr-link" href="#" target="_blank" class="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-500">
+                    <i class='bx bx-git-pull-request'></i> Pull Requests
+                </a>
+                <a id="github-commits-link" href="#" target="_blank" class="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-500">
+                    <i class='bx bx-history'></i> Commits
+                </a>
+            </div>
+        </div>
+
+        <!-- README Section (تظهر للمشاريع المستوردة التي تحتوي على README) -->
+        <div id="readme-section" class="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 hidden">
+            <div class="flex justify-between items-center mb-3">
+                <h3 class="font-semibold flex items-center gap-2">
+                    <i class='bx bx-file-text'></i>
+                    README.md
+                </h3>
+                <button id="toggle-readme" class="text-sm text-blue-500 hover:text-blue-600 transition">
+                    <i class='bx bx-show'></i> Show
+                </button>
+            </div>
+            <div id="readme-content" class="prose prose-sm dark:prose-invert max-w-none overflow-x-auto hidden">
+                <!-- سيتم عرض محتوى الـ README هنا -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Rating Section -->
+    <div id="rating-section" class="mt-8 bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
+        <h3 class="text-xl font-semibold mb-4">Rate this Project</h3>
+        <div class="star-rating flex gap-1 mb-4">
+            <input type="radio" name="rating" value="5" id="star5"><label for="star5">★</label>
+            <input type="radio" name="rating" value="4" id="star4"><label for="star4">★</label>
+            <input type="radio" name="rating" value="3" id="star3"><label for="star3">★</label>
+            <input type="radio" name="rating" value="2" id="star2"><label for="star2">★</label>
+            <input type="radio" name="rating" value="1" id="star1"><label for="star1">★</label>
+        </div>
+        <textarea id="comment-text" rows="3" class="w-full p-3 border rounded-lg dark:bg-gray-700 dark:border-gray-600" placeholder="Write your comment..."></textarea>
+        <button id="submit-rating" class="mt-3 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+            Submit Rating & Comment
+        </button>
+        <p id="rating-message" class="text-sm mt-2 hidden"></p>
+    </div>
+
+    <!-- Comments Section -->
+    <div id="comments-section" class="mt-8 bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
+        <h3 class="text-xl font-semibold mb-4">Comments <span id="comments-count" class="text-sm text-gray-500"></span></h3>
+        <div id="comments-list" class="space-y-4">
+            <p class="text-gray-500 text-center py-4">No comments yet. Be the first to comment!</p>
+        </div>
+    </div>
+</main>
+
+<script src="/assets/js/config.js"></script>
+
+<script>
+    const API_URL = window.ENV.API_URL;
+    const cleanApiUrl = API_URL.replace(/\/$/, '');
+    let userToken = localStorage.getItem('userToken');
+    let currentUser = null;
+
+    // Get project info from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectIndex = urlParams.get('id');
+    const ownerNickname = urlParams.get('owner');
+
+    async function fetchCsrfToken() {
+        const response = await fetch(`${cleanApiUrl}/api/csrf-token`, { credentials: 'include' });
+        const data = await response.json();
+        return data.csrfToken;
+    }
+
+    // ============================================
+    // جلب شعار الموقع من الإعدادات
+    // ============================================
+    async function loadSiteLogo() {
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/site-settings`);
+            if (response.ok) {
+                const data = await response.json();
+                
+                // تحديث شعار الموقع في الـ Navbar
+                const logoImg = document.querySelector('.nav__logo img');
+                if (logoImg && data.logo) {
+                    logoImg.src = data.logo;
+                    logoImg.onerror = () => {
+                        logoImg.src = '/assets/img/logo.svg';
+                    };
+                }
+                
+                // ✅ تحديث اسم الموقع (باستخدام id)
+                const siteNameSpan = document.getElementById('site-name');
+                if (siteNameSpan && data.siteName) {
+                    siteNameSpan.textContent = data.siteName;
+                }
+                
+                // تحديث Favicon
+                const favicon = document.getElementById('dynamic-favicon');
+                if (favicon && data.logo) {
+                    favicon.href = data.logo;
+                    favicon.onerror = () => {
+                        favicon.href = '/assets/img/logo.svg';
+                    };
+                }
+            }
+        } catch (error) {
+            console.error('Error loading site logo:', error);
+        }
+    }
+    async function loadProject() {
+        if (!projectIndex || !ownerNickname) {
+            showToast('Invalid project information', 'error');
+            return;
+        }
+
+        try {
+            // ✅ جلب بيانات البروفايل أولاً
+            const profileRes = await fetch(`${cleanApiUrl}/api/profile/${ownerNickname}`);
+            if (!profileRes.ok) throw new Error('Profile not found');
+            const profileData = await profileRes.json();
+            
+            // ✅ استخراج المشاريع
+            let projectsList = [];
+            if (profileData.profile.projects) {
+                if (Array.isArray(profileData.profile.projects)) {
+                    projectsList = profileData.profile.projects;
+                } else if (typeof profileData.profile.projects === 'object') {
+                    projectsList = Object.values(profileData.profile.projects);
+                }
+            }
+            
+            // ✅ البحث بالمطابقة باستخدام _id (وليس index)
+            const project = projectsList.find(p => p._id === projectIndex);
+            if (!project) {
+                throw new Error('Project not found');
+            }
+            
+            // عرض بيانات المشروع
+            document.getElementById('project-title').textContent = project.title;
+            const descriptionElement = document.getElementById('project-description');
+            if (descriptionElement && project.description) {
+                // ✅ تحويل Markdown إلى HTML
+                if (typeof marked !== 'undefined') {
+                    descriptionElement.innerHTML = marked.parse(project.description);
+                } else {
+                    descriptionElement.textContent = project.description;
+                }
+            }
+
+            const starCount = Math.min(project.stars || 0, 5);
+            const starsHtml = '★'.repeat(starCount) + '☆'.repeat(5 - starCount);
+            document.getElementById('project-image').src = project.image || '/assets/img/default-project.png';
+            document.getElementById('project-rating').textContent = project.rating || 'Not rated';
+            document.getElementById('project-stars').innerHTML = starsHtml;
+
+            
+            
+
+
+            
+            // عرض الروابط
+            const linksContainer = document.getElementById('project-links');
+            if (project.links && project.links.length > 0) {
+                linksContainer.innerHTML = project.links.map(link => `
+                    <a href="${link.value}" target="_blank" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition flex items-center gap-2">
+                        <i class='bx bx-link-external'></i> ${link.option}
+                    </a>
+                `).join('');
+            }
+            
+            window.currentProjectOwnerName = profileData.profile.nickname || ownerNickname;
+            updateMetaTags(project, window.currentProjectOwnerName);
+
+
+            
+            // عرض معلومات المالك
+            document.getElementById('owner-avatar').src = profileData.profile.avatar || '/assets/img/default-avatar.png';
+            document.getElementById('owner-link').href = `/profile/${ownerNickname}`;
+            document.getElementById('owner-link').textContent = profileData.profile.nickname || ownerNickname;
+
+            document.title = `${project.title} - ${profileData.profile.nickname || ownerNickname} | MGZon`;
+
+            const ownerNameSpan = document.getElementById('project-owner-name');
+            if (ownerNameSpan && profileData.profile.nickname) {
+                ownerNameSpan.textContent = ` / ${profileData.profile.nickname}`;
+                ownerNameSpan.style.display = 'inline';
+            }
+
+            
+            // ✅ حفظ project في window للتعديل والحذف
+            window.currentProject = project;
+
+            const projectImageEl = document.getElementById('project-image');
+            if (projectImageEl && (!project.image || project.image === '/assets/img/default-project.png')) {
+                const dynamicImageUrl = `${cleanApiUrl}/api/projects/${project._id}/og-image`;
+                projectImageEl.src = dynamicImageUrl;
+                projectImageEl.onerror = () => {
+                    projectImageEl.src = '/assets/img/default-project.png';
+                };
+            }
+
+            window.currentProjectIndex = projectIndex;
+            window.currentProjectOwnerId = profileData.profile._id; 
+
+
+            // ✅ عرض إحصائيات GitHub إذا كان المشروع مستورداً
+            const githubStatsSection = document.getElementById('github-stats-section');
+            if (project.githubData && githubStatsSection) {
+                githubStatsSection.classList.remove('hidden');
+                
+                // عرض الإحصائيات الأساسية
+                document.getElementById('github-stars').textContent = project.githubData.starsCount?.toLocaleString() || '0';
+                document.getElementById('github-forks').textContent = project.githubData.forksCount?.toLocaleString() || '0';
+                document.getElementById('github-language').textContent = project.githubData.language || 'Unknown';
+                document.getElementById('github-updated').textContent = project.githubData.updatedAt ? new Date(project.githubData.updatedAt).toLocaleDateString() : 'Unknown';
+                
+                // عرض كل اللغات المستخدمة في المشروع
+                if (project.githubData.allLanguages && Object.keys(project.githubData.allLanguages).length > 0) {
+                    const languagesDetail = document.getElementById('github-languages-detail');
+                    const languagesList = document.getElementById('languages-list');
+                    if (languagesDetail && languagesList) {
+                        languagesDetail.classList.remove('hidden');
+                        
+                        const totalBytes = Object.values(project.githubData.allLanguages).reduce((a, b) => a + b, 0);
+                        languagesList.innerHTML = Object.entries(project.githubData.allLanguages)
+                            .sort((a, b) => b[1] - a[1])
+                            .map(([lang, bytes]) => {
+                                const percentage = ((bytes / totalBytes) * 100).toFixed(1);
+                                return `
+                                    <div class="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full text-sm">
+                                        <i class='bx bx-code-block'></i>
+                                        <span>${escapeHtml(lang)}</span>
+                                        <span class="text-xs text-gray-500">${percentage}%</span>
+                                    </div>
+                                `;
+                            }).join('');
+                    }
+                } else {
+                    const languagesDetail = document.getElementById('github-languages-detail');
+                    if (languagesDetail) languagesDetail.classList.add('hidden');
+                }
+                
+                // تحديث الروابط الإضافية (Issues, Pull Requests, Commits)
+                const repoUrl = project.links?.find(l => l.option === 'GitHub Repository' || l.option === 'GitHub')?.value || 
+                                (project.githubData?.fullName ? `https://github.com/${project.githubData.fullName}` : null);
+                
+                if (repoUrl) {
+                    const issuesLink = document.getElementById('github-issues-link');
+                    const prLink = document.getElementById('github-pr-link');
+                    const commitsLink = document.getElementById('github-commits-link');
+                    
+                    if (issuesLink) issuesLink.href = `${repoUrl}/issues`;
+                    if (prLink) prLink.href = `${repoUrl}/pulls`;
+                    if (commitsLink) commitsLink.href = `${repoUrl}/commits`;
+                }
+                
+                // ✅ عرض الـ README إذا كان موجوداً
+                const readmeSection = document.getElementById('readme-section');
+                const readmeContent = document.getElementById('readme-content');
+                const toggleReadmeBtn = document.getElementById('toggle-readme');
+                
+                if (project.githubData?.readme && readmeSection) {
+                    readmeSection.classList.remove('hidden');
+                    
+                    const readmeText = project.githubData.readme;
+                    readmeContent.innerHTML = `
+                        <div class="bg-white dark:bg-gray-900 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
+                            <pre class="whitespace-pre-wrap text-sm font-sans overflow-x-auto">${escapeHtml(readmeText.substring(0, 5000))}</pre>
+                            ${readmeText.length > 5000 ? '<p class="text-xs text-gray-500 mt-2">... README truncated to first 5000 characters</p>' : ''}
+                        </div>
+                    `;
+                    
+                    if (toggleReadmeBtn) {
+                        toggleReadmeBtn.onclick = () => {
+                            const isHidden = readmeContent.classList.contains('hidden');
+                            if (isHidden) {
+                                readmeContent.classList.remove('hidden');
+                                toggleReadmeBtn.innerHTML = '<i class="bx bx-hide"></i> Hide';
+                            } else {
+                                readmeContent.classList.add('hidden');
+                                toggleReadmeBtn.innerHTML = '<i class="bx bx-show"></i> Show';
+                            }
+                        };
+                    }
+                } else if (readmeSection) {
+                    readmeSection.classList.add('hidden');
+                }
+                
+                // ✅ تحسين صورة المشروع (Open Graph)
+                if (project.importedFrom === 'github' && project.image && project.image.includes('avatars.githubusercontent.com')) {
+                    const githubFullName = project.githubData?.fullName || 
+                                        (project.links?.find(l => l.option === 'GitHub Repository' || l.option === 'GitHub')?.value?.replace('https://github.com/', ''));
+                    
+                    if (githubFullName) {
+                        const socialImageUrl = `https://opengraph.githubassets.com/1/${githubFullName}`;
+                        const projectImage = document.getElementById('project-image');
+                        if (projectImage) {
+                            projectImage.src = socialImageUrl;
+                            projectImage.onerror = () => {
+                                projectImage.src = project.image;
+                            };
+                        }
+                    }
+                }
+                
+            } else if (githubStatsSection) {
+                // إذا لم يكن المشروع مستورداً من GitHub، أخفِ القسم
+                githubStatsSection.classList.add('hidden');
+            }
+    
+
+            
+            await loadComments();
+            
+        } catch (error) {
+            console.error('Error loading project:', error);
+            showToast('Failed to load project', 'error');
+        }
+    }
+
+
+    // ============================================
+    // تحديث Open Graph Meta Tags للصورة الديناميكية
+    // ============================================
+    function updateMetaTags(project, ownerName) {  // ✅ أضف ownerName
+        const baseUrl = window.location.origin;
+        const projectUrl = `${baseUrl}/project.html?id=${project._id}&owner=${ownerNickname}`;
+        const imageUrl = `${baseUrl}/api/projects/${project._id}/og-image`;
+        
+        // Update Open Graph tags
+        const ogTitle = document.getElementById('og-title');
+        const ogDesc = document.getElementById('og-description');
+        const ogImage = document.getElementById('og-image');
+        const ogUrl = document.getElementById('og-url');
+        
+        if (ogTitle) ogTitle.setAttribute('content', `${project.title} - ${ownerName || 'MGZon'}`);
+        if (ogDesc) ogDesc.setAttribute('content', (project.description || 'Check out this project on MGZon').substring(0, 200));
+        if (ogImage) ogImage.setAttribute('content', imageUrl);
+        if (ogUrl) ogUrl.setAttribute('content', projectUrl);
+        
+        // Update Twitter Card tags
+        const twitterTitle = document.getElementById('twitter-title');
+        const twitterDesc = document.getElementById('twitter-description');
+        const twitterImage = document.getElementById('twitter-image');
+        
+        if (twitterTitle) twitterTitle.setAttribute('content', `${project.title} - ${ownerName || 'MGZon'}`);
+        if (twitterDesc) twitterDesc.setAttribute('content', (project.description || 'Check out this project on MGZon').substring(0, 200));
+        if (twitterImage) twitterImage.setAttribute('content', imageUrl);
+        
+        // Update page title
+        document.title = `${project.title} - ${ownerName || 'MGZon'}`;
+    }
+
+    async function loadComments() {
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/comments/${projectIndex}`);
+            const result = await response.json();
+            const comments = result.data || [];
+
+            const commentsList = document.getElementById('comments-list');
+            const commentsCount = document.getElementById('comments-count');
+            
+            commentsCount.textContent = `(${comments.length})`;
+
+            if (comments.length === 0) {
+                commentsList.innerHTML = '<p class="text-gray-500 text-center py-4">No comments yet. Be the first to comment!</p>';
+                return;
+            }
+
+            commentsList.innerHTML = comments.map(comment => `
+                <div id="comment-${comment._id}" class="comment-card p-4 border rounded-lg bg-gray-50 dark:bg-gray-700/50">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-2">
+                            <img src="${comment.userId?.profile?.avatar || '/assets/img/default-avatar.png'}" class="w-8 h-8 rounded-full">
+                            <div>
+                                <a href="/profile/${comment.userId?.username}" class="font-semibold hover:text-blue-500">
+                                    ${comment.userId?.profile?.nickname || comment.userId?.username || 'Anonymous'}
+                                </a>
+                                <div class="flex items-center gap-2">
+                                    <div class="text-yellow-500 text-sm">${'★'.repeat(comment.rating)}${'☆'.repeat(5 - comment.rating)}</div>
+                                    <span class="text-xs text-gray-500">${new Date(comment.timestamp).toLocaleDateString()}</span>
+                                    ${comment.isEdited ? '<span class="text-xs text-gray-400">(edited)</span>' : ''}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="likeComment('${comment._id}', this)" class="like-btn flex items-center gap-1 transition ${comment.likes?.includes(currentUser?.userId) ? 'liked' : 'text-gray-500'}">
+                                <i class='bx bx-heart'></i>
+                                <span class="likes-count text-sm">${comment.likes?.length || 0}</span>
+                            </button>
+                            ${comment.userId?._id === currentUser?.userId ? `
+                                <button onclick="editComment('${comment._id}', \`${escapeHtml(comment.text)}\`)" class="text-blue-500 hover:text-blue-600">
+                                    <i class='bx bx-edit-alt'></i>
+                                </button>
+                                <button onclick="deleteComment('${comment._id}')" class="text-red-500 hover:text-red-600">
+                                    <i class='bx bx-trash'></i>
+                                </button>
+                            ` : ''}
+                            <button onclick="showReplyForm('${comment._id}')" class="text-gray-500 hover:text-blue-500">
+                                <i class='bx bx-reply'></i>
+                            </button>
+                           ${userToken && comment.userId?._id !== currentUser?.userId ? `
+                                <button onclick="reportComment('${comment._id}')" class="text-yellow-500 hover:text-yellow-600" title="Report comment">
+                                    <i class='bx bx-flag'></i>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300">${escapeHtml(comment.text)}</p>
+                    
+                    <!-- Reply Form -->
+                    <div id="reply-form-${comment._id}" class="reply-form hidden mt-3 pl-4">
+                        <textarea id="reply-text-${comment._id}" rows="2" class="w-full p-2 border rounded-lg dark:bg-gray-700" placeholder="Write a reply..."></textarea>
+                        <div class="flex gap-2 mt-2">
+                            <button onclick="submitReply('${comment._id}')" class="px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Reply</button>
+                            <button onclick="showReplyForm('${comment._id}')" class="px-3 py-1 bg-gray-500 text-white rounded-lg hover:bg-gray-600">Cancel</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Replies -->
+                    ${comment.replies && comment.replies.length > 0 ? `
+                        <div class="mt-3 space-y-3 pl-4 border-l-2 border-blue-500">
+                            ${comment.replies.map(reply => `
+                                <div class="p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center gap-2">
+                                            <img src="${reply.userId?.profile?.avatar || '/assets/img/default-avatar.png'}" class="w-6 h-6 rounded-full">
+                                            <a href="/profile/${reply.userId?.username}" class="text-sm font-semibold hover:text-blue-500">
+                                                ${reply.userId?.profile?.nickname || reply.userId?.username}
+                                            </a>
+                                            <span class="text-xs text-gray-500">${new Date(reply.timestamp).toLocaleDateString()}</span>
+                                        </div>
+                                        ${reply.userId?._id === currentUser?.userId ? `
+                                            <div class="flex gap-2">
+                                                <button onclick="editComment('${reply._id}', \`${escapeHtml(reply.text)}\`)" class="text-blue-500 text-sm">Edit</button>
+                                                <button onclick="deleteComment('${reply._id}')" class="text-red-500 text-sm">Delete</button>
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                    <p class="text-sm">${escapeHtml(reply.text)}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+
+        } catch (error) {
+            console.error('Error loading comments:', error);
+        }
+
+        scrollToComment();
+
+    }
+
+    // ============================================
+    // الإعجاب بتعليق
+    // ============================================
+    async function likeComment(commentId, buttonElement) {
+        if (!userToken) {
+            showToast('Please login to like comments', 'error');
+            return;
+        }
+        
+        try {
+            const csrfToken = await fetchCsrfToken();
+            const response = await fetch(`${cleanApiUrl}/api/comments/${commentId}/like`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Authorization': `Bearer ${userToken}`,
+                    'X-CSRF-Token': csrfToken
+                }
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                const likesSpan = buttonElement.querySelector('.likes-count');
+                if (likesSpan) likesSpan.textContent = data.likesCount;
+                
+                if (data.hasLiked) {
+                    buttonElement.classList.add('liked');
+                } else {
+                    buttonElement.classList.remove('liked');
+                }
+            }
+        } catch (error) {
+            console.error('Error liking comment:', error);
+            showToast('Failed to like comment', 'error');
+        }
+    }
+
+    // ============================================
+    // الرد على تعليق
+    // ============================================
+    function showReplyForm(commentId) {
+        const replyForm = document.getElementById(`reply-form-${commentId}`);
+        if (replyForm) {
+            replyForm.classList.toggle('hidden');
+        }
+    }
+
+    async function submitReply(commentId) {
+        const replyTextarea = document.getElementById(`reply-text-${commentId}`);
+        const text = replyTextarea.value.trim();
+        
+        if (!text) {
+            showToast('Please enter a reply', 'error');
+            return;
+        }
+        
+        if (!userToken) {
+            showToast('Please login to reply', 'error');
+            return;
+        }
+        
+        try {
+            const csrfToken = await fetchCsrfToken();
+            // ✅ الردود بدون تقييم، نرسل rating: 1 كقيمة افتراضية
+            const response = await fetch(`${cleanApiUrl}/api/comments/${commentId}/reply`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${userToken}`,
+                    'X-CSRF-Token': csrfToken
+                },
+                body: JSON.stringify({ text, rating: 1 })  // ⭐ rating: 1 بدلاً من 0
+            });
+            
+            if (response.ok) {
+                showToast('Reply added successfully!', 'success');
+                replyTextarea.value = '';
+                showReplyForm(commentId);
+                await loadComments();
+            } else {
+                const error = await response.json();
+                throw new Error(error.error || error.message || 'Failed to add reply');
+            }
+        } catch (error) {
+            console.error('Error submitting reply:', error);
+            showToast(error.message, 'error');
+        }
+    }
+
+    // ============================================
+    // التبليغ عن تعليق مخالف (نسخة متطورة)
+    // ============================================
+    async function reportComment(commentId) {
+        if (!userToken) {
+            showToast('Please login to report comments', 'error');
+            return;
+        }
+        
+        // ✅ استخدام SweetAlert أو نافذة منبثقة جميلة
+        const modalHtml = `
+            <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50" id="report-modal">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full mx-4 p-6">
+                    <h3 class="text-lg font-semibold mb-2">Report Comment</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Please tell us why you're reporting this comment:</p>
+                    <textarea id="report-reason" rows="3" class="w-full p-2 border rounded-lg dark:bg-gray-700" placeholder="Optional - Provide more details..."></textarea>
+                    <div class="flex gap-3 mt-4">
+                        <button id="submit-report" class="flex-1 bg-yellow-500 text-white py-2 rounded-lg hover:bg-yellow-600">Submit Report</button>
+                        <button id="cancel-report" class="flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // إزالة أي مودال موجود
+        const existingModal = document.getElementById('report-modal');
+        if (existingModal) existingModal.remove();
+        
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        
+        const modal = document.getElementById('report-modal');
+        const reasonTextarea = document.getElementById('report-reason');
+        const submitBtn = document.getElementById('submit-report');
+        const cancelBtn = document.getElementById('cancel-report');
+        
+        const closeModal = () => modal?.remove();
+        
+        submitBtn?.addEventListener('click', async () => {
+            const reason = reasonTextarea?.value.trim() || '';
+            
+            try {
+                const csrfToken = await fetchCsrfToken();
+                const response = await fetch(`${cleanApiUrl}/api/comments/${commentId}/report`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfToken
+                    },
+                    body: JSON.stringify({ reason: reason || 'No reason provided' })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    if (result.reportCount >= 3) {
+                        showToast('⚠️ This comment has been hidden due to multiple reports', 'warning');
+                    } else {
+                        showToast(`✅ Report submitted (${result.reportCount}/3)`, 'success');
+                    }
+                    closeModal();
+                    // تحديث التعليقات لإخفاء التعليق إذا تم إخفاؤه
+                    if (result.hidden) {
+                        await loadComments();
+                    }
+                } else {
+                    throw new Error(result.error || 'Failed to submit report');
+                }
+            } catch (error) {
+                console.error('Error reporting comment:', error);
+                showToast(error.message, 'error');
+            }
+        });
+        
+        cancelBtn?.addEventListener('click', closeModal);
+        modal?.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+    }
+
+    // ============================================
+    // تعديل تعليق
+    // ============================================
+    function editComment(commentId, currentText) {
+        const newText = prompt('Edit your comment:', currentText);
+        if (!newText || newText === currentText) return;
+        
+        performEditComment(commentId, newText);
+    }
+
+    async function performEditComment(commentId, newText) {
+        try {
+            const csrfToken = await fetchCsrfToken();
+            const response = await fetch(`${cleanApiUrl}/api/comments/${commentId}`, {
+                method: 'PUT',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${userToken}`,
+                    'X-CSRF-Token': csrfToken
+                },
+                body: JSON.stringify({ text: newText })
+            });
+            
+            if (response.ok) {
+                showToast('Comment updated!', 'success');
+                await loadComments();
+            } else {
+                const error = await response.json();
+                throw new Error(error.error);
+            }
+        } catch (error) {
+            console.error('Error editing comment:', error);
+            showToast(error.message, 'error');
+        }
+    }
+
+    // ============================================
+    // حذف تعليق
+    // ============================================
+    async function deleteComment(commentId) {
+        if (!confirm('Are you sure you want to delete this comment?')) return;
+        
+        try {
+            const csrfToken = await fetchCsrfToken();
+            const response = await fetch(`${cleanApiUrl}/api/comments/${commentId}`, {
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    'Authorization': `Bearer ${userToken}`,
+                    'X-CSRF-Token': csrfToken
+                }
+            });
+            
+            if (response.ok) {
+                showToast('Comment deleted!', 'success');
+                await loadComments();
+            } else {
+                const error = await response.json();
+                throw new Error(error.error);
+            }
+        } catch (error) {
+            console.error('Error deleting comment:', error);
+            showToast(error.message, 'error');
+        }
+    }
+
+    async function submitRating() {
+        if (!userToken) {
+            showToast('Please login to rate and comment', 'error');
+            setTimeout(() => {
+                window.location.href = `/login.html?redirect=/project.html?id=${projectIndex}&owner=${ownerNickname}`;
+            }, 1500);
+            return;
+        }
+
+        const selectedRating = document.querySelector('input[name="rating"]:checked');
+        const commentText = document.getElementById('comment-text').value.trim();
+
+        if (!selectedRating && !commentText) {
+            showToast('Please select a rating or write a comment', 'error');
+            return;
+        }
+
+        const rating = selectedRating ? parseInt(selectedRating.value) : 0;
+        
+        if (rating === 0 && !commentText) {
+            showToast('Please select a rating or write a comment', 'error');
+            return;
+        }
+
+        try {
+            // ✅ الحصول على ID صاحب المشروع من الـ profile المحفوظ
+            const profileRes = await fetch(`${cleanApiUrl}/api/profile/${ownerNickname}`);
+            const profileData = await profileRes.json();
+            const projectOwnerId = profileData.profile._id; // ✅ ID صاحب المشروع
+            
+            const csrfToken = await fetchCsrfToken();
+            const response = await fetch(`${cleanApiUrl}/api/comments`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${userToken}`,
+                    'X-CSRF-Token': csrfToken
+                },
+                body: JSON.stringify({
+                    projectId: projectIndex,  // ✅ هذا هو الـ ObjectId
+                    projectOwnerId: projectOwnerId,  // ✅ أضف هذا
+                    rating: rating,
+                    text: commentText || 'No comment provided'
+                })
+            });
+
+            if (response.ok) {
+                showToast('Rating submitted successfully!', 'success');
+                document.getElementById('comment-text').value = '';
+                if (selectedRating) selectedRating.checked = false;
+                await loadComments();
+            } else {
+                const error = await response.json();
+                throw new Error(error.error || 'Submission failed');
+            }
+        } catch (error) {
+            console.error('Error submitting rating:', error);
+            showToast(error.message, 'error');
+        }
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
+    }
+
+    function showToast(message, type) {
+        Toastify({
+            text: message,
+            duration: 3000,
+            style: { background: type === 'success' ? '#10b981' : '#ef4444' }
+        }).showToast();
+    }
+
+    async function updateNav() {
+        if (!userToken) {
+            document.getElementById('login-link').style.display = 'block';
+            document.getElementById('register-link').style.display = 'block';
+            document.getElementById('logout-link').style.display = 'none';
+            document.getElementById('profile-link').style.display = 'none';
+            return;
+        }
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/verify-token`, {
+                headers: { 'Authorization': `Bearer ${userToken}` }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById('login-link').style.display = 'none';
+                document.getElementById('register-link').style.display = 'none';
+                document.getElementById('logout-link').style.display = 'block';
+                document.getElementById('profile-link').style.display = 'block';
+                currentUser = data;
+            }
+        } catch (error) {
+            console.error('Error updating nav:', error);
+        }
+    }
+
+    // ============================================
+    // التوجيه المباشر إلى تعليق معين
+    // ============================================
+    function scrollToComment() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const commentId = urlParams.get('comment');
+        
+        if (commentId) {
+            // ✅ انتظر تحميل التعليقات
+            setTimeout(() => {
+                const commentElement = document.getElementById(`comment-${commentId}`);
+                if (commentElement) {
+                    commentElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    // ✅ تمييز التعليق
+                    commentElement.classList.add('ring-4', 'ring-yellow-400', 'bg-yellow-50', 'dark:bg-yellow-900/20');
+                    setTimeout(() => {
+                        commentElement.classList.remove('ring-4', 'ring-yellow-400', 'bg-yellow-50', 'dark:bg-yellow-900/20');
+                    }, 3000);
+                } else {
+                    console.log('Comment not found:', commentId);
+                }
+            }, 1000);
+        }
+    }
+
+    document.getElementById('submit-rating')?.addEventListener('click', submitRating);
+    document.getElementById('back-button')?.addEventListener('click', () => {
+        window.history.back();
+    });
+
+    document.getElementById('logout-link')?.addEventListener('click', async (e) => {
+        e.preventDefault();
+        try {
+            const csrfToken = await fetchCsrfToken();
+            await fetch(`${cleanApiUrl}/api/logout`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Authorization': `Bearer ${userToken}`,
+                    'X-CSRF-Token': csrfToken
+                }
+            });
+            localStorage.removeItem('userToken');
+            localStorage.removeItem('refreshToken');
+            window.location.href = '/';
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadSiteLogo();  // ✅ أضف هذا
+        updateNav();
+        loadProject();
+    });
+
+</script>
+</body>
+</html>

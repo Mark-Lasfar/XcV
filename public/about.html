@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="About MGZon - Our Mission & Founder">
+    <meta name="description" content="Learn about Ibrahim Majed Al-Asfar, founder of MGZon AI, and our mission to connect talents with opportunities worldwide through AI-powered e-commerce and professional networking.">
+    <meta name="keywords" content="MGZon, Ibrahim Majed, about us, e-commerce, AI platform, professional network, job platform">
+    <meta name="author" content="MGZon">
+    <meta name="google-site-verification" content="cMqMKs3WVFS5S9D2cLZ2_iHzeda4B7oNyOPOneZCjqg" />
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="About MGZon - Our Mission">
+    <meta property="og:description" content="Learn about our founder and mission to connect talents with opportunities worldwide">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mark-elasfar.web.app/about.html">
+    <meta property="og:image" content="/assets/img/og-image.png">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="About MGZon">
+    <meta name="twitter:description" content="Connecting talents with opportunities worldwide">
+    
+    <title>About MGZon - Our Mission & Founder | MGZon</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" id="dynamic-favicon" href="/assets/img/logo.svg" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/assets/img/logo.svg">
+    
+    <!-- Stylesheets -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .founder-card {
+            transition: all 0.3s ease;
+        }
+        
+        .founder-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .stat-card {
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            border-left: 2px solid #e5e7eb;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 0;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .dark .timeline-item {
+            border-left-color: #374151;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        /* Dark Mode Support */
+        .dark {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+        
+        .dark .bg-white {
+            background-color: #1f2937 !important;
+        }
+        
+        .dark .text-gray-600 {
+            color: #9ca3af !important;
+        }
+        
+        .dark .border-gray-200 {
+            border-color: #374151 !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900">
+
+<!-- Navigation -->
+<nav class="bg-white dark:bg-gray-800 shadow-lg fixed top-0 w-full z-50 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <!-- Logo -->
+            <a href="/" class="flex items-center space-x-3">
+                <img id="nav-logo" src="/assets/img/logo.svg" alt="MGZon Logo" class="h-10 w-10 object-contain">
+                <span id="site-name" class="text-xl font-bold gradient-text">MGZon</span>
+            </a>
+            
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="/features.html" class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition font-medium">Features</a>
+                <a href="/jobs.html" class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition font-medium">Jobs</a>
+                <a href="/success-stories.html" class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition font-medium">Success Stories</a>
+                <a href="/about.html" class="text-purple-600 dark:text-purple-400 font-semibold">About</a>
+                <a href="/help.html" class="text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition font-medium">Help</a>
+            </div>
+            
+            <!-- Auth Buttons -->
+            <div class="flex items-center space-x-4" id="auth-buttons">
+                <a href="/login.html" class="px-4 py-2 text-purple-600 font-semibold hover:text-purple-700 transition">Sign In</a>
+                <a href="/register.html" class="px-5 py-2 gradient-bg text-white rounded-full font-semibold hover:shadow-lg transition">Join Now</a>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-gray-600 dark:text-gray-300">
+                <i class='bx bx-menu text-2xl'></i>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-gray-800 border-t dark:border-gray-700 py-4 px-4">
+        <div class="flex flex-col space-y-3">
+            <a href="/features.html" class="text-gray-700 dark:text-gray-300 hover:text-purple-600 py-2">Features</a>
+            <a href="/jobs.html" class="text-gray-700 dark:text-gray-300 hover:text-purple-600 py-2">Jobs</a>
+            <a href="/success-stories.html" class="text-gray-700 dark:text-gray-300 hover:text-purple-600 py-2">Success Stories</a>
+            <a href="/about.html" class="text-purple-600 font-semibold py-2">About</a>
+            <a href="/help.html" class="text-gray-700 dark:text-gray-300 hover:text-purple-600 py-2">Help</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="gradient-bg pt-24 pb-16 px-4 relative overflow-hidden">
+    <div class="absolute inset-0 bg-black opacity-10"></div>
+    <div class="max-w-7xl mx-auto relative z-10">
+        <div class="text-center">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 animate-fadeInUp">
+                Our <span class="text-yellow-300">Mission</span>
+            </h1>
+            <p class="text-xl text-white opacity-90 max-w-2xl mx-auto animate-fadeInUp" style="animation-delay: 0.1s">
+                Connecting talents with opportunities worldwide through AI-powered innovation
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<section class="py-16 px-4">
+    <div class="max-w-6xl mx-auto">
+        <!-- Founder Section -->
+        <div class="grid md:grid-cols-2 gap-12 mb-16">
+            <!-- Founder Info -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 founder-card">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-20 h-20 gradient-bg rounded-full flex items-center justify-center">
+                        <i class='bx bx-user text-3xl text-white'></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold">Ibrahim Majed Al-Asfar</h2>
+                        <p class="text-purple-600 dark:text-purple-400 font-semibold">Founder & CEO</p>
+                    </div>
+                </div>
+                
+                <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
+                    Ibrahim Majed is the visionary founder of <strong class="gradient-text">MGZon AI</strong>, an AI-powered e-commerce and professional networking platform designed to empower sellers and customers worldwide.
+                </p>
+                
+                <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
+                    With over <strong>5 years of experience</strong> as a Full Stack Developer, Ibrahim specializes in modern technologies including <strong>TypeScript, Django, MongoDB, React, and Node.js</strong>. His passion for innovation drives MGZon's global expansion.
+                </p>
+                
+                <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
+                    Currently, Ibrahim is leading MGZon's international growth by registering as a US-based company and establishing strategic integrations with fulfillment centers in the <strong>United States, Canada, and China</strong>.
+                </p>
+                
+                <div class="flex flex-wrap gap-4 pt-4 border-t dark:border-gray-700">
+                    <a href="mailto:marklasfar@gmail.com" class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-purple-600 transition">
+                        <i class='bx bx-envelope text-xl'></i>
+                        <span>marklasfar@gmail.com</span>
+                    </a>
+                    <a href="https://github.com/Mark-Lasfar" target="_blank" class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-purple-600 transition">
+                        <i class='bx bxl-github text-xl'></i>
+                        <span>GitHub</span>
+                    </a>
+                    <a href="https://x.com/marklasfar" target="_blank" class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-purple-600 transition">
+                        <i class='bx bxl-twitter text-xl'></i>
+                        <span>Twitter</span>
+                    </a>
+                    <a href="https://www.facebook.com/people/Mark-Al-Asfar" target="_blank" class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-purple-600 transition">
+                        <i class='bx bxl-facebook text-xl'></i>
+                        <span>Facebook</span>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Company Stats -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+                <h2 class="text-2xl font-bold mb-6 gradient-text">MGZon at a Glance</h2>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="text-center stat-card">
+                        <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class='bx bx-group text-2xl text-white'></i>
+                        </div>
+                        <h3 class="text-3xl font-bold counter" data-target="10000">0</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Active Members</p>
+                    </div>
+                    <div class="text-center stat-card">
+                        <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class='bx bx-briefcase text-2xl text-white'></i>
+                        </div>
+                        <h3 class="text-3xl font-bold counter" data-target="5000">0</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Jobs Posted</p>
+                    </div>
+                    <div class="text-center stat-card">
+                        <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class='bx bx-building text-2xl text-white'></i>
+                        </div>
+                        <h3 class="text-3xl font-bold counter" data-target="3000">0</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Companies</p>
+                    </div>
+                    <div class="text-center stat-card">
+                        <div class="w-16 h-16 gradient-bg rounded-full flex items-center justify-center mx-auto mb-3">
+                            <i class='bx bx-globe text-2xl text-white'></i>
+                        </div>
+                        <h3 class="text-3xl font-bold counter" data-target="15000">0</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Successful Placements</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- About MGZon AI -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 mb-12">
+            <h2 class="text-2xl font-bold mb-4 gradient-text">What is MGZon AI?</h2>
+            <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
+                MGZon AI is an innovative <strong>e-commerce and professional networking platform</strong> that leverages artificial intelligence to deliver personalized shopping experiences and custom storefronts for sellers worldwide.
+            </p>
+            <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
+                Our platform integrates seamlessly with global payment gateways including <strong>Stripe, PayPal, and major banking systems</strong>, ensuring secure and efficient transactions for both buyers and sellers.
+            </p>
+            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                We're committed to empowering sellers through <strong>dynamic inventory management tools, subscription systems, and analytics dashboards</strong>, all while providing a seamless user experience across desktop and mobile devices.
+            </p>
+        </div>
+        
+        <!-- Our Mission & Vision -->
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+            <div class="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl p-8">
+                <i class='bx bx-target text-4xl text-purple-600 mb-4'></i>
+                <h3 class="text-xl font-bold mb-3">Our Mission</h3>
+                <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    To democratize access to global opportunities by connecting talented individuals with meaningful careers and empowering businesses to find the right talent efficiently.
+                </p>
+            </div>
+            <div class="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-2xl p-8">
+                <i class='bx bx-show-alt text-4xl text-purple-600 mb-4'></i>
+                <h3 class="text-xl font-bold mb-3">Our Vision</h3>
+                <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    To become the world's leading AI-powered professional ecosystem, where opportunities and talents find each other effortlessly, driving global economic growth and innovation.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Core Values -->
+        <div class="mb-12">
+            <h2 class="text-2xl font-bold text-center mb-8 gradient-text">Our Core Values</h2>
+            <div class="grid md:grid-cols-4 gap-6">
+                <div class="text-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md">
+                    <i class='bx bx-rocket text-3xl text-purple-600 mb-3'></i>
+                    <h4 class="font-bold mb-2">Innovation</h4>
+                    <p class="text-sm text-gray-500">Pushing boundaries with AI technology</p>
+                </div>
+                <div class="text-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md">
+                    <i class='bx bx-heart text-3xl text-purple-600 mb-3'></i>
+                    <h4 class="font-bold mb-2">Integrity</h4>
+                    <p class="text-sm text-gray-500">Transparent and ethical practices</p>
+                </div>
+                <div class="text-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md">
+                    <i class='bx bx-group text-3xl text-purple-600 mb-3'></i>
+                    <h4 class="font-bold mb-2">Collaboration</h4>
+                    <p class="text-sm text-gray-500">Building strong communities</p>
+                </div>
+                <div class="text-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md">
+                    <i class='bx bx-trophy text-3xl text-purple-600 mb-3'></i>
+                    <h4 class="font-bold mb-2">Excellence</h4>
+                    <p class="text-sm text-gray-500">Delivering quality experiences</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Timeline -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
+            <h2 class="text-2xl font-bold mb-8 text-center gradient-text">Our Journey</h2>
+            <div class="max-w-2xl mx-auto">
+                <div class="timeline-item">
+                    <h3 class="font-bold text-lg">2024 - Foundation</h3>
+                    <p class="text-gray-600 dark:text-gray-400">MGZon AI was founded with a vision to revolutionize e-commerce and professional networking.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3 class="font-bold text-lg">2024 - Global Registration</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Registered as a US-based company, establishing legal framework for international operations.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3 class="font-bold text-lg">2025 - Strategic Partnerships</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Integrated with fulfillment centers in United States, Canada, and China.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3 class="font-bold text-lg">2025 - Platform Launch</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Launched full-featured platform with job matching, professional networking, and e-commerce capabilities.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CTA Section -->
+        <div class="gradient-bg rounded-2xl p-10 text-center mt-12">
+            <h2 class="text-3xl font-bold text-white mb-4">Ready to Join Our Community?</h2>
+            <p class="text-white text-lg mb-6 opacity-90">Be part of the fastest-growing professional network</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/register.html" class="bg-white text-purple-600 px-8 py-3 rounded-full font-semibold hover:shadow-lg transition">
+                    Get Started Free
+                </a>
+                <a href="/jobs.html" class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-purple-600 transition">
+                    Browse Opportunities
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-white py-12 px-4 mt-12">
+    <div class="max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-4 gap-8 mb-8">
+            <div>
+                <div class="flex items-center gap-2 mb-4">
+                    <img src="/assets/img/logo.svg" alt="MGZon" class="h-8 w-8">
+                    <span class="text-xl font-bold gradient-text">MGZon</span>
+                </div>
+                <p class="text-gray-400 text-sm">Connecting talents with opportunities worldwide</p>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-3">For Job Seekers</h4>
+                <ul class="space-y-2 text-gray-400 text-sm">
+                    <li><a href="/jobs.html" class="hover:text-white transition">Browse Jobs</a></li>
+                    <li><a href="/career-advice.html" class="hover:text-white transition">Career Advice</a></li>
+                    <li><a href="/salary-guide.html" class="hover:text-white transition">Salary Guide</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-3">For Employers</h4>
+                <ul class="space-y-2 text-gray-400 text-sm">
+                    <li><a href="/post-job.html" class="hover:text-white transition">Post a Job</a></li>
+                    <li><a href="/find-candidates.html" class="hover:text-white transition">Find Candidates</a></li>
+                    <li><a href="/recruiting-solutions.html" class="hover:text-white transition">Recruiting Solutions</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-semibold mb-3">Resources</h4>
+                <ul class="space-y-2 text-gray-400 text-sm">
+                    <li><a href="/about.html" class="hover:text-white transition">About Us</a></li>
+                    <li><a href="/privacy.html" class="hover:text-white transition">Privacy Policy</a></li>
+                    <li><a href="/terms.html" class="hover:text-white transition">Terms of Service</a></li>
+                    <li><a href="/help.html" class="hover:text-white transition">Help Center</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 pt-8 text-center text-gray-400 text-sm">
+            <p>&copy; 2025 MGZon AI. All rights reserved. Built with <i class='bx bx-heart text-red-500'></i> for professionals worldwide.</p>
+            <div class="flex justify-center space-x-4 mt-4">
+                <a href="https://www.facebook.com/people/Mark-Al-Asfar" target="_blank" class="hover:text-white transition"><i class='bx bxl-facebook text-xl'></i></a>
+                <a href="https://x.com/marklasfar" target="_blank" class="hover:text-white transition"><i class='bx bxl-twitter text-xl'></i></a>
+                <a href="https://github.com/Mark-Lasfar" target="_blank" class="hover:text-white transition"><i class='bx bxl-github text-xl'></i></a>
+                <a href="https://www.linkedin.com/in/mark-lasfar-886bb4222/" target="_blank" class="hover:text-white transition"><i class='bx bxl-linkedin text-xl'></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="/assets/js/config.js"></script>
+<script>
+    // ============================================
+    // About Page - Complete Version
+    // ============================================
+    
+    const API_URL = window.ENV?.API_URL || 'https://mgzon-server.hf.space';
+    const cleanApiUrl = API_URL.replace(/\/$/, '');
+    let userToken = localStorage.getItem('userToken');
+    
+    // Load site settings
+    async function loadSiteSettings() {
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/site-settings`);
+            if (response.ok) {
+                const data = await response.json();
+                const logoImg = document.querySelector('#nav-logo');
+                if (logoImg && data.logo) {
+                    logoImg.src = data.logo;
+                }
+                const siteNameSpan = document.getElementById('site-name');
+                if (siteNameSpan && data.siteName) {
+                    siteNameSpan.textContent = data.siteName;
+                }
+                const favicon = document.getElementById('dynamic-favicon');
+                if (favicon && data.logo) {
+                    favicon.href = data.logo;
+                }
+            }
+        } catch (error) {
+            console.error('Error loading site settings:', error);
+        }
+    }
+    
+    // Update navigation for logged-in users
+    function updateNavForLoggedIn() {
+        const authButtons = document.getElementById('auth-buttons');
+        if (userToken) {
+            authButtons.innerHTML = `
+                <a href="/feed.html" class="px-4 py-2 text-purple-600 font-semibold hover:text-purple-700 transition">Feed</a>
+                <a href="/profile/me" class="px-5 py-2 gradient-bg text-white rounded-full font-semibold hover:shadow-lg transition">Profile</a>
+            `;
+        }
+    }
+    
+    // Counter animation
+    function animateCounters() {
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200;
+        
+        const animateCounter = (counter) => {
+            const target = parseInt(counter.getAttribute('data-target'));
+            let count = 0;
+            const increment = target / speed;
+            
+            const updateCount = () => {
+                if (count < target) {
+                    count += increment;
+                    counter.innerText = Math.ceil(count).toLocaleString();
+                    setTimeout(updateCount, 20);
+                } else {
+                    counter.innerText = target.toLocaleString();
+                }
+            };
+            
+            updateCount();
+        };
+        
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: "0px"
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        counters.forEach(counter => {
+            observer.observe(counter);
+        });
+    }
+    
+    // Theme management
+    function initTheme() {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark');
+        }
+    }
+    
+    // Mobile menu toggle
+    function initMobileMenu() {
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileBtn && mobileMenu) {
+            mobileBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+    }
+    
+    // Check if user is logged in and update nav
+    if (userToken) {
+        updateNavForLoggedIn();
+    }
+    
+    // Initialize everything
+    document.addEventListener('DOMContentLoaded', () => {
+        loadSiteSettings();
+        animateCounters();
+        initTheme();
+        initMobileMenu();
+    });
+</script>
+</body>
+</html>

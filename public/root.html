@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+
+<script>
+    (() => {
+        try {
+            const userToken = localStorage.getItem('userToken');
+
+            if (userToken) {
+                window.location.replace('/feed.html');
+            }
+        } catch (error) {
+            console.error('Auth redirect error:', error);
+        }
+    })();
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MGZon - Professional networking platform connecting talents with opportunities. Find jobs, build your network, and grow your career.">
+    <meta name="keywords" content="professional network, jobs, career, portfolio, networking, hiring, recruitment">
+    <meta name="author" content="MGZon">
+    <meta name="google-site-verification" content="cMqMKs3WVFS5S9D2cLZ2_iHzeda4B7oNyOPOneZCjqg" />
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="MGZon - Professional Network & Career Platform">
+    <meta property="og:description" content="Connect with professionals, find jobs, and grow your career on MGZon.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mark-elasfar.web.app/">
+    <meta property="og:image" content="/assets/img/og-image.png">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MGZon - Professional Network">
+    <meta name="twitter:description" content="Connect with professionals and find opportunities">
+    
+    <title>MGZon - Professional Network | Find Jobs & Connect</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" id="dynamic-favicon" href="/assets/img/logo.svg" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/assets/img/logo.svg">
+    
+    <!-- Stylesheets -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
+    
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9PPSWWH4JP"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-9PPSWWH4JP');
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow-x: hidden;
+        }
+        
+        /* Custom Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        .animate-slideInLeft {
+            animation: slideInLeft 0.8s ease forwards;
+        }
+        
+        .animate-slideInRight {
+            animation: slideInRight 0.8s ease forwards;
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2000 1500'%3E%3Crect fill='rgba(255,255,255,0.05)' width='2000' height='1500'/%3E%3C/svg%3E");
+            opacity: 0.1;
+        }
+        
+        /* Stats Counter */
+        .counter {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #667eea;
+        }
+        
+        /* Job Categories */
+        .category-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        /* Testimonial Card */
+        .testimonial-card {
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        /* Navbar */
+        .navbar {
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-scrolled {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102,126,234,0.4);
+        }
+        
+        .btn-outline {
+            border: 2px solid #667eea;
+            color: #667eea;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Slick Carousel Customization */
+        .slick-prev, .slick-next {
+            z-index: 10;
+            width: 40px;
+            height: 40px;
+            background: #667eea;
+            border-radius: 50%;
+        }
+        
+        .slick-prev:hover, .slick-next:hover {
+            background: #764ba2;
+        }
+        
+        .slick-prev:before, .slick-next:before {
+            font-size: 20px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .counter {
+                font-size: 1.8rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Dark Mode Support */
+        .dark-mode {
+            background: #1a1a2e;
+            color: #fff;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #764ba2;
+        }
+    </style>
+</head>
+<body class="bg-white">
+
+<!-- Navigation Bar -->
+<nav class="navbar fixed top-0 w-full z-50 bg-white shadow-sm py-3 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center">
+            <!-- Logo -->
+            <a href="/" class="flex items-center space-x-2">
+                <img src="/assets/img/logo.svg" alt="MGZon" class="h-10 w-10">
+                <span class="text-xl font-bold gradient-text">MGZon</span>
+            </a>
+            
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#features" class="text-gray-700 hover:text-purple-600 transition">Features</a>
+                <a href="#jobs" class="text-gray-700 hover:text-purple-600 transition">Jobs</a>
+                <a href="#success-stories" class="text-gray-700 hover:text-purple-600 transition">Success Stories</a>
+                <a href="/about.html" class="text-gray-700 hover:text-purple-600 transition">About</a>
+            </div>
+            
+            <!-- Auth Buttons -->
+            <div class="flex items-center space-x-4">
+                <a href="/login.html" class="px-5 py-2 text-purple-600 font-semibold hover:text-purple-700 transition">
+                    Sign In
+                </a>
+                <a href="/register.html" class="btn-primary px-6 py-2 rounded-full text-white font-semibold">
+                    Join Now
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section pt-32 pb-20 px-4">
+    <div class="max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-up">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                    Welcome to Your<br>
+                    <span class="gradient-text bg-white bg-clip-text text-transparent">Professional Community</span>
+                </h1>
+                <p class="text-xl text-white opacity-90 mb-8">
+                    Connect with professionals, find your dream job, and grow your career with MGZon.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="/register.html" class="btn-primary px-8 py-3 rounded-full text-white font-semibold text-center">
+                        Join Now <i class='bx bx-right-arrow-alt ml-2'></i>
+                    </a>
+                    <a href="/jobs.html" class="bg-white bg-opacity-20 backdrop-blur-sm px-8 py-3 rounded-full text-white font-semibold text-center hover:bg-opacity-30 transition">
+                        Browse Jobs
+                    </a>
+                </div>
+                
+                <!-- Trust Badges -->
+                <div class="mt-8 flex items-center gap-6">
+                    <div class="flex -space-x-2">
+                        <img src="/assets/img/default-avatar.png" class="w-10 h-10 rounded-full border-2 border-white">
+                        <img src="/assets/img/default-avatar.png" class="w-10 h-10 rounded-full border-2 border-white">
+                        <img src="/assets/img/default-avatar.png" class="w-10 h-10 rounded-full border-2 border-white">
+                        <div class="w-10 h-10 rounded-full bg-white bg-opacity-20 flex items-center justify-center text-white text-sm font-bold">1k+</div>
+                    </div>
+                    <p class="text-white text-sm">Join <span class="font-bold">10,000+</span> professionals already on MGZon</p>
+                </div>
+            </div>
+            
+            <div data-aos="fade-up" data-aos-delay="200" class="relative">
+                <div class="animate-float">
+                    <img src="/assets/img/hero-illustration.svg" alt="Hero Illustration" class="w-full max-w-md mx-auto" onerror="this.style.display='none'">
+                </div>
+                <!-- Floating elements -->
+                <div class="absolute top-10 left-0 animate-pulse">
+                    <div class="bg-white rounded-lg shadow-lg p-3 w-48">
+                        <div class="flex items-center gap-2">
+                            <i class='bx bx-briefcase text-purple-600'></i>
+                            <span class="text-sm font-semibold">1,234+ Jobs</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute bottom-20 right-0 animate-pulse delay-1000">
+                    <div class="bg-white rounded-lg shadow-lg p-3 w-48">
+                        <div class="flex items-center gap-2">
+                            <i class='bx bx-group text-purple-600'></i>
+                            <span class="text-sm font-semibold">5,678+ Members</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div data-aos="fade-up">
+                <div class="counter" data-target="10000">0</div>
+                <p class="text-gray-600 mt-2">Active Users</p>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="100">
+                <div class="counter" data-target="5000">0</div>
+                <p class="text-gray-600 mt-2">Jobs Posted</p>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="200">
+                <div class="counter" data-target="3000">0</div>
+                <p class="text-gray-600 mt-2">Companies</p>
+            </div>
+            <div data-aos="fade-up" data-aos-delay="300">
+                <div class="counter" data-target="15000">0</div>
+                <p class="text-gray-600 mt-2">Successful Placements</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="py-20 px-4">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Why Choose <span class="gradient-text">MGZon?</span></h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Everything you need to build your professional career in one place</p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition" data-aos="fade-up" data-aos-delay="0">
+                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-5">
+                    <i class='bx bx-briefcase text-3xl text-purple-600'></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Find Your Dream Job</h3>
+                <p class="text-gray-600">Browse thousands of job opportunities from top companies. Filter by location, salary, and job type.</p>
+                <a href="/jobs.html" class="inline-block mt-4 text-purple-600 font-semibold hover:text-purple-700">
+                    Explore Jobs <i class='bx bx-right-arrow-alt'></i>
+                </a>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition" data-aos="fade-up" data-aos-delay="100">
+                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-5">
+                    <i class='bx bx-group text-3xl text-purple-600'></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Build Your Network</h3>
+                <p class="text-gray-600">Connect with professionals in your industry. Share insights, grow your network, and discover opportunities.</p>
+                <a href="/search.html" class="inline-block mt-4 text-purple-600 font-semibold hover:text-purple-700">
+                    Find People <i class='bx bx-right-arrow-alt'></i>
+                </a>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-5">
+                    <i class='bx bx-line-chart text-3xl text-purple-600'></i>
+                </div>
+                <h3 class="text-xl font-bold mb-3">Grow Your Career</h3>
+                <p class="text-gray-600">Showcase your skills, get recognized by employers, and take your career to the next level.</p>
+                <a href="/register.html" class="inline-block mt-4 text-purple-600 font-semibold hover:text-purple-700">
+                    Get Started <i class='bx bx-right-arrow-alt'></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Job Categories Section -->
+<section id="jobs" class="py-20 bg-gray-50 px-4">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Popular <span class="gradient-text">Job Categories</span></h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">Find opportunities in your field</p>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <div class="category-card bg-white rounded-xl p-4 text-center hover:bg-purple-50 transition" data-aos="fade-up">
+                <i class='bx bx-code-alt text-3xl text-purple-600 mb-2'></i>
+                <p class="font-semibold">Technology</p>
+                <p class="text-sm text-gray-500">1,234 jobs</p>
+            </div>
+            <div class="category-card bg-white rounded-xl p-4 text-center hover:bg-purple-50 transition" data-aos="fade-up" data-aos-delay="50">
+                <i class='bx bx-palette text-3xl text-purple-600 mb-2'></i>
+                <p class="font-semibold">Design</p>
+                <p class="text-sm text-gray-500">892 jobs</p>
+            </div>
+            <div class="category-card bg-white rounded-xl p-4 text-center hover:bg-purple-50 transition" data-aos="fade-up" data-aos-delay="100">
+                <i class='bx bx-line-chart text-3xl text-purple-600 mb-2'></i>
+                <p class="font-semibold">Marketing</p>
+                <p class="text-sm text-gray-500">654 jobs</p>
+            </div>
+            <div class="category-card bg-white rounded-xl p-4 text-center hover:bg-purple-50 transition" data-aos="fade-up" data-aos-delay="150">
+                <i class='bx bx-dollar-circle text-3xl text-purple-600 mb-2'></i>
+                <p class="font-semibold">Finance</p>
+                <p class="text-sm text-gray-500">567 jobs</p>
+            </div>
+            <div class="category-card bg-white rounded-xl p-4 text-center hover:bg-purple-50 transition" data-aos="fade-up" data-aos-delay="200">
+                <i class='bx bx-headphone text-3xl text-purple-600 mb-2'></i>
+                <p class="font-semibold">Customer Service</p>
+                <p class="text-sm text-gray-500">423 jobs</p>
+            </div>
+            <div class="category-card bg-white rounded-xl p-4 text-center hover:bg-purple-50 transition" data-aos="fade-up" data-aos-delay="250">
+                <i class='bx bx-book-open text-3xl text-purple-600 mb-2'></i>
+                <p class="font-semibold">Education</p>
+                <p class="text-sm text-gray-500">345 jobs</p>
+            </div>
+        </div>
+        
+        <div class="text-center mt-8">
+            <a href="/jobs.html" class="btn-primary px-8 py-3 rounded-full text-white font-semibold inline-block">
+                View All Jobs <i class='bx bx-right-arrow-alt ml-2'></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Jobs Carousel -->
+<section class="py-20 px-4">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Featured <span class="gradient-text">Jobs</span></h2>
+            <p class="text-xl text-gray-600">Top opportunities from leading companies</p>
+        </div>
+        
+        <div class="featured-jobs-slider" data-aos="fade-up">
+            <div class="px-3">
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                            <i class='bx bx-code-alt text-2xl text-purple-600'></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">Senior Full Stack Developer</h3>
+                            <p class="text-sm text-gray-500">TechCorp • Remote</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4">Looking for an experienced full-stack developer with React and Node.js expertise...</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-purple-600 font-bold">$80k - $120k</span>
+                        <a href="/jobs.html" class="text-purple-600 hover:text-purple-700">Apply Now →</a>
+                    </div>
+                </div>
+            </div>
+            <div class="px-3">
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                            <i class='bx bx-palette text-2xl text-purple-600'></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">UI/UX Designer</h3>
+                            <p class="text-sm text-gray-500">DesignStudio • New York</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4">Creative designer needed for web and mobile applications with Figma expertise...</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-purple-600 font-bold">$60k - $90k</span>
+                        <a href="/jobs.html" class="text-purple-600 hover:text-purple-700">Apply Now →</a>
+                    </div>
+                </div>
+            </div>
+            <div class="px-3">
+                <div class="bg-white rounded-xl p-6 shadow-lg">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                            <i class='bx bx-line-chart text-2xl text-purple-600'></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">Digital Marketing Manager</h3>
+                            <p class="text-sm text-gray-500">GrowthAgency • London</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-4">Lead marketing campaigns across social media, SEO, and content marketing...</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-purple-600 font-bold">$70k - $100k</span>
+                        <a href="/jobs.html" class="text-purple-600 hover:text-purple-700">Apply Now →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Open To Work Section -->
+<section class="py-20 bg-gradient-to-r from-purple-600 to-indigo-600 px-4">
+    <div class="max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Let the right people know you're open to work</h2>
+                <p class="text-white text-lg mb-6 opacity-90">
+                    With the Open To Work feature, you can privately tell recruiters or publicly share with the community that you're looking for new opportunities.
+                </p>
+                <a href="/register.html" class="bg-white text-purple-600 px-8 py-3 rounded-full font-semibold inline-block hover:shadow-lg transition">
+                    Get Started <i class='bx bx-right-arrow-alt ml-2'></i>
+                </a>
+            </div>
+            <div data-aos="fade-left" class="relative">
+                <div class="bg-white rounded-2xl p-6 shadow-2xl">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class='bx bx-briefcase text-2xl text-green-600'></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">#OpenToWork</h4>
+                            <p class="text-sm text-gray-500">Software Engineer</p>
+                        </div>
+                    </div>
+                    <div class="bg-green-50 rounded-lg p-3 mb-3">
+                        <p class="text-sm text-green-700">📢 I'm open to new opportunities in full-stack development.</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">Remote</span>
+                        <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">Full-time</span>
+                        <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">React</span>
+                        <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">Node.js</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Success Stories / Testimonials -->
+<section id="success-stories" class="py-20 px-4 bg-gray-50">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Success <span class="gradient-text">Stories</span></h2>
+            <p class="text-xl text-gray-600">Real people, real results with MGZon</p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="testimonial-card bg-white rounded-2xl p-6 shadow-lg" data-aos="fade-up">
+                <div class="flex items-center gap-4 mb-4">
+                    <img src="/assets/img/default-avatar.png" class="w-14 h-14 rounded-full object-cover">
+                    <div>
+                        <h4 class="font-bold">Ahmed Mansour</h4>
+                        <p class="text-sm text-gray-500">Software Engineer at TechCorp</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 italic">"MGZon helped me find my dream job within weeks. The platform is intuitive and the connections I made were invaluable."</p>
+                <div class="mt-4 flex text-yellow-400">
+                    <i class='bx bxs-star'></i>
+                    <i class='bx bxs-star'></i>
+                    <i class='bx bxs-star'></i>
+                    <i class='bx bxs-star'></i>
+                    <i class='bx bxs-star'></i>
+                </div>
+            </div>
+            
+            <div class="testimonial-card bg-white rounded-2xl p-6 shadow-lg" data-aos="fade-up" data-aos-delay="100">
+                <div class="flex items-center gap-4 mb-4">
+                    <img src="/assets/img/default-avatar.png" class="w-14 h-14 rounded-full object-cover">
+                    <div>
+                        <h4 class="font-bold">Sara Khalil</h4>
+                        <p class="text-sm text-gray-500">Marketing Director</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 italic">"As a recruiter, MGZon gave me access to top talent. The quality of candidates is exceptional!"</p>
+                <div class="mt-4 flex text-yellow-400">
+                    <i class='bx bxs-star'></i>
+                    <i class='bx bxs-star'></i>
+                    <i class='bx bxs-star'></i>
+                    <i class='bx bxs-star'></i>
+                    <i class='bx bxs-star'></i>
+                </div>
+            </div>
+            
+            <div class="testimonial-card bg-white rounded-2xl p-6 shadow-lg" data-aos="fade-up" data-aos-delay="200">
+                <div class="flex items-center gap-4 mb-4">
+                    <img src="/assets/img/default-avatar.png" class="w-14 h-14 rounded-full object-cover">
+                    <div>
+                        <h4 class="font-bold">Omar Farouk</h4>
+                        <p class="text-sm text-gray-500">Freelance Designer</p>
+                    </div>
+                </div>
+                <p class="text-gray-600 italic">"The platform helped me build my personal brand and connect with clients worldwide. Highly recommended!"</p>
+                <div class="mt-4 flex text-yellow-400">
+                    <i class='bx bxs-star'></i>
+                    <i class='bx bxs-star'></i>
+                    <i class='bx bxs-star'></i>
+                    <i class='bx bxs-star'></i>
+                    <i class='bx bxs-star'></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section py-20 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4" data-aos="fade-up">
+            Ready to take the next step in your career?
+        </h2>
+        <p class="text-white text-lg mb-8 opacity-90" data-aos="fade-up" data-aos-delay="100">
+            Join thousands of professionals who have already found success on MGZon
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-delay="200">
+            <a href="/register.html" class="bg-white text-purple-600 px-8 py-3 rounded-full font-semibold hover:shadow-lg transition">
+                Get Started Free
+            </a>
+            <a href="/jobs.html" class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-purple-600 transition">
+                Browse Jobs
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-white py-12 px-4">
+    <div class="max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-5 gap-8">
+            <div class="col-span-2">
+                <div class="flex items-center gap-2 mb-4">
+                    <img src="/assets/img/logo.svg" alt="MGZon" class="h-10 w-10">
+                    <span class="text-xl font-bold">MGZon</span>
+                </div>
+                <p class="text-gray-400 mb-4">Connecting talents with opportunities worldwide.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class='bx bxl-linkedin text-xl'></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class='bx bxl-twitter text-xl'></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class='bx bxl-facebook text-xl'></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition"><i class='bx bxl-instagram text-xl'></i></a>
+                </div>
+            </div>
+            
+            <div>
+                <h4 class="font-semibold mb-4">For Job Seekers</h4>
+                <ul class="space-y-2 text-gray-400">
+                    <li><a href="/jobs.html" class="hover:text-white transition">Browse Jobs</a></li>
+                    <li><a href="/register.html" class="hover:text-white transition">Create Profile</a></li>
+                    <li><a href="#" class="hover:text-white transition">Career Advice</a></li>
+                    <li><a href="#" class="hover:text-white transition">Salary Guide</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="font-semibold mb-4">For Employers</h4>
+                <ul class="space-y-2 text-gray-400">
+                    <li><a href="/post-job.html" class="hover:text-white transition">Post a Job</a></li>
+                    <li><a href="#" class="hover:text-white transition">Find Candidates</a></li>
+                    <li><a href="#" class="hover:text-white transition">Recruiting Solutions</a></li>
+                    <li><a href="#" class="hover:text-white transition">Pricing</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="font-semibold mb-4">Resources</h4>
+                <ul class="space-y-2 text-gray-400">
+                    <li><a href="/about.html" class="hover:text-white transition">About Us</a></li>
+                    <li><a href="/privacy.html" class="hover:text-white transition">Privacy Policy</a></li>
+                    <li><a href="/terms.html" class="hover:text-white transition">Terms of Service</a></li>
+                    <li><a href="/help.html" class="hover:text-white transition">Help Center</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="containerDown">
+            <div class="last">
+                <div class="head">Total Website Visits</div>
+                <div class="count" id="visitCountDisplay">0</div>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400 text-sm">
+            <p>&copy; 2024 MGZon. All rights reserved. Built with <i class='bx bx-heart text-red-500'></i> for professionals worldwide.</p>
+        </div>
+
+        
+    </div>
+</footer>
+
+<script src="/assets/js/config.js"></script>
+<script>
+    // Initialize AOS
+    AOS.init({
+        duration: 800,
+        once: true,
+        offset: 100
+    });
+    
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('navbar-scrolled');
+        } else {
+            navbar.classList.remove('navbar-scrolled');
+        }
+    });
+    
+    // Counter animation
+    const counters = document.querySelectorAll('.counter');
+    const speed = 200;
+    
+    const animateCounter = (counter) => {
+        const target = parseInt(counter.getAttribute('data-target'));
+        let count = 0;
+        const increment = target / speed;
+        
+        const updateCount = () => {
+            if (count < target) {
+                count += increment;
+                counter.innerText = Math.ceil(count).toLocaleString();
+                setTimeout(updateCount, 20);
+            } else {
+                counter.innerText = target.toLocaleString();
+            }
+        };
+        
+        updateCount();
+    };
+    
+    // Intersection Observer for counters
+    const observerOptions = {
+        threshold: 0.5,
+        rootMargin: "0px"
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    
+    counters.forEach(counter => {
+        observer.observe(counter);
+    });
+    
+    // Initialize Slick Carousel
+    $(document).ready(function(){
+        $('.featured-jobs-slider').slick({
+            dots: true,
+            infinite: true,
+            speed: 300,
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 4000,
+            responsive: [
+                {
+                    breakpoint: 1024,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1
+                    }
+                },
+                {
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }
+            ]
+        });
+    });
+    
+    // تحديث عدد الزيارات
+    async function updateVisitCountDisplay() {
+        try {
+            // ✅ استخدم window.cleanApiUrl أو window.ENV.API_URL
+            const baseUrl = window.cleanApiUrl || (window.ENV?.API_URL?.replace(/\/$/, ''));
+            
+            if (!baseUrl) {
+                console.error('API URL not found');
+                return;
+            }
+            
+            console.log('Fetching visits from:', `${baseUrl}/api/visits`);
+            
+            const response = await fetch(`${baseUrl}/api/visits`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            
+            if (!response.ok) throw new Error('Failed to update visit count');
+            
+            const data = await response.json();
+            console.log('Visit count response:', data);
+            
+            const countEl = document.getElementById('visitCountDisplay');
+            if (countEl) {
+                countEl.textContent = data.visitCount.toLocaleString();
+                console.log('Updated count to:', data.visitCount);
+            }
+        } catch (error) {
+            console.error('Error updating visit count:', error);
+        }
+    }
+    // Load site settings
+    async function loadSiteSettings() {
+        try {
+            const API_URL = window.ENV?.API_URL || 'https://mgzon-server.hf.space';
+            const cleanApiUrl = API_URL.replace(/\/$/, '');
+            
+            const response = await fetch(`${cleanApiUrl}/api/site-settings`);
+            if (response.ok) {
+                const data = await response.json();
+                if (data.logo) {
+                    const logos = document.querySelectorAll('img[alt="MGZon"]');
+                    logos.forEach(logo => {
+                        if (logo.src.includes('/assets/img/logo.svg')) {
+                            logo.src = data.logo;
+                        }
+                    });
+                }
+            }
+        } catch (error) {
+            console.error('Error loading site settings:', error);
+        }
+    }
+    
+    loadSiteSettings();
+    updateVisitCountDisplay();
+
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NZQ6642M');</script>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NZQ6642M"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+</body>
+</html>

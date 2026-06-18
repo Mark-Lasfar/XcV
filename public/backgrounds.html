@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Gallery - MGZon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: #0a0a0a; 
+            font-family: 'Inter', sans-serif; 
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.03) 0%, transparent 50%);
+        }
+        
+        /* Glass Navbar */
+        .navbar {
+            background: rgba(10,10,10,0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            position: sticky; 
+            top: 0; 
+            z-index: 100;
+        }
+        
+        /* Premium Cards */
+        .bg-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            background: rgba(17,17,17,0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+        }
+        .bg-card:hover { 
+            transform: translateY(-10px) scale(1.02); 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+        .bg-card img { 
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .bg-card:hover img { 
+            transform: scale(1.08); 
+        }
+        
+        .bg-card .preview-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .bg-card:hover .preview-overlay { 
+            opacity: 1; 
+        }
+        .bg-card .preview-overlay button { 
+            transform: translateY(30px) scale(0.9); 
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+        }
+        .bg-card:hover .preview-overlay button { 
+            transform: translateY(0) scale(1); 
+            opacity: 1;
+        }
+        .bg-card .preview-overlay button:nth-child(2) { 
+            transition-delay: 0.05s; 
+        }
+        
+        .bg-card.active { 
+            border: 2px solid #8b5cf6; 
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.25);
+        }
+        .bg-card .check-mark {
+            position: absolute; 
+            top: 12px; 
+            right: 12px;
+            background: linear-gradient(135deg, #8b5cf6, #a855f7);
+            color: white; 
+            border-radius: 50%;
+            width: 28px; 
+            height: 28px; 
+            display: none;
+            align-items: center; 
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+        .bg-card.active .check-mark { 
+            display: flex; 
+        }
+        
+        /* Premium Modal */
+        .preview-modal {
+            position: fixed; 
+            inset: 0; 
+            background: rgba(0,0,0,0.92);
+            backdrop-filter: blur(30px);
+            z-index: 1000;
+            display: none; 
+            align-items: center; 
+            justify-content: center;
+            flex-direction: column; 
+            padding: 2rem;
+        }
+        .preview-modal.show { 
+            display: flex; 
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .preview-modal img {
+            max-width: 90%; 
+            max-height: 70vh; 
+            border-radius: 20px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        /* Premium Buttons */
+        .btn-glow {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.4), rgba(168, 85, 247, 0.4));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .btn-glow:hover::before {
+            opacity: 1;
+        }
+        .btn-glow:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.3);
+        }
+        
+        /* Filter Pills */
+        .filter-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+        }
+        .filter-btn:hover {
+            transform: translateY(-2px);
+        }
+        .filter-btn.active {
+            background: linear-gradient(135deg, #8b5cf6, #a855f7) !important;
+            color: white !important;
+            border-color: rgba(139, 92, 246, 0.5);
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+        }
+        
+        /* Upload Zone */
+        .upload-zone {
+            border: 2px dashed rgba(139, 92, 246, 0.2);
+            transition: all 0.3s;
+            background: rgba(139, 92, 246, 0.02);
+            border-radius: 20px;
+        }
+        .upload-zone:hover, .upload-zone.dragover {
+            border-color: #8b5cf6;
+            background: rgba(139, 92, 246, 0.05);
+            box-shadow: 0 0 40px rgba(139, 92, 246, 0.05);
+        }
+        
+        .loader-spinner {
+            width: 40px; 
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.05); 
+            border-top-color: #8b5cf6;
+            border-radius: 50%; 
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin { 
+            to { transform: rotate(360deg); } 
+        }
+        
+        /* Current Badge */
+        .current-badge {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(168, 85, 247, 0.1));
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 20px;
+            padding: 4px 16px;
+            display: inline-block;
+            font-size: 12px;
+            color: #a855f7;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center flex-wrap gap-2">
+            <a href="/" class="text-white text-xl font-bold flex items-center gap-2">
+                <i class='bx bx-palette text-purple-500 text-2xl'></i>
+                <span class="bg-gradient-to-r from-white to-purple-300 bg-clip-text text-transparent">Background Gallery</span>
+            </a>
+            <div class="flex items-center gap-2 flex-wrap">
+                <button onclick="window.location.href='/settings.html?section=store&tab=design'" 
+                        class="text-gray-400 hover:text-white transition text-sm px-3 py-1.5 bg-white/5 hover:bg-white/10 rounded-xl border border-white/5">
+                    <i class='bx bx-arrow-back'></i> Back
+                </button>
+                <button id="apply-selected-bg" 
+                        class="btn-glow px-4 py-1.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl text-sm hover:shadow-lg disabled:opacity-50 transition">
+                    <i class='bx bx-check'></i> Apply Selected
+                </button>
+                <button id="upload-bg-btn" 
+                        class="btn-glow px-4 py-1.5 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl text-sm hover:shadow-lg transition">
+                    <i class='bx bx-upload'></i> Upload
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-white mb-2">🎨 Background Gallery</h1>
+            <p class="text-gray-400">Browse, preview, and apply stunning backgrounds for your store</p>
+            <div id="current-bg-indicator" class="current-badge mt-3">
+                <i class='bx bx-check-circle'></i> Current: <span id="current-bg-name-text">Default</span>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="flex flex-wrap gap-2 mb-6 justify-center" id="filters-container">
+            <button class="filter-btn active px-4 py-2 rounded-xl text-sm bg-purple-500 text-white" data-filter="all">✨ All</button>
+            <button class="filter-btn px-4 py-2 rounded-xl text-sm bg-white/5 text-gray-300 hover:bg-white/10" data-filter="gradient">🌈 Gradients</button>
+            <button class="filter-btn px-4 py-2 rounded-xl text-sm bg-white/5 text-gray-300 hover:bg-white/10" data-filter="abstract">🌀 Abstract</button>
+            <button class="filter-btn px-4 py-2 rounded-xl text-sm bg-white/5 text-gray-300 hover:bg-white/10" data-filter="nature">🌿 Nature</button>
+            <button class="filter-btn px-4 py-2 rounded-xl text-sm bg-white/5 text-gray-300 hover:bg-white/10" data-filter="tech">💻 Tech</button>
+            <button class="filter-btn px-4 py-2 rounded-xl text-sm bg-white/5 text-gray-300 hover:bg-white/10" data-filter="space">🚀 Space</button>
+            <button class="filter-btn px-4 py-2 rounded-xl text-sm bg-white/5 text-gray-300 hover:bg-white/10" data-filter="custom">🎨 Custom</button>
+        </div>
+
+        <!-- Upload Zone -->
+        <div id="upload-zone" class="upload-zone rounded-2xl p-8 mb-8 text-center hidden">
+            <i class='bx bx-cloud-upload text-5xl text-purple-400'></i>
+            <p class="text-gray-400 mt-2">Drag & drop your image here, or click to browse</p>
+            <p class="text-xs text-gray-500 mt-1">Supports JPG, PNG, WEBP, GIF</p>
+            <input type="file" id="bg-file-input" accept="image/*" class="hidden">
+            <button id="select-file-btn" class="mt-4 px-6 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl hover:shadow-lg transition">
+                Choose File
+            </button>
+        </div>
+
+        <!-- Backgrounds Grid -->
+        <div id="backgrounds-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            <div class="col-span-full text-center py-16">
+                <div class="loader-spinner mx-auto"></div>
+                <p class="text-gray-400 mt-4">Loading backgrounds...</p>
+            </div>
+        </div>
+
+        <!-- Load More -->
+        <div id="load-more-container" class="text-center mt-8 hidden">
+            <button id="load-more-btn" class="px-6 py-2 bg-white/5 text-white rounded-xl hover:bg-white/10 transition border border-white/5">
+                <i class='bx bx-loader-circle'></i> Load More
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Preview Modal -->
+    <div id="preview-modal" class="preview-modal">
+        <button onclick="closePreview()" class="absolute top-6 right-6 text-white/50 hover:text-white text-3xl transition">&times;</button>
+        <img id="preview-image" src="" alt="Preview">
+        <div class="flex gap-4 mt-6 flex-wrap justify-center">
+            <button onclick="applyCurrentPreview()" class="px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl hover:shadow-xl transition btn-glow">
+                <i class='bx bx-check'></i> Apply This Background
+            </button>
+            <button onclick="closePreview()" class="px-8 py-3 bg-white/10 text-white rounded-xl hover:bg-white/20 transition">Close</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="/assets/js/config.js"></script>
+    <script>
+        // ============================================
+        // BACKGROUND GALLERY - PREMIUM V3
+        // ============================================
+        
+        const API_URL = window.ENV?.API_URL || 'https://mgzon-server.hf.space';
+        const cleanApiUrl = API_URL.replace(/\/$/, '');
+        let userToken = localStorage.getItem('userToken');
+        let currentUser = null;
+        let allBackgrounds = [];
+        let selectedBackground = null;
+        let currentFilter = 'all';
+        let currentPage = 1;
+        const perPage = 16;
+        
+        // ============================================
+        // Load Current User
+        // ============================================
+        async function loadCurrentUser() {
+            if (!userToken) {
+                window.location.href = '/login.html?redirect=/backgrounds.html';
+                return;
+            }
+            try {
+                const response = await fetch(`${cleanApiUrl}/api/verify-token`, {
+                    headers: { 'Authorization': `Bearer ${userToken}` }
+                });
+                if (response.ok) {
+                    currentUser = await response.json();
+                }
+            } catch (error) {
+                console.error('Error loading user:', error);
+            }
+        }
+
+        // ============================================
+        // Fetch Backgrounds
+        // ============================================
+        async function fetchBackgrounds() {
+            try {
+                const response = await fetch(`${cleanApiUrl}/api/backgrounds`, {
+                    headers: userToken ? { 'Authorization': `Bearer ${userToken}` } : {}
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    allBackgrounds = data.backgrounds || [];
+                    
+                    if (data.currentBackground && data.currentBackground.name) {
+                        document.getElementById('current-bg-name-text').textContent = data.currentBackground.name;
+                    }
+                    
+                    renderBackgrounds(allBackgrounds.slice(0, perPage));
+                    
+                    if (allBackgrounds.length > perPage) {
+                        document.getElementById('load-more-container').classList.remove('hidden');
+                    }
+                } else {
+                    throw new Error('Failed to fetch backgrounds');
+                }
+            } catch (error) {
+                console.error('Error fetching backgrounds:', error);
+                document.getElementById('backgrounds-grid').innerHTML = `
+                    <div class="col-span-full text-center py-16">
+                        <i class='bx bx-error-circle text-5xl text-red-500'></i>
+                        <p class="text-gray-400 mt-4">Failed to load backgrounds</p>
+                        <button onclick="fetchBackgrounds()" class="mt-4 px-6 py-2 bg-purple-500 text-white rounded-xl hover:shadow-lg transition">Retry</button>
+                    </div>
+                `;
+            }
+        }
+
+        // ============================================
+        // Render Backgrounds
+        // ============================================
+        function renderBackgrounds(backgrounds) {
+            const grid = document.getElementById('backgrounds-grid');
+            
+            if (!backgrounds || backgrounds.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-16">
+                        <i class='bx bx-image-alt text-5xl text-gray-500'></i>
+                        <p class="text-gray-400 mt-4">No backgrounds found</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = backgrounds.map(bg => `
+                <div class="bg-card rounded-2xl overflow-hidden ${selectedBackground?.id === bg.id ? 'active' : ''}" 
+                     data-id="${bg.id}"
+                     onclick="selectBackground('${bg.id}')">
+                    <img src="${bg.url}" class="w-full h-52 object-cover" loading="lazy" 
+                         onerror="this.src='/assets/img/default-background.jpg'">
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <h4 class="text-white font-medium truncate">${bg.name || 'Untitled'}</h4>
+                            <span class="text-xs px-2.5 py-0.5 rounded-full ${bg.type === 'gif' ? 'bg-purple-500/20 text-purple-300' : 'bg-gray-700 text-gray-300'}">
+                                ${bg.type === 'gif' ? '🎬 GIF' : '🖼️'}
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="text-xs px-2.5 py-0.5 rounded-full bg-white/5 text-gray-400">${bg.category || 'General'}</span>
+                        </div>
+                    </div>
+                    <div class="preview-overlay">
+                        <div class="flex gap-3">
+                            <button onclick="event.stopPropagation(); previewBackground('${bg.url}')" 
+                                    class="px-4 py-2 bg-white/20 backdrop-blur text-white rounded-xl text-sm hover:bg-white/30 transition">
+                                <i class='bx bx-show-alt'></i> Preview
+                            </button>
+                            <button onclick="event.stopPropagation(); applyBackground('${bg.id}')" 
+                                    class="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl text-sm hover:shadow-lg transition">
+                                <i class='bx bx-check'></i> Apply
+                            </button>
+                        </div>
+                    </div>
+                    <div class="check-mark">
+                        <i class='bx bx-check'></i>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ============================================
+        // Load More
+        // ============================================
+        function loadMore() {
+            currentPage++;
+            const start = (currentPage - 1) * perPage;
+            const end = start + perPage;
+            const more = allBackgrounds.slice(start, end);
+            const grid = document.getElementById('backgrounds-grid');
+            
+            if (more.length > 0) {
+                const newCards = more.map(bg => `
+                    <div class="bg-card rounded-2xl overflow-hidden ${selectedBackground?.id === bg.id ? 'active' : ''}" 
+                         data-id="${bg.id}"
+                         onclick="selectBackground('${bg.id}')">
+                        <img src="${bg.url}" class="w-full h-52 object-cover" loading="lazy" 
+                             onerror="this.src='/assets/img/default-background.jpg'">
+                        <div class="p-4">
+                            <div class="flex justify-between items-start">
+                                <h4 class="text-white font-medium truncate">${bg.name || 'Untitled'}</h4>
+                                <span class="text-xs px-2.5 py-0.5 rounded-full ${bg.type === 'gif' ? 'bg-purple-500/20 text-purple-300' : 'bg-gray-700 text-gray-300'}">
+                                    ${bg.type === 'gif' ? '🎬 GIF' : '🖼️'}
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="text-xs px-2.5 py-0.5 rounded-full bg-white/5 text-gray-400">${bg.category || 'General'}</span>
+                            </div>
+                        </div>
+                        <div class="preview-overlay">
+                            <div class="flex gap-3">
+                                <button onclick="event.stopPropagation(); previewBackground('${bg.url}')" 
+                                        class="px-4 py-2 bg-white/20 backdrop-blur text-white rounded-xl text-sm hover:bg-white/30 transition">
+                                    <i class='bx bx-show-alt'></i> Preview
+                                </button>
+                                <button onclick="event.stopPropagation(); applyBackground('${bg.id}')" 
+                                        class="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl text-sm hover:shadow-lg transition">
+                                    <i class='bx bx-check'></i> Apply
+                                </button>
+                            </div>
+                        </div>
+                        <div class="check-mark">
+                            <i class='bx bx-check'></i>
+                        </div>
+                    </div>
+                `).join('');
+                grid.insertAdjacentHTML('beforeend', newCards);
+            }
+            
+            if (end >= allBackgrounds.length) {
+                document.getElementById('load-more-container').classList.add('hidden');
+            }
+        }
+
+        // ============================================
+        // Select Background
+        // ============================================
+        function selectBackground(id) {
+            document.querySelectorAll('.bg-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            const selected = document.querySelector(`.bg-card[data-id="${id}"]`);
+            if (selected) {
+                selected.classList.add('active');
+                selectedBackground = allBackgrounds.find(b => b.id === id);
+                document.getElementById('apply-selected-bg').disabled = false;
+            }
+        }
+
+        // ============================================
+        // Preview Background
+        // ============================================
+        let previewBackgroundId = null;
+
+        function previewBackground(url) {
+            const modal = document.getElementById('preview-modal');
+            const img = document.getElementById('preview-image');
+            img.src = url;
+            modal.classList.add('show');
+            const bg = allBackgrounds.find(b => b.url === url);
+            if (bg) previewBackgroundId = bg.id;
+        }
+
+        function closePreview() {
+            document.getElementById('preview-modal').classList.remove('show');
+            previewBackgroundId = null;
+        }
+
+        // ============================================
+        // Apply Background
+        // ============================================
+        async function applyBackground(id) {
+            if (!userToken) {
+                showToast('Please login first', 'error');
+                return;
+            }
+            
+            const bg = allBackgrounds.find(b => b.id === id);
+            if (!bg) {
+                showToast('Background not found', 'error');
+                return;
+            }
+            
+            const btn = event?.target;
+            const originalText = btn?.innerHTML;
+            if (btn) {
+                btn.innerHTML = '<div class="loader-spinner w-4 h-4 inline-block mr-1"></div>';
+                btn.disabled = true;
+            }
+            
+            try {
+                const csrfToken = await fetchCsrfToken();
+                const response = await fetch(`${cleanApiUrl}/api/store/background`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfToken
+                    },
+                    body: JSON.stringify({
+                        backgroundId: bg.id,
+                        backgroundUrl: bg.url,
+                        backgroundName: bg.name,
+                        backgroundType: bg.type || 'image'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showToast(`✅ "${bg.name}" applied successfully!`, 'success');
+                    selectedBackground = bg;
+                    
+                    document.querySelectorAll('.bg-card').forEach(card => {
+                        card.classList.remove('active');
+                    });
+                    const selectedCard = document.querySelector(`.bg-card[data-id="${id}"]`);
+                    if (selectedCard) {
+                        selectedCard.classList.add('active');
+                    }
+                    
+                    document.getElementById('current-bg-name-text').textContent = bg.name;
+                    closePreview();
+                    
+                    // تحديث التصميم في المتجر
+                    if (window.opener && typeof window.opener.applyStoreDesign === 'function') {
+                        window.opener.applyStoreDesign();
+                    }
+                    
+                } else {
+                    throw new Error(data.error || 'Failed to apply background');
+                }
+            } catch (error) {
+                console.error('Error applying background:', error);
+                showToast(error.message || 'Failed to apply background', 'error');
+            } finally {
+                if (btn) {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
+            }
+        }
+
+        // ============================================
+        // Apply Current Preview
+        // ============================================
+        async function applyCurrentPreview() {
+            if (!previewBackgroundId) {
+                showToast('No background selected', 'warning');
+                return;
+            }
+            await applyBackground(previewBackgroundId);
+        }
+
+        // ============================================
+        // Apply Selected Background
+        // ============================================
+        async function applySelectedBackground() {
+            if (!selectedBackground) {
+                showToast('Please select a background first', 'warning');
+                return;
+            }
+            await applyBackground(selectedBackground.id);
+        }
+
+        // ============================================
+        // Filter Backgrounds
+        // ============================================
+        function filterBackgrounds(category) {
+            currentFilter = category;
+            currentPage = 1;
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            const activeBtn = document.querySelector(`.filter-btn[data-filter="${category}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+            
+            const filtered = category === 'all' 
+                ? allBackgrounds 
+                : allBackgrounds.filter(b => b.category?.toLowerCase() === category);
+            
+            renderBackgrounds(filtered.slice(0, perPage));
+            
+            if (filtered.length > perPage) {
+                document.getElementById('load-more-container').classList.remove('hidden');
+            } else {
+                document.getElementById('load-more-container').classList.add('hidden');
+            }
+        }
+
+        // ============================================
+        // Upload Background
+        // ============================================
+        function toggleUpload() {
+            const zone = document.getElementById('upload-zone');
+            zone.classList.toggle('hidden');
+        }
+
+        async function uploadBackground(file) {
+            const formData = new FormData();
+            formData.append('background', file);
+            formData.append('name', file.name.replace(/\.[^/.]+$/, ''));
+            formData.append('category', 'custom');
+            
+            try {
+                const csrfToken = await fetchCsrfToken();
+                const response = await fetch(`${cleanApiUrl}/api/store/backgrounds/upload`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                        'X-CSRF-Token': csrfToken
+                    },
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    showToast('✅ Background uploaded successfully!', 'success');
+                    await fetchBackgrounds();
+                    document.getElementById('upload-zone').classList.add('hidden');
+                } else {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Upload failed');
+                }
+            } catch (error) {
+                console.error('Error uploading background:', error);
+                showToast(error.message || 'Failed to upload', 'error');
+            }
+        }
+
+        // ============================================
+        // Helper Functions
+        // ============================================
+        async function fetchCsrfToken() {
+            try {
+                const response = await fetch(`${cleanApiUrl}/api/csrf-token`, { method: 'GET', credentials: 'include' });
+                const data = await response.json();
+                return data.csrfToken;
+            } catch (error) {
+                return null;
+            }
+        }
+
+        function showToast(message, type = 'success') {
+            if (typeof Toastify !== 'undefined') {
+                Toastify({
+                    text: message,
+                    duration: 3000,
+                    style: {
+                        background: type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6',
+                        borderRadius: '12px'
+                    }
+                }).showToast();
+            } else {
+                console.log(message);
+            }
+        }
+
+        // ============================================
+        // Event Listeners
+        // ============================================
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadCurrentUser();
+            await fetchBackgrounds();
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBackgrounds(btn.dataset.filter);
+                });
+            });
+            
+            document.getElementById('apply-selected-bg')?.addEventListener('click', applySelectedBackground);
+            document.getElementById('apply-selected-bg').disabled = true;
+            
+            document.getElementById('load-more-btn')?.addEventListener('click', loadMore);
+            
+            document.getElementById('upload-bg-btn')?.addEventListener('click', toggleUpload);
+            document.getElementById('select-file-btn')?.addEventListener('click', () => {
+                document.getElementById('bg-file-input').click();
+            });
+            
+            document.getElementById('bg-file-input')?.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    uploadBackground(file);
+                }
+            });
+            
+            const uploadZone = document.getElementById('upload-zone');
+            uploadZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadZone.classList.add('dragover');
+            });
+            uploadZone.addEventListener('dragleave', () => {
+                uploadZone.classList.remove('dragover');
+            });
+            uploadZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadZone.classList.remove('dragover');
+                const file = e.dataTransfer.files[0];
+                if (file) {
+                    uploadBackground(file);
+                }
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closePreview();
+            });
+            
+            document.getElementById('preview-modal')?.addEventListener('click', (e) => {
+                if (e.target === e.currentTarget) closePreview();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<header class="l-header">
+    <nav class="nav bd-grid">
+        <a href="/" class="nav__logo"><img src="/assets/img/logo.svg" alt="Portfolio Logo"> <span id="portfolio-name">Portfolio</span></a>
+        <div class="nav__menu" id="nav-menu">
+            <ul class="nav__list">
+                <li class="nav__item">
+                    <input type="text" id="search-input" data-translate="nav.search_placeholder" class="p-2 rounded-lg border border-gray-300 dark:border-gray-600">
+                    <div id="search-results" class="hidden"></div>
+                </li>
+                <li class="nav__item">
+                    <select id="language-switcher" class="p-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                        <option value="en">English</option>
+                        <option value="ar">العربية</option>
+                    </select>
+                </li>
+                <li class="nav__item"><a href="#home" class="nav__link active" data-translate="nav.home"></a></li>
+                <li class="nav__item"><a href="#about" class="nav__link" data-translate="nav.about"></a></li>
+                <li class="nav__item"><a href="#skills" class="nav__link" data-translate="nav.skills"></a></li>
+                <li class="nav__item"><a href="#work" class="nav__link" data-translate="nav.work"></a></li>
+                <li class="nav__item"><a href="#interactions" class="nav__link" data-translate="nav.interactions"></a></li>
+                <li class="nav__item"><a href="/settings.html" class="nav__link" data-translate="nav.settings"></a></li>
+                <li class="nav__item"><a href="/profile/me" class="nav__link" id="profile-link" style="display: none;" data-translate="nav.profile"></a></li>
+                <li class="nav__item"><a href="/admin" class="nav__link" id="admin-link" style="display: none;" data-translate="nav.admin"></a></li>
+                <li class="nav__item"><a href="/login.html" class="nav__link" id="login-link" data-translate="nav.login"></a></li>
+                <li class="nav__item"><a href="/register.html" class="nav__link" id="register-link" data-translate="nav.register"></a></li>
+                <li class="nav__item"><a href="#" class="nav__link" id="logout-link" style="display: none;" data-translate="nav.logout"></a></li>
+                <li class="nav__item"><a href="#" class="nav__link" id="theme-toggle">
+                    <img id="modeToggle" class="icon color-icon"
+                         src="/assets/img/theme_light.png"
+                         src-light="/assets/img/theme_light.png"
+                         src-dark="/assets/img/theme_dark.png"
+                         alt="Color theme icon" />
+                </a></li>
+            </ul>
+        </div>
+        <div class="nav__toggle" id="nav-toggle">
+            <i class='bx bx-menu'></i>
+        </div>
+    </nav>
+</header>

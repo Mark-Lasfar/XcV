@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Expert career advice, resume tips, interview preparation, and networking strategies to advance your career.">
+    <title>Career Advice - MGZon Blog</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" id="dynamic-favicon" href="/assets/img/logo.svg">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        .gradient-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .article-card { transition: all 0.3s ease; }
+        .article-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .dark { background: #1a1a2e; }
+        .dark .bg-white { background-color: #1f2937 !important; }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+<nav class="bg-white dark:bg-gray-800 shadow-lg fixed top-0 w-full z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <a href="/" class="flex items-center space-x-3">
+                <img id="nav-logo" src="/assets/img/logo.svg" class="h-10 w-10 object-contain">
+                <span id="site-name" class="text-xl font-bold gradient-text">MGZon</span>
+            </a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="/features.html" class="text-gray-700 dark:text-gray-300 hover:text-purple-600 transition">Features</a>
+                <a href="/jobs.html" class="text-gray-700 dark:text-gray-300 hover:text-purple-600 transition">Jobs</a>
+                <a href="/career-advice.html" class="text-purple-600 font-semibold">Career Advice</a>
+                <a href="/about.html" class="text-gray-700 dark:text-gray-300 hover:text-purple-600 transition">About</a>
+            </div>
+            <div class="flex items-center space-x-4" id="auth-buttons">
+                <a href="/login.html" class="px-4 py-2 text-purple-600 font-semibold">Sign In</a>
+                <a href="/register.html" class="px-5 py-2 gradient-bg text-white rounded-full font-semibold">Join Now</a>
+            </div>
+            <button id="mobile-menu-btn" class="md:hidden text-gray-600 dark:text-gray-300"><i class='bx bx-menu text-2xl'></i></button>
+        </div>
+    </div>
+</nav>
+
+<section class="pt-28 pb-12 px-4">
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-4xl font-bold mb-4 text-center">Career <span class="gradient-text">Advice</span></h1>
+        <p class="text-xl text-gray-600 text-center mb-12">Expert tips to advance your career</p>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="article-card bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg">
+                <div class="h-48 gradient-bg flex items-center justify-center"><i class='bx bx-file text-6xl text-white'></i></div>
+                <div class="p-6">
+                    <span class="text-sm text-purple-600 font-semibold">Resume Tips</span>
+                    <h3 class="text-xl font-bold mt-2 mb-2">How to Write a Resume That Stands Out</h3>
+                    <p class="text-gray-600">Learn the secrets to crafting a resume that gets noticed by recruiters...</p>
+                    <a href="#" class="inline-block mt-4 text-purple-600 font-semibold">Read More →</a>
+                </div>
+            </div>
+            <div class="article-card bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg">
+                <div class="h-48 bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center"><i class='bx bx-chalkboard text-6xl text-white'></i></div>
+                <div class="p-6">
+                    <span class="text-sm text-purple-600 font-semibold">Interview Prep</span>
+                    <h3 class="text-xl font-bold mt-2 mb-2">10 Common Interview Questions & Answers</h3>
+                    <p class="text-gray-600">Prepare for your next interview with these expert tips...</p>
+                    <a href="#" class="inline-block mt-4 text-purple-600 font-semibold">Read More →</a>
+                </div>
+            </div>
+            <div class="article-card bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg">
+                <div class="h-48 bg-gradient-to-r from-green-500 to-teal-500 flex items-center justify-center"><i class='bx bx-network-chart text-6xl text-white'></i></div>
+                <div class="p-6">
+                    <span class="text-sm text-purple-600 font-semibold">Networking</span>
+                    <h3 class="text-xl font-bold mt-2 mb-2">Building Your Professional Network Online</h3>
+                    <p class="text-gray-600">Strategies for expanding your network and making meaningful connections...</p>
+                    <a href="#" class="inline-block mt-4 text-purple-600 font-semibold">Read More →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="bg-gray-900 text-white py-12 px-4 text-center">
+    <p>&copy; <span id="current-year"></span> MGZon. All rights reserved.</p>
+</footer>
+
+<script src="/assets/js/config.js"></script>
+<script>
+    const API_URL = window.ENV?.API_URL || 'https://mgzon-server.hf.space';
+    const cleanApiUrl = API_URL.replace(/\/$/, '');
+    let userToken = localStorage.getItem('userToken');
+
+    async function loadSiteSettings() {
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/site-settings`);
+            if (response.ok) {
+                const data = await response.json();
+                const logoImg = document.querySelector('#nav-logo');
+                if (logoImg && data.logo) logoImg.src = data.logo;
+                const siteNameSpan = document.getElementById('site-name');
+                if (siteNameSpan && data.siteName) siteNameSpan.textContent = data.siteName;
+            }
+        } catch (error) { console.error(error); }
+    }
+
+    function updateNav() {
+        const authButtons = document.getElementById('auth-buttons');
+        if (userToken) {
+            authButtons.innerHTML = `<a href="/feed.html" class="px-4 py-2 text-purple-600 font-semibold">Feed</a><a href="/profile/me" class="px-5 py-2 bg-purple-600 text-white rounded-full font-semibold">Profile</a>`;
+        }
+    }
+
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+    loadSiteSettings();
+    updateNav();
+</script>
+</body>
+</html>

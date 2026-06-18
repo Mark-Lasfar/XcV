@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Promotions>
+  <Promotion id="mark-cv">
+    <Query>mark alasfar</Query>
+    <Title>Mark Al-Asfar - Senior Full-Stack Developer</Title>
+    <Url>https://mark-elasfar.web.app/</Url>
+    <Description>5+ years experience building enterprise platforms. Founder of MGzon ERP serving 10000+ users.</Description>
+  </Promotion>
+</Promotions>

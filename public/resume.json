@@ -1,0 +1,119 @@
+{
+  "personal_info": {
+    "name": "Ibrahim Maged Mohamed Al-Asfar",
+    "phone": "+20 1212444617",
+    "email": "marklasfar@gmail.com",
+    "address": "Zagazig, Sharqia, Egypt",
+    "date_of_birth": "1999-04-11",
+    "github": "https://github.com/Mark-Lasfar",
+    "online_resume": "https://mark-elasfar.web.app"
+  },
+  "career_objective": {
+    "summary": "Passionate Full Stack Web Developer and founder of MGZon AI, an AI-driven global e-commerce platform inspired by Amazon and Shopify. MGZon AI provides personalized shopping experiences and dedicated stores for vendors, targeting global markets. Developed MGpay, an internal payment and profit withdrawal system integrated with Stripe, PayPal, and Visa, enabling seamless financial transactions for vendors. With over 5 years of programming experience, I specialize in TypeScript, MongoDB, React, Django, and Linux systems. I am currently working on registering MGZon AI as a U.S.-based company and building strategic partnerships with warehouses in the USA, Canada, and China to create a robust e-commerce ecosystem. My goal is to drive innovation, support vendors, and maximize client success through scalable solutions."
+  },
+  "education": [
+    {
+      "degree": "Bachelor of Information Systems",
+      "institution": "Faculty of Computers and Information, Alexandria University, Egypt",
+      "period": "2020-2023",
+      "grade": "Very Good"
+    }
+  ],
+  "work_experience": [
+    {
+      "role": "Founder & Lead Developer",
+      "company": "MGZon AI",
+      "period": "2023-Present",
+      "responsibilities": [
+        "Founded MGZon AI, a next-generation e-commerce platform with AI-driven personalization, operating under U.S. licenses and targeting global markets.",
+        "Developed MGpay, an internal payment and profit withdrawal system, enabling vendors to manage transactions seamlessly with integrations to Stripe, PayPal, and Visa for global and regional payment support.",
+        "Integrated MGZon AI with external payment gateways (Stripe, PayPal) and warehouse systems in the USA, Canada, and China, operating under U.S. licenses, to support dropshipping, marketing, and subscriptions.",
+        "Designed a fully dynamic system for subscriptions, commissions, and profit calculations, allowing vendors to customize their stores visually without coding.",
+        "Built scalable backend systems using TypeScript, MongoDB, and Django, ensuring seamless vendor, user, and supplier interactions.",
+        "Spearheaded efforts to register MGZon AI as a U.S.-based company, enhancing its global credibility and operational capacity.",
+        "Leveraged strong persuasion and client acquisition skills to drive sales and maximize profitability."
+      ]
+    },
+    {
+      "role": "Freelance Developer (Remote)",
+      "period": "2020-2023",
+      "responsibilities": [
+        "Developed e-commerce platforms with API integrations for payment gateways and dynamic systems.",
+        "Utilized Linux systems and terminal-based workflows for efficient development and deployment.",
+        "Focused on scalability, user experience, and system optimization in all projects."
+      ]
+    },
+    {
+      "role": "Unpaid Internship",
+      "company": "USBank (Online)",
+      "period": "2022",
+      "responsibilities": [
+        "Contributed to financial systems and online banking operations in a remote setting.",
+        "Collaborated on API integrations and system testing, enhancing operational efficiency."
+      ]
+    }
+  ],
+  "skills": {
+    "technical_skills": [
+      "HTML5",
+      "CSS3",
+      "JavaScript",
+      "TypeScript",
+      "MongoDB",
+      "React",
+      "Node.js",
+      "Python",
+      "Django",
+      "Docker",
+      "PostgreSQL",
+      "SQL",
+      "Git",
+      "Linux",
+      "PHP",
+      "UX/UI Design",
+      "API Integration",
+      "Firebase",
+      "Search Engine Optimization (SEO)",
+      "Payment Gateway Integration (Stripe, PayPal, Visa)",
+      "Complex Project Planning",
+      "Terminal-Based Workflows"
+    ],
+    "soft_skills": [
+      "Strategic planning and goal-oriented problem-solving",
+      "Strong client acquisition and persuasion skills",
+      "Effective communication and team collaboration",
+      "Time management and ability to work under pressure"
+    ]
+  },
+  "training_and_courses": [
+    "FreeCodeCamp: Web Development and JavaScript Certifications",
+    "Online courses in Python, React, TypeScript, and Firebase",
+    "Unpaid Internship at USBank (Online)",
+    "Actively pursuing 'English for Career Development' on Coursera to enhance professional communication"
+  ],
+  "github_achievements": [
+    "Pull Shark: Significant contributions to open-source projects",
+    "YOLO: Pushed commits without review",
+    "Quickdraw: Rapid pull request resolutions"
+  ],
+  "languages": [
+    {
+      "language": "English",
+      "proficiency": "Intermediate (actively improving through dedicated courses)"
+    },
+    {
+      "language": "Arabic",
+      "proficiency": "Native"
+    }
+  ],
+  "favorite_quote": "If you want to set a goal, set it at the stars. Because even if you lose this goal, you will definitely reach the moon. Motivate yourself constantly because you deserve to be the best.",
+  "google_news_instructions": {
+    "steps": [
+      "Publish a news article about your professional journey on your website (e.g., mark-elasfar.web.app/article-ibrahim-maged.html).",
+      "Include structured data (Schema.org Article) in the article page to enhance search visibility.",
+      "Create and submit a News Sitemap (e.g., news-sitemap.xml) via Google Search Console to index the article in Google News.",
+      "Share the article on LinkedIn and Twitter with hashtags like #TechEntrepreneur, #Ecommerce, and #EgyptTech.",
+      "Add an 'About' page to your website with your contact details and ensure regular content updates to meet Google News requirements."
+    ]
+  }
+}

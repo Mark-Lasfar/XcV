@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Plans - MGZon</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <style>
+        * { font-family: 'Cairo', sans-serif; }
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        .plan-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        .plan-card.selected {
+            border: 3px solid #10b981;
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        .plan-card.popular {
+            border: 2px solid #f59e0b;
+            position: relative;
+            overflow: hidden;
+        }
+        .plan-card.popular::before {
+            content: "🔥 MOST POPULAR";
+            position: absolute;
+            top: 12px;
+            right: -30px;
+            background: #f59e0b;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 4px 30px;
+            transform: rotate(45deg);
+            transform-origin: center;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.show {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .loader-spinner {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .feature-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .feature-check i {
+            font-size: 18px;
+        }
+        .feature-check .bx-check-circle { color: #10b981; }
+        .feature-check .bx-x-circle { color: #ef4444; }
+        
+        @media (max-width: 768px) {
+            .plan-card.popular::before {
+                font-size: 8px;
+                top: 8px;
+                right: -25px;
+                padding: 3px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="fixed top-0 w-full bg-white shadow-md z-50">
+    <nav class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+        <a href="/" class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">MGZon</a>
+        <div class="flex gap-4">
+            <a href="/feed.html" class="text-gray-600 hover:text-purple-600 transition">Feed</a>
+            <a href="/profile/me" class="text-gray-600 hover:text-purple-600 transition">Profile</a>
+            <a href="/shop/me" class="text-gray-600 hover:text-purple-600 transition">Store</a>
+            <button id="theme-toggle" class="text-gray-600 hover:text-purple-600 transition">
+                <i class='bx bx-moon text-xl'></i>
+            </button>
+        </div>
+    </nav>
+</header>
+
+<!-- Main Content -->
+<main class="pt-24 pb-12 px-4">
+    <div class="max-w-7xl mx-auto">
+        
+        <!-- Header Section -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Choose Your Plan</h1>
+            <p class="text-white/80 text-lg max-w-2xl mx-auto">
+                Unlock premium features and take your portfolio to the next level
+            </p>
+        </div>
+        
+        <!-- Current Subscription Status -->
+        <div id="current-subscription" class="mb-8 hidden">
+            <div class="glass-card p-4 flex justify-between items-center flex-wrap gap-3">
+                <div>
+                    <p class="text-sm text-gray-500">Your Current Plan</p>
+                    <p id="current-plan-name" class="text-xl font-bold text-purple-600">-</p>
+                    <p id="current-plan-status" class="text-sm"></p>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm text-gray-500">Valid Until</p>
+                    <p id="current-plan-end" class="font-semibold">-</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Plans Grid -->
+        <div id="plans-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
+            <div class="col-span-full text-center py-12">
+                <div class="loader-spinner mx-auto"></div>
+                <p class="text-white mt-4">Loading plans...</p>
+            </div>
+        </div>
+        
+        <!-- FAQ Section -->
+        <div class="glass-card p-6 max-w-3xl mx-auto">
+            <h3 class="text-xl font-bold text-center mb-6">Frequently Asked Questions</h3>
+            <div class="space-y-4">
+                <div>
+                    <p class="font-semibold">❓ Can I change my plan later?</p>
+                    <p class="text-gray-600 text-sm">Yes, you can upgrade or downgrade your plan at any time from your account settings.</p>
+                </div>
+                <div>
+                    <p class="font-semibold">❓ Is there a free trial?</p>
+                    <p class="text-gray-600 text-sm">Some plans include a free trial. Check the plan details above.</p>
+                </div>
+                <div>
+                    <p class="font-semibold">❓ What payment methods do you accept?</p>
+                    <p class="text-gray-600 text-sm">We accept bank transfers, mobile wallets, and online payments. All methods are shown during checkout.</p>
+                </div>
+                <div>
+                    <p class="font-semibold">❓ Can I cancel my subscription?</p>
+                    <p class="text-gray-600 text-sm">Yes, you can cancel anytime. Your access will continue until the end of the billing period.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Checkout Modal -->
+<div id="checkout-modal" class="modal">
+    <div class="modal-content p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-bold" id="modal-plan-name">Complete Payment</h2>
+            <button onclick="closeCheckoutModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+        </div>
+        
+        <div id="checkout-content">
+            <div class="text-center py-8">
+                <div class="loader-spinner mx-auto"></div>
+                <p class="mt-3">Loading payment methods...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/assets/js/config.js"></script>
+<script>
+    // ============================================
+    // SUBSCRIPTION PAGE - USER VIEW
+    // ============================================
+    
+    const API_URL = window.ENV?.API_URL || 'https://mgzon-server.hf.space';
+    const cleanApiUrl = API_URL.replace(/\/$/, '');
+    let userToken = localStorage.getItem('userToken');
+    let currentUser = null;
+    let selectedPlan = null;
+    let availablePlans = [];
+    let paymentMethods = [];
+    let currentSubscription = null;
+    let isRenewal = false;
+
+    // ============================================
+    // Load Current User
+    // ============================================
+    async function loadCurrentUser() {
+        if (!userToken) {
+            window.location.href = `/login.html?redirect=${encodeURIComponent('/subscription.html')}`;
+            return null;
+        }
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/verify-token`, {
+                headers: { 'Authorization': `Bearer ${userToken}` }
+            });
+            if (response.ok) {
+                currentUser = await response.json();
+                return currentUser;
+            } else {
+                window.location.href = `/login.html?redirect=${encodeURIComponent('/subscription.html')}`;
+                return null;
+            }
+        } catch (error) {
+            console.error('Error loading user:', error);
+            return null;
+        }
+    }
+    
+    // ============================================
+    // Load Plans
+    // ============================================
+    async function loadPlans() {
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/subscription/plans`);
+            if (response.ok) {
+                const data = await response.json();
+                availablePlans = data.plans || [];
+                currentSubscription = data.currentSubscription || null;
+                renderPlans();
+                renderCurrentSubscription();
+            } else {
+                throw new Error('Failed to load plans');
+            }
+        } catch (error) {
+            console.error('Error loading plans:', error);
+            document.getElementById('plans-grid').innerHTML = `
+                <div class="col-span-full text-center py-12">
+                    <i class='bx bx-error-circle text-5xl text-red-400 mb-3'></i>
+                    <p class="text-white">Failed to load plans. Please try again.</p>
+                    <button onclick="location.reload()" class="mt-4 px-6 py-2 bg-white text-purple-600 rounded-lg">Retry</button>
+                </div>
+            `;
+        }
+    }
+    
+
+    function renderPlans() {
+        const container = document.getElementById('plans-grid');
+        if (!container) return;
+        
+        if (availablePlans.length === 0) {
+            container.innerHTML = '<div class="col-span-full text-center py-12 text-white">No plans available at the moment.</div>';
+            return;
+        }
+
+        const currencySymbols = { USD: '$', EUR: '€', GBP: '£', EGP: 'ج.م' };
+        
+        // ✅ عرض الخطط
+        let plansHtml = availablePlans.map(plan => {
+            const isCurrentPlan = currentSubscription && currentSubscription.planId?._id === plan._id;
+            const currencySym = currencySymbols[plan.currency] || plan.currencySymbol || '$';
+            const priceDisplay = plan.price === 0 ? 'Free' : `${currencySym}${plan.price}/${plan.duration === 'monthly' ? 'mo' : plan.duration === 'yearly' ? 'yr' : 'once'}`;
+            const isPopular = plan.badge === 'popular';
+            
+            const features = [];
+            if (plan.features.storeEnabled) features.push({ icon: 'bx-store', text: 'Digital Store' });
+            if (plan.features.maxProducts > 0) features.push({ icon: 'bx-package', text: `${plan.features.maxProducts === 0 ? 'Unlimited' : plan.features.maxProducts} Products` });
+            if (plan.features.pageBuilderEnabled) features.push({ icon: 'bx-layout', text: 'Page Builder' });
+            if (plan.features.customDomain) features.push({ icon: 'bx-globe', text: 'Custom Domain' });
+            if (plan.features.analyticsEnabled) features.push({ icon: 'bx-chart', text: 'Advanced Analytics' });
+            if (plan.features.prioritySupport) features.push({ icon: 'bx-support', text: 'Priority Support' });
+            if (plan.features.apiAccess) features.push({ icon: 'bx-code', text: 'API Access' });
+            if (plan.features.teamMembers > 1) features.push({ icon: 'bx-group', text: `${plan.features.teamMembers} Team Members` });
+            
+            const badgeClass = isPopular ? 'popular' : '';
+            const selectedClass = isCurrentPlan ? 'selected border-green-500' : '';
+            
+            return `
+                <div class="glass-card plan-card p-6 ${badgeClass} ${selectedClass} cursor-pointer" onclick="selectPlan('${plan._id}')" data-plan-id="${plan._id}">
+                    <div class="text-center mb-4">
+                        <i class='bx ${plan.icon || 'bx-star'} text-5xl text-purple-500'></i>
+                        <h3 class="text-2xl font-bold mt-2">${escapeHtml(plan.name)}</h3>
+                        ${plan.nameAr ? `<p class="text-sm text-gray-500">${escapeHtml(plan.nameAr)}</p>` : ''}
+                    </div>
+                    <div class="text-center mb-4">
+                        <span class="text-4xl font-bold">${priceDisplay}</span>
+                        ${plan.hasFreeTrial ? `<p class="text-xs text-green-600 mt-1">🎁 ${plan.freeTrialDays}-day free trial</p>` : ''}
+                    </div>
+                    <div class="border-t pt-4 space-y-2">
+                        ${features.map(f => `
+                            <div class="feature-check flex items-center gap-2">
+                                <i class='bx bx-check-circle text-green-500 text-xl'></i>
+                                <span class="text-sm">${f.text}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="mt-6">
+                        ${isCurrentPlan ? `
+                            <div class="w-full py-2 bg-green-500 text-white rounded-lg text-center">
+                                ✅ Current Plan
+                            </div>
+                        ` : plan.price === 0 ? `
+                            <div class="w-full py-2 bg-gray-500 text-white rounded-lg text-center">
+                                Free
+                            </div>
+                        ` : `
+                            <button onclick="event.stopPropagation(); subscribeToPlan('${plan._id}')" class="w-full py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition">
+                                Subscribe Now
+                            </button>
+                        `}
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        // ✅ إضافة رابط تفاصيل الاشتراك إذا كان المستخدم لديه اشتراك نشط
+        let subscriptionLinkHtml = '';
+        if (currentSubscription && currentSubscription.status === 'active') {
+            subscriptionLinkHtml = `
+                <div class="col-span-full text-center mt-8 pt-4 border-t border-white/20">
+                    <a href="/subscription-details.html" class="inline-flex items-center gap-2 text-white bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-xl transition shadow-lg">
+                        <i class='bx bx-detail'></i> View Your Subscription Details
+                    </a>
+                </div>
+            `;
+        }
+        
+        container.innerHTML = plansHtml + subscriptionLinkHtml;
+    }
+    
+    function renderCurrentSubscription() {
+        const container = document.getElementById('current-subscription');
+        if (!currentSubscription || currentSubscription.status !== 'active') {
+            container.classList.add('hidden');
+            return;
+        }
+        
+        container.classList.remove('hidden');
+        const plan = currentSubscription.planId;
+        document.getElementById('current-plan-name').textContent = plan?.name || 'Unknown';
+        document.getElementById('current-plan-status').innerHTML = `<span class="text-green-600">✅ Active</span>`;
+        document.getElementById('current-plan-end').textContent = currentSubscription.endDate ? new Date(currentSubscription.endDate).toLocaleDateString() : 'Lifetime';
+    }
+    
+    // ============================================
+    // Select Plan (highlight)
+    // ============================================
+    function selectPlan(planId) {
+        document.querySelectorAll('.plan-card').forEach(card => {
+            card.classList.remove('selected', 'border-green-500');
+        });
+        const selectedCard = document.querySelector(`.plan-card[data-plan-id="${planId}"]`);
+        if (selectedCard) {
+            selectedCard.classList.add('selected', 'border-green-500');
+        }
+        selectedPlan = availablePlans.find(p => p._id === planId);
+    }
+    
+    // ============================================
+    // Subscribe to Plan
+    // ============================================
+
+
+
+    // في دالة renderPlans، أضف خيار التجديد إذا كان المستخدم عنده اشتراك منتهي
+    async function checkExpiredSubscription() {
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/subscription/check`, {
+                headers: { 'Authorization': `Bearer ${userToken}` }
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                if (data.hasActiveSubscription === false && data.isExpired === true) {
+                    // عرض رسالة تجديد
+                    showRenewalBanner();
+                }
+            }
+        } catch (error) {
+            console.error('Error checking subscription:', error);
+        }
+    }
+
+    function showRenewalBanner() {
+        const bannerHtml = `
+            <div class="bg-yellow-100 dark:bg-yellow-900/30 border border-yellow-400 rounded-lg p-4 mb-6 flex justify-between items-center flex-wrap gap-3">
+                <div>
+                    <p class="font-semibold text-yellow-800 dark:text-yellow-300">⚠️ Your subscription has expired</p>
+                    <p class="text-sm text-yellow-700 dark:text-yellow-400">Renew now to continue accessing premium features.</p>
+                </div>
+                <button onclick="scrollToPlans()" class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">
+                    Renew Now →
+                </button>
+            </div>
+        `;
+        const container = document.getElementById('plans-grid');
+        if (container) {
+            container.insertAdjacentHTML('beforebegin', bannerHtml);
+        }
+    }
+
+
+    async function subscribeToPlan(planId, isRenewalMode = false) {
+        if (!userToken) {
+            window.location.href = `/login.html?redirect=${encodeURIComponent('/subscription.html')}`;
+            return;
+        }
+        
+        selectedPlan = availablePlans.find(p => p._id === planId);
+        if (!selectedPlan) return;
+        
+        isRenewal = isRenewalMode;
+        
+        document.getElementById('modal-plan-name').textContent = selectedPlan.name;
+        document.getElementById('checkout-modal').classList.add('show');
+        
+        await loadPaymentMethodsForModal();
+    }
+    
+    async function loadPaymentMethodsForModal() {
+        const content = document.getElementById('checkout-content');
+        content.innerHTML = '<div class="text-center py-8"><div class="loader-spinner mx-auto"></div><p class="mt-3">Loading payment methods...</p></div>';
+        
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/subscription/payment-methods`);
+            if (response.ok) {
+                const data = await response.json();
+                paymentMethods = data.methods || [];
+                renderPaymentMethodsModal();
+            } else {
+                throw new Error('Failed to load payment methods');
+            }
+        } catch (error) {
+            content.innerHTML = `
+                <div class="text-center py-8 text-red-500">
+                    <i class='bx bx-error-circle text-4xl mb-2'></i>
+                    <p>Failed to load payment methods</p>
+                    <button onclick="closeCheckoutModal()" class="mt-3 px-4 py-2 bg-gray-500 text-white rounded-lg">Close</button>
+                </div>
+            `;
+        }
+    }
+    
+    function renderPaymentMethodsModal() {
+        const content = document.getElementById('checkout-content');
+        
+        if (paymentMethods.length === 0) {
+            content.innerHTML = `
+                <div class="text-center py-8 text-yellow-500">
+                    <i class='bx bx-info-circle text-4xl mb-2'></i>
+                    <p>No payment methods available</p>
+                    <p class="text-sm text-gray-500 mt-1">Please contact support</p>
+                    <button onclick="closeCheckoutModal()" class="mt-3 px-4 py-2 bg-gray-500 text-white rounded-lg">Close</button>
+                </div>
+            `;
+            return;
+        }
+        
+        const currencySymbols = { USD: '$', EUR: '€', GBP: '£', EGP: 'ج.م' };
+        const currencySym = currencySymbols[selectedPlan.currency] || selectedPlan.currencySymbol || '$';
+        
+        content.innerHTML = `
+            <div class="mb-4 p-3 bg-gray-50 rounded-lg">
+                <div class="flex justify-between">
+                    <span>Plan:</span>
+                    <span class="font-semibold">${escapeHtml(selectedPlan.name)}</span>
+                </div>
+                <div class="flex justify-between mt-1">
+                    <span>Price:</span>
+                    <span class="font-bold text-purple-600">${currencySym}${selectedPlan.price}/${selectedPlan.duration === 'monthly' ? 'month' : selectedPlan.duration === 'yearly' ? 'year' : 'one-time'}</span>
+                </div>
+                ${selectedPlan.hasFreeTrial ? `<div class="text-xs text-green-600 mt-2">🎁 ${selectedPlan.freeTrialDays}-day free trial included</div>` : ''}
+            </div>
+            
+            <div class="space-y-3">
+                <label class="block text-sm font-medium mb-1">Select Payment Method</label>
+                ${paymentMethods.map((method, index) => `
+                    <label class="flex items-center gap-3 p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition ${index === 0 ? 'border-purple-500 bg-purple-50' : ''}" data-method-id="${method._id}">
+                        <input type="radio" name="paymentMethod" value="${method._id}" class="payment-radio w-4 h-4" ${index === 0 ? 'checked' : ''}>
+                        <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                            <i class='bx ${method.icon || 'bx-bank'} text-xl'></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium">${escapeHtml(method.name)}</p>
+                            <p class="text-xs text-gray-500">${method.type === 'bank' ? 'Bank Transfer' : method.type === 'mobile_wallet' ? 'Mobile Wallet' : 'Online Payment'}</p>
+                        </div>
+                    </label>
+                `).join('')}
+            </div>
+            
+            <div id="payment-instructions" class="mt-4 p-3 bg-blue-50 rounded-lg text-sm">
+                <!-- Instructions will appear here -->
+            </div>
+            
+            <div id="payment-proof-container" class="mt-4 hidden">
+                <label class="block text-sm font-medium mb-1">Upload Payment Proof</label>
+                <input type="file" id="payment-proof" accept="image/jpeg,image/png,image/jpg,image/webp" class="w-full p-2 border rounded-lg">
+                <p class="text-xs text-gray-500 mt-1">Upload screenshot of your payment transfer</p>
+            </div>
+            
+            <div class="flex gap-3 mt-6 pt-4 border-t">
+                <button onclick="submitSubscription()" class="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white py-2 rounded-lg hover:from-purple-600 hover:to-pink-600 transition">
+                    Confirm Subscription
+                </button>
+                <button onclick="closeCheckoutModal()" class="flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 transition">
+                    Cancel
+                </button>
+            </div>
+        `;
+        
+        // Add event listeners for radio buttons
+        document.querySelectorAll('.payment-radio').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const methodId = e.target.closest('label').dataset.methodId;
+                const method = paymentMethods.find(m => m._id === methodId);
+                updatePaymentInstructions(method);
+            });
+        });
+        
+        // Show instructions for first method
+        if (paymentMethods[0]) {
+            updatePaymentInstructions(paymentMethods[0]);
+        }
+    }
+    
+    function updatePaymentInstructions(method) {
+        const container = document.getElementById('payment-instructions');
+        const proofContainer = document.getElementById('payment-proof-container');
+        
+        if (!method) return;
+        
+        let instructions = '';
+        if (method.type === 'bank') {
+            instructions = `
+                <strong>🏦 Bank Transfer Details:</strong><br>
+                Bank: ${escapeHtml(method.bankDetails?.bankName || 'N/A')}<br>
+                Account Name: ${escapeHtml(method.bankDetails?.accountName || 'N/A')}<br>
+                Account Number: ${escapeHtml(method.bankDetails?.accountNumber || 'N/A')}<br>
+                ${method.bankDetails?.iban ? `IBAN: ${escapeHtml(method.bankDetails.iban)}<br>` : ''}
+                ${method.bankDetails?.swiftCode ? `SWIFT: ${escapeHtml(method.bankDetails.swiftCode)}` : ''}
+            `;
+            proofContainer.classList.remove('hidden');
+        } else if (method.type === 'mobile_wallet') {
+            instructions = `
+                <strong>📱 Mobile Wallet Details:</strong><br>
+                Provider: ${escapeHtml(method.mobileWalletDetails?.provider || 'N/A')}<br>
+                Phone Number: ${escapeHtml(method.mobileWalletDetails?.phoneNumber || 'N/A')}
+            `;
+            proofContainer.classList.remove('hidden');
+        } else {
+            instructions = `<strong>💳 Online Payment:</strong> You will be redirected to complete payment securely.`;
+            proofContainer.classList.add('hidden');
+        }
+        
+        if (method.instructions) {
+            instructions += `<br><br>${escapeHtml(method.instructions)}`;
+        }
+        
+        container.innerHTML = instructions;
+    }
+    
+    async function submitSubscription() {
+        const selectedRadio = document.querySelector('input[name="paymentMethod"]:checked');
+        if (!selectedRadio) {
+            showToast('Please select a payment method', 'error');
+            return;
+        }
+        
+        const methodId = selectedRadio.closest('label').dataset.methodId;
+        const paymentMethod = paymentMethods.find(m => m._id === methodId);
+        
+        const formData = new FormData();
+        formData.append('planId', selectedPlan._id);
+        formData.append('paymentMethodId', methodId);
+        formData.append('autoRenew', 'false');
+        
+        const paymentDetails = {};
+        if (paymentMethod.type === 'bank') {
+            paymentDetails.bankName = paymentMethod.bankDetails?.bankName;
+            paymentDetails.accountNumber = paymentMethod.bankDetails?.accountNumber;
+        } else if (paymentMethod.type === 'mobile_wallet') {
+            paymentDetails.phone = paymentMethod.mobileWalletDetails?.phoneNumber;
+            paymentDetails.provider = paymentMethod.mobileWalletDetails?.provider;
+        }
+        formData.append('paymentDetails', JSON.stringify(paymentDetails));
+        
+        const proofFile = document.getElementById('payment-proof')?.files[0];
+        if (proofFile) {
+            formData.append('paymentProof', proofFile);
+        }
+        
+        const endpoint = isRenewal ? `${cleanApiUrl}/api/subscription/renew` : `${cleanApiUrl}/api/subscription/subscribe`;
+        
+        showToast('Processing your request...', 'info');
+        
+        try {
+            const csrfToken = await fetchCsrfToken();
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${userToken}`,
+                    'X-CSRF-Token': csrfToken || ''
+                },
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (response.ok && result.success) {
+                const message = isRenewal ? 
+                    (selectedPlan.price === 0 ? '✅ Subscription renewed successfully!' : '📋 Renewal request submitted for approval') :
+                    (result.isTrial ? '🎉 Free trial started! Enjoy your subscription.' : '📋 Subscription request submitted! You will be notified once approved.');
+                
+                showToast(message, 'success');
+                setTimeout(() => window.location.reload(), 2000);
+                closeCheckoutModal();
+            } else {
+                throw new Error(result.error || 'Request failed');
+            }
+        } catch (error) {
+            console.error('Subscription error:', error);
+            showToast(error.message, 'error');
+        }
+    }
+
+
+    
+
+    async function cancelMySubscription() {
+        if (!confirm('Are you sure you want to cancel your subscription? You will lose access to premium features after the current period ends.')) return;
+        
+        try {
+            const csrfToken = await fetchCsrfToken();
+            const response = await fetch(`${cleanApiUrl}/api/subscription/cancel`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${userToken}`,
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': csrfToken || ''
+                },
+                body: JSON.stringify({ reason: 'Cancelled by user' })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                showToast('Subscription cancelled successfully', 'success');
+                setTimeout(() => window.location.reload(), 2000);
+            } else {
+                throw new Error(result.error || 'Failed to cancel');
+            }
+        } catch (error) {
+            console.error('Error cancelling subscription:', error);
+            showToast(error.message, 'error');
+        }
+    }
+
+    function addCancelButtonIfActive() {
+    if (currentSubscription && currentSubscription.status === 'active') {
+        const container = document.getElementById('current-subscription');
+        if (container) {
+            const cancelBtn = document.createElement('button');
+            cancelBtn.className = 'mt-3 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 text-sm';
+            cancelBtn.innerHTML = '<i class="bx bx-x-circle"></i> Cancel Subscription';
+            cancelBtn.onclick = cancelMySubscription;
+            container.querySelector('.glass-card')?.appendChild(cancelBtn);
+        }
+    }
+}
+
+    function closeCheckoutModal() {
+        document.getElementById('checkout-modal').classList.remove('show');
+    }
+    
+    // ============================================
+    // Helper Functions
+    // ============================================
+    async function fetchCsrfToken() {
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/csrf-token`, { 
+                method: 'GET', 
+                credentials: 'include' 
+            });
+            const data = await response.json();
+            return data.csrfToken;
+        } catch (error) {
+            return null;
+        }
+    }
+    
+    function showToast(message, type = 'success') {
+        Toastify({
+            text: message,
+            duration: 3000,
+            gravity: 'top',
+            position: 'right',
+            style: {
+                background: type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#f59e0b',
+                borderRadius: '12px'
+            }
+        }).showToast();
+    }
+    
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
+    }
+    
+    // Theme toggle
+    function setupThemeToggle() {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark');
+        }
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark');
+                localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+            });
+        }
+    }
+    
+    // ============================================
+    // Initialize
+    // ============================================
+    async function init() {
+        setupThemeToggle();
+        await loadCurrentUser();
+        await loadPlans();
+    }
+    
+    init();
+</script>
+</body>
+</html>

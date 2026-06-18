@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template Store - MGZon Templates</title>
+    <link rel="icon" href="/assets/img/logo.svg">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
+    
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        
+        .template-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .template-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -12px rgba(0,0,0,0.15);
+        }
+        
+        .template-preview-img {
+            transition: transform 0.3s ease;
+        }
+        
+        .template-card:hover .template-preview-img {
+            transform: scale(1.05);
+        }
+        
+        .category-chip {
+            transition: all 0.2s ease;
+        }
+        
+        .category-chip.active {
+            background: #8b5cf6;
+            color: white;
+        }
+        
+        .loader-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #e5e7eb;
+            border-top-color: #8b5cf6;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .l-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        body.dark .l-header {
+            background: #1f2937;
+        }
+        
+        main {
+            padding-top: 80px;
+        }
+        
+        .preview-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(4px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .preview-modal.show {
+            display: flex;
+        }
+        
+        .preview-modal-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow: auto;
+            background: white;
+            border-radius: 1rem;
+        }
+        
+        body.dark .preview-modal-content {
+            background: #1f2937;
+        }
+        
+        .rating-stars {
+            display: flex;
+            gap: 2px;
+        }
+        
+        .rating-stars i {
+            font-size: 14px;
+        }
+        
+        /* Line clamp */
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* AI Generated Template Modal Animation */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-\[slideUp_0\.3s_ease-out\] {
+            animation: slideUp 0.3s ease-out;
+        }
+
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900">
+
+<!-- Header -->
+<header class="l-header">
+    <nav class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+        <a href="/" class="text-xl font-bold flex items-center gap-2">
+            <img src="/assets/img/logo.svg" class="w-8 h-8" alt="Logo">
+            <span>MGZon</span>
+        </a>
+        
+        <div class="hidden md:flex items-center gap-6">
+            <a href="/feed.html" class="text-gray-600 dark:text-gray-300 hover:text-purple-600">Home</a>
+            <a href="/settings.html?section=store" class="text-gray-600 dark:text-gray-300 hover:text-purple-600">My Store</a>
+            <a href="/template-store.html" class="text-purple-600 font-medium">Templates</a>
+        </div>
+        
+        <div id="user-menu" class="flex items-center gap-3">
+            <!-- سيتم تعبئته ديناميكياً -->
+        </div>
+    </nav>
+</header>
+
+<main class="max-w-7xl mx-auto px-4 pb-12">
+    
+    <!-- Hero Section -->
+    <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            Professional Store Templates
+        </h1>
+        <p class="text-gray-600 dark:text-gray-400 mt-3 max-w-2xl mx-auto">
+            Choose from our collection of beautifully designed templates. 
+            Install with one click and customize to match your brand.
+        </p>
+    </div>
+    
+    <!-- Categories Filter -->
+    <div class="flex flex-wrap gap-3 justify-center mb-8" id="categories-container">
+        <button data-category="all" class="category-chip active px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-purple-500 hover:text-white transition">
+            All Templates
+        </button>
+        <button data-category="fashion" class="category-chip px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-purple-500 hover:text-white transition">
+            👗 Fashion
+        </button>
+        <button data-category="electronics" class="category-chip px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-purple-500 hover:text-white transition">
+            📱 Electronics
+        </button>
+        <button data-category="food" class="category-chip px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-purple-500 hover:text-white transition">
+            🍔 Food
+        </button>
+        <button data-category="art" class="category-chip px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-purple-500 hover:text-white transition">
+            🎨 Art
+        </button>
+        <button data-category="beauty" class="category-chip px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-purple-500 hover:text-white transition">
+            💄 Beauty
+        </button>
+        <button data-category="minimal" class="category-chip px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-purple-500 hover:text-white transition">
+            ✨ Minimal
+        </button>
+        <button data-category="business" class="category-chip px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-purple-500 hover:text-white transition">
+            💼 Business
+        </button>
+    </div>
+    
+    <!-- Sort Options -->
+    <div class="max-w-md mx-auto mb-8 flex gap-2">
+        <select id="sort-select" class="flex-1 p-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 text-sm">
+            <option value="popular">🔥 Most Popular</option>
+            <option value="rating">⭐ Top Rated</option>
+            <option value="newest">🆕 Newest</option>
+        </select>
+        <button id="apply-filters" class="px-4 py-2 bg-purple-500 text-white rounded-lg text-sm hover:bg-purple-600 transition">
+            Apply
+        </button>
+    </div>
+
+    <!-- AI Template Generator -->
+    <div class="max-w-md mx-auto mb-8">
+        <div class="relative">
+            <i class='bx bx-brain absolute left-3 top-1/2 transform -translate-y-1/2 text-purple-400'></i>
+            <input type="text" id="ai-template-input" placeholder="Describe your dream store (e.g., 'A modern fashion store with pink theme and product carousel')..." 
+                class="w-full pl-10 pr-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 focus:ring-2 focus:ring-purple-500">
+        </div>
+        <div class="flex gap-2 mt-2">
+            <select id="ai-style-select" class="flex-1 p-2 border rounded-lg dark:bg-gray-800 text-sm">
+                <option value="modern">✨ Modern</option>
+                <option value="minimal">🎯 Minimal</option>
+                <option value="elegant">💎 Elegant</option>
+                <option value="bold">🔥 Bold</option>
+                <option value="dark">🌙 Dark</option>
+                <option value="light">☀️ Light</option>
+            </select>
+            <button id="generate-template-ai" class="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg text-sm hover:opacity-90 transition flex items-center gap-2">
+                <i class='bx bx-magic'></i> Generate with AI
+            </button>
+        </div>
+        <p class="text-xs text-gray-500 mt-2 flex items-center gap-1">
+            <i class='bx bx-info-circle'></i> Describe your ideal store and AI will generate a complete template for you
+        </p>
+    </div>
+    
+    <!-- Search Box -->
+    <div class="max-w-md mx-auto mb-8">
+        <div class="relative">
+            <i class='bx bx-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400'></i>
+            <input type="text" id="search-input" placeholder="Search templates..." 
+                class="w-full pl-10 pr-4 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-700 focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+        </div>
+    </div>
+    
+    <!-- Templates Grid -->
+    <div id="templates-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div class="col-span-full text-center py-12">
+            <div class="loader-spinner mx-auto"></div>
+            <p class="mt-3 text-gray-500">Loading templates...</p>
+        </div>
+    </div>
+    
+    <!-- Load More -->
+    <div class="text-center mt-8" id="load-more-container" style="display: none;">
+        <button id="load-more-btn" class="px-6 py-2 border rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+            Load More
+            <i class='bx bx-down-arrow-alt'></i>
+        </button>
+    </div>
+</main>
+
+<!-- Preview Modal -->
+<div id="preview-modal" class="preview-modal">
+    <div class="preview-modal-content rounded-xl max-w-5xl w-full max-h-[90vh] overflow-hidden">
+        <div class="sticky top-0 bg-white dark:bg-gray-800 p-4 border-b dark:border-gray-700 flex justify-between items-center">
+            <h3 id="preview-title" class="text-xl font-semibold">Template Preview</h3>
+            <button id="close-preview" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+        </div>
+        <div id="preview-body" class="p-6 overflow-y-auto" style="max-height: calc(90vh - 70px);">
+            <div class="text-center py-12">
+                <div class="loader-spinner mx-auto"></div>
+                <p class="mt-2">Loading preview...</p>
+            </div>
+        </div>
+        <div class="sticky bottom-0 bg-white dark:bg-gray-800 p-4 border-t dark:border-gray-700 flex gap-3">
+            <button id="apply-template-btn" class="flex-1 bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition">
+                <i class='bx bx-download'></i> Apply This Template
+            </button>
+            <button id="close-preview-btn" class="flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 transition">
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Review Modal -->
+<div id="review-modal" class="preview-modal">
+    <div class="preview-modal-content rounded-xl max-w-md w-full max-h-[90vh] overflow-hidden">
+        <div class="sticky top-0 bg-white dark:bg-gray-800 p-4 border-b dark:border-gray-700 flex justify-between items-center">
+            <h3 class="text-xl font-semibold">Rate This Template</h3>
+            <button id="close-review-modal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+        </div>
+        <div class="p-6">
+            <div class="text-center">
+                <div class="flex justify-center gap-1 mb-4" id="review-stars">
+                    <i class='bx bx-star rating-star text-3xl cursor-pointer hover:text-yellow-400' data-rating="1"></i>
+                    <i class='bx bx-star rating-star text-3xl cursor-pointer hover:text-yellow-400' data-rating="2"></i>
+                    <i class='bx bx-star rating-star text-3xl cursor-pointer hover:text-yellow-400' data-rating="3"></i>
+                    <i class='bx bx-star rating-star text-3xl cursor-pointer hover:text-yellow-400' data-rating="4"></i>
+                    <i class='bx bx-star rating-star text-3xl cursor-pointer hover:text-yellow-400' data-rating="5"></i>
+                </div>
+                <textarea id="review-comment" rows="4" class="w-full p-3 border rounded-lg dark:bg-gray-700" placeholder="Share your experience with this template..."></textarea>
+                <div class="flex gap-3 mt-4">
+                    <button id="submit-review-btn" class="flex-1 bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition">Submit Review</button>
+                    <button id="cancel-review-btn" class="flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 transition">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="/assets/js/config.js"></script>
+<script>
+    const API_URL = window.ENV?.API_URL || 'https://mgzon-server.hf.space';
+    const cleanApiUrl = API_URL.replace(/\/$/, '');
+    let userToken = localStorage.getItem('userToken');
+    let currentUser = null;
+    let currentCategory = 'all';
+    let currentSort = 'popular';
+    let currentSearch = '';
+    let currentOffset = 0;
+    let hasMore = true;
+    let isLoading = false;
+    let selectedTemplateId = null;
+    let selectedRating = 0;
+    
+    // ============================================
+    // Helper Functions
+    // ============================================
+    function showToast(message, type = 'success') {
+        if (typeof Toastify !== 'undefined') {
+            Toastify({
+                text: message,
+                duration: 3000,
+                style: { background: type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#8b5cf6' }
+            }).showToast();
+        } else {
+            alert(message);
+        }
+    }
+    
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str).replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+    
+    async function fetchCsrfToken() {
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/csrf-token`, {
+                method: 'GET',
+                credentials: 'include'
+            });
+            const data = await response.json();
+            return data.csrfToken;
+        } catch (error) {
+            return null;
+        }
+    }
+    
+    async function loadCurrentUser() {
+        if (!userToken) return null;
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/verify-token`, {
+                headers: { 'Authorization': `Bearer ${userToken}` }
+            });
+            if (response.ok) {
+                currentUser = await response.json();
+                updateUserMenu();
+                return currentUser;
+            }
+        } catch (error) {
+            console.error('Error loading user:', error);
+        }
+        return null;
+    }
+    
+    function updateUserMenu() {
+        const container = document.getElementById('user-menu');
+        if (!container) return;
+        
+        if (!currentUser) {
+            container.innerHTML = `
+                <a href="/login.html" class="text-gray-600 hover:text-purple-600">Login</a>
+                <a href="/register.html" class="px-4 py-2 bg-purple-600 text-white rounded-full hover:bg-purple-700">Sign Up</a>
+            `;
+            return;
+        }
+        
+        container.innerHTML = `
+            <div class="relative">
+                <button id="user-menu-btn" class="flex items-center gap-2">
+                    <img src="${currentUser.profile?.avatar || '/assets/img/default-avatar.png'}" class="w-8 h-8 rounded-full object-cover">
+                    <i class='bx bx-chevron-down'></i>
+                </button>
+                <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50">
+                    <a href="/settings.html" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">Settings</a>
+                    <a href="/shop/me" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">My Store</a>
+                    <hr class="my-1">
+                    <button id="logout-btn" class="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700">Logout</button>
+                </div>
+            </div>
+        `;
+        
+        const menuBtn = document.getElementById('user-menu-btn');
+        const dropdown = document.getElementById('user-dropdown');
+        if (menuBtn && dropdown) {
+            menuBtn.addEventListener('click', () => dropdown.classList.toggle('hidden'));
+            document.addEventListener('click', (e) => {
+                if (!menuBtn.contains(e.target)) dropdown.classList.add('hidden');
+            });
+        }
+        
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async () => {
+                localStorage.removeItem('userToken');
+                localStorage.removeItem('refreshToken');
+                window.location.href = '/';
+            });
+        }
+    }
+    
+    // ============================================
+    // ✅ API: GET /api/templates/categories
+    // ============================================
+    async function loadCategories() {
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/templates/categories`);
+            if (response.ok) {
+                const data = await response.json();
+                if (data.categories && data.categories.length > 0) {
+                    const container = document.getElementById('categories-container');
+                    if (container) {
+                        let html = `<button data-category="all" class="category-chip active px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-purple-500 hover:text-white transition">All Templates</button>`;
+                        data.categories.forEach(cat => {
+                            html += `<button data-category="${cat._id}" class="category-chip px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-purple-500 hover:text-white transition">
+                                ${getCategoryIcon(cat._id)} ${capitalize(cat._id)} (${cat.count})
+                            </button>`;
+                        });
+                        container.innerHTML = html;
+                        reattachCategoryEvents();
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('Error loading categories:', error);
+        }
+    }
+    
+    function getCategoryIcon(category) {
+        const icons = {
+            fashion: '👗', electronics: '📱', food: '🍔', art: '🎨',
+            beauty: '💄', minimal: '✨', business: '💼', sports: '⚽',
+            education: '📚', blog: '📝'
+        };
+        return icons[category] || '📁';
+    }
+    
+    function capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+    
+    // ============================================
+    // ✅ API: GET /api/templates (مع فلتر وترتيب)
+    // ============================================
+    async function loadTemplates(reset = true) {
+        if (isLoading) return;
+        
+        if (reset) {
+            currentOffset = 0;
+            hasMore = true;
+            document.getElementById('templates-grid').innerHTML = `
+                <div class="col-span-full text-center py-12">
+                    <div class="loader-spinner mx-auto"></div>
+                    <p class="mt-3 text-gray-500">Loading templates...</p>
+                </div>
+            `;
+        }
+        
+        isLoading = true;
+        
+        try {
+            let url = `${cleanApiUrl}/api/templates?limit=12&offset=${currentOffset}&sort=${currentSort}`;
+            if (currentCategory !== 'all') url += `&category=${currentCategory}`;
+            if (currentSearch) url += `&search=${encodeURIComponent(currentSearch)}`;
+            
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            if (data.success) {
+                const templates = data.templates;
+                hasMore = data.pagination?.hasMore || false;
+                
+                if (reset) {
+                    renderTemplates(templates);
+                } else {
+                    appendTemplates(templates);
+                }
+                
+                document.getElementById('load-more-container').style.display = hasMore ? 'block' : 'none';
+            }
+        } catch (error) {
+            console.error('Error loading templates:', error);
+            if (reset) {
+                document.getElementById('templates-grid').innerHTML = `
+                    <div class="col-span-full text-center py-12 text-red-500">
+                        <i class='bx bx-error-circle text-4xl mb-2'></i>
+                        <p>Failed to load templates. Please try again.</p>
+                        <button onclick="loadTemplates(true)" class="mt-3 px-4 py-2 bg-purple-600 text-white rounded-lg">Retry</button>
+                    </div>
+                `;
+            }
+        } finally {
+            isLoading = false;
+        }
+    }
+    
+    function renderTemplates(templates) {
+        const container = document.getElementById('templates-grid');
+        
+        if (!templates || templates.length === 0) {
+            container.innerHTML = `
+                <div class="col-span-full text-center py-12">
+                    <i class='bx bx-folder-open text-5xl text-gray-400 mb-3'></i>
+                    <p class="text-gray-500">No templates found</p>
+                    <p class="text-sm text-gray-400">Try changing your search or category</p>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = templates.map(template => `
+            <div class="template-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all cursor-pointer"
+                data-template-id="${template._id}"
+                data-template-slug="${template.slug}">
+                <div class="relative overflow-hidden h-48">
+                    <img src="${template.previewImage}" class="w-full h-full object-cover template-preview-img transition-transform duration-300"
+                        onerror="this.src='/assets/img/default-template.jpg'">
+                    ${template.isFeatured ? `
+                        <span class="absolute top-3 right-3 bg-yellow-500 text-white text-xs px-2 py-1 rounded-full">
+                            <i class='bx bx-star'></i> Featured
+                        </span>
+                    ` : ''}
+                    <div class="absolute bottom-3 left-3 flex gap-1">
+                        <span class="text-xs px-2 py-0.5 rounded-full bg-black/50 text-white backdrop-blur">
+                            ${template.downloadsCount || 0} downloads
+                        </span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-semibold text-lg">${escapeHtml(template.name)}</h3>
+                            <p class="text-xs text-gray-500 mt-1">${template.category}</p>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <div class="rating-stars">
+                                ${renderStars(template.rating || 0)}
+                            </div>
+                            <span class="text-sm">${template.rating?.toFixed(1) || 'New'}</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-2 line-clamp-2">${escapeHtml(template.description?.substring(0, 100))}...</p>
+                    <div class="flex justify-between items-center mt-4">
+                        <span class="text-xs px-2 py-0.5 rounded-full ${template.requiredSubscription === 'free' ? 'bg-green-100 text-green-700' : 'bg-purple-100 text-purple-700'}">
+                            ${template.requiredSubscription === 'free' ? 'Free' : template.requiredSubscription}
+                        </span>
+                        <div class="flex gap-2">
+                            <button onclick="event.stopPropagation(); livePreviewTemplate('${template._id}')" 
+                                class="text-blue-600 hover:text-blue-700 text-sm">
+                                <i class='bx bx-show-alt'></i> Live Preview
+                            </button>
+                            <button onclick="event.stopPropagation(); previewTemplateInfo('${template._id}')" 
+                                class="text-purple-600 hover:text-purple-700 text-sm">
+                                <i class='bx bx-info-circle'></i> Info
+                            </button>
+                            <button onclick="event.stopPropagation(); applyTemplate('${template._id}')" 
+                                class="text-green-600 hover:text-green-700 text-sm">
+                                <i class='bx bx-download'></i> Apply
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+        
+        // Add click event to cards (Info preview on card click)
+        document.querySelectorAll('.template-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                // Don't trigger if clicking on buttons
+                if (e.target.closest('button')) return;
+                const templateId = card.dataset.templateId;
+                previewTemplateInfo(templateId);
+            });
+        });
+    } 
+    
+
+    // ============================================
+    // ✅ Live Preview - فتح القالب في نافذة جديدة للمعاينة الكاملة
+    // ============================================
+    function livePreviewTemplate(templateId) {
+        // فتح القالب في نافذة جديدة مع خاصية المعاينة
+        const previewUrl = `${cleanApiUrl}/api/templates/serve/${templateId}?preview=1`;
+        window.open(previewUrl, '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+    }
+
+    // ============================================
+    // ✅ Info Preview - عرض معلومات القالب في المودال
+    // ============================================
+    async function previewTemplateInfo(templateId) {
+        selectedTemplateId = templateId;
+        const modal = document.getElementById('preview-modal');
+        const titleEl = document.getElementById('preview-title');
+        const bodyEl = document.getElementById('preview-body');
+        
+        modal.classList.add('show');
+        titleEl.textContent = 'Loading...';
+        bodyEl.innerHTML = '<div class="text-center py-12"><div class="loader-spinner mx-auto"></div><p class="mt-2">Loading template info...</p></div>';
+        
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/templates/${templateId}`);
+            const data = await response.json();
+            
+            if (data.success) {
+                const template = data.template;
+                titleEl.textContent = `${template.name} - Template Info`;
+                
+                bodyEl.innerHTML = `
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <img src="${template.previewImage}" class="w-full rounded-lg shadow-md" onerror="this.src='/assets/img/default-template.jpg'">
+                            ${template.previewImages && template.previewImages.length > 0 ? `
+                                <div class="flex gap-2 mt-3">
+                                    ${template.previewImages.slice(0, 3).map(img => `
+                                        <img src="${img}" class="w-20 h-20 rounded cursor-pointer hover:opacity-80" onclick="this.parentElement.parentElement.querySelector('img:first-child').src='${img}'">
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                            <div class="mt-4 p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                                <h4 class="font-semibold text-sm mb-2">📊 Stats</h4>
+                                <div class="flex justify-between text-sm">
+                                    <span>Downloads: ${template.downloadsCount || 0}</span>
+                                    <span>Views: ${template.viewsCount || 0}</span>
+                                    <span>Rating: ${template.rating?.toFixed(1) || 'N/A'} (${template.ratingCount || 0})</span>
+                                </div>
+                            </div>
+                            ${template.themeData?.templateUrl ? `
+                                <div class="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                                    <h4 class="font-semibold text-sm mb-2 flex items-center gap-1">
+                                        <i class='bx bx-show-alt text-blue-500'></i> Live Preview Available
+                                    </h4>
+                                    <button onclick="livePreviewTemplate('${template._id}')" 
+                                        class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
+                                        <i class='bx bx-show-alt'></i> Open Live Preview
+                                    </button>
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold">${escapeHtml(template.name)}</h3>
+                            <div class="flex items-center gap-2 mt-2 flex-wrap">
+                                <span class="px-2 py-0.5 rounded-full bg-gray-200 dark:bg-gray-700 text-sm">${template.category}</span>
+                                <span class="px-2 py-0.5 rounded-full ${template.requiredSubscription === 'free' ? 'bg-green-100 text-green-700' : 'bg-purple-100 text-purple-700'} text-sm">
+                                    ${template.requiredSubscription === 'free' ? 'Free' : template.requiredSubscription}
+                                </span>
+                                <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 text-sm">
+                                    v${template.version}
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-2 mt-2">
+                                <div class="rating-stars">${renderStars(template.rating || 0)}</div>
+                                <span class="text-sm text-gray-500">${template.ratingCount || 0} reviews</span>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-400 mt-4">${escapeHtml(template.description)}</p>
+                            
+                            <div class="mt-6">
+                                <h4 class="font-semibold mb-2">🎨 Template Features:</h4>
+                                <ul class="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                                    <li><i class='bx bx-check-circle text-green-500'></i> Fully responsive design</li>
+                                    <li><i class='bx bx-check-circle text-green-500'></i> Customizable colors & fonts</li>
+                                    <li><i class='bx bx-check-circle text-green-500'></i> Drag & drop page builder</li>
+                                    <li><i class='bx bx-check-circle text-green-500'></i> SEO optimized</li>
+                                    <li><i class='bx bx-check-circle text-green-500'></i> Fast loading</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <h4 class="font-semibold mb-2">🎨 Preview Colors:</h4>
+                                <div class="flex gap-2">
+                                    <div class="w-8 h-8 rounded-full" style="background: ${template.themeData?.colors?.primary || '#3b82f6'}"></div>
+                                    <div class="w-8 h-8 rounded-full" style="background: ${template.themeData?.colors?.secondary || '#8b5cf6'}"></div>
+                                    <div class="w-8 h-8 rounded-full" style="background: ${template.themeData?.colors?.accent || '#f59e0b'}"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6">
+                                <h4 class="font-semibold mb-2">👤 Template Author</h4>
+                                <p class="text-sm">${escapeHtml(template.authorName || 'MGZon Team')}</p>
+                            </div>
+                            
+                            <div class="mt-6 flex gap-3">
+                                <button id="rate-template-btn" class="flex-1 py-2 border rounded-lg hover:bg-gray-50 transition">
+                                    <i class='bx bx-star'></i> Rate Template
+                                </button>
+                                <button id="apply-from-preview-btn" class="flex-1 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
+                                    Apply Template
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 pt-6 border-t dark:border-gray-700">
+                        <h4 class="font-semibold mb-3">📐 Template Sections:</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                            ${template.themeData?.sections?.map(s => `
+                                <div class="bg-gray-100 dark:bg-gray-700 p-2 rounded text-center text-sm">
+                                    <i class='bx bx-${s.type === 'hero' ? 'home' : s.type === 'products' ? 'package' : s.type === 'categories' ? 'category' : 'layout'}'></i>
+                                    ${s.title || s.type}
+                                </div>
+                            `).join('') || '<p class="text-gray-500">No sections preview available</p>'}
+                        </div>
+                    </div>
+                    
+                    ${data.similar && data.similar.length > 0 ? `
+                        <div class="mt-8 pt-6 border-t dark:border-gray-700">
+                            <h4 class="font-semibold mb-3">🔍 Similar Templates</h4>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                ${data.similar.map(sim => `
+                                    <div class="border rounded-lg p-2 cursor-pointer hover:shadow-md transition" onclick="previewTemplateInfo('${sim._id}')">
+                                        <img src="${sim.previewImage}" class="w-full h-20 object-cover rounded" onerror="this.src='/assets/img/default-template.jpg'">
+                                        <p class="text-xs font-medium mt-1 truncate">${escapeHtml(sim.name)}</p>
+                                        <p class="text-xs text-gray-500">${sim.downloadsCount || 0} downloads</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                `;
+                
+                // Add event listeners
+                document.getElementById('rate-template-btn')?.addEventListener('click', () => openReviewModal(templateId));
+                document.getElementById('apply-from-preview-btn')?.addEventListener('click', () => applyTemplate(templateId));
+            }
+        } catch (error) {
+            console.error('Error loading template info:', error);
+            bodyEl.innerHTML = '<div class="text-center py-12 text-red-500">Failed to load template info</div>';
+        }
+    }
+    
+    
+    function renderStars(rating) {
+        const fullStars = Math.floor(rating);
+        const hasHalf = rating % 1 >= 0.5;
+        let stars = '';
+        for (let i = 0; i < fullStars; i++) stars += '<i class="bx bxs-star text-yellow-400"></i>';
+        if (hasHalf) stars += '<i class="bx bxs-star-half text-yellow-400"></i>';
+        for (let i = stars.length; i < 5; i++) stars += '<i class="bx bx-star text-yellow-400"></i>';
+        return stars;
+    }
+    
+    function appendTemplates(templates) {
+        const container = document.getElementById('templates-grid');
+        
+        templates.forEach(template => {
+            const card = document.createElement('div');
+            card.className = 'template-card bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all cursor-pointer';
+            card.dataset.templateId = template._id;
+            card.innerHTML = `
+                <div class="relative overflow-hidden h-48">
+                    <img src="${template.previewImage}" class="w-full h-full object-cover template-preview-img"
+                        onerror="this.src='/assets/img/default-template.jpg'">
+                    ${template.isFeatured ? '<span class="absolute top-3 right-3 bg-yellow-500 text-white text-xs px-2 py-1 rounded-full"><i class="bx bx-star"></i> Featured</span>' : ''}
+                    <div class="absolute bottom-3 left-3 flex gap-1">
+                        <span class="text-xs px-2 py-0.5 rounded-full bg-black/50 text-white backdrop-blur">${template.downloadsCount || 0} downloads</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-semibold text-lg">${escapeHtml(template.name)}</h3>
+                            <p class="text-xs text-gray-500 mt-1">${template.category}</p>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <div class="rating-stars">${renderStars(template.rating || 0)}</div>
+                            <span class="text-sm">${template.rating?.toFixed(1) || 'New'}</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-2 line-clamp-2">${escapeHtml(template.description?.substring(0, 100))}...</p>
+                    <div class="flex justify-between items-center mt-4">
+                        <span class="text-xs px-2 py-0.5 rounded-full ${template.requiredSubscription === 'free' ? 'bg-green-100 text-green-700' : 'bg-purple-100 text-purple-700'}">${template.requiredSubscription === 'free' ? 'Free' : template.requiredSubscription}</span>
+                        <div class="flex gap-2">
+                            <button onclick="event.stopPropagation(); livePreviewTemplate('${template._id}')" class="text-blue-600 hover:text-blue-700 text-sm"><i class='bx bx-show-alt'></i> Live Preview</button>
+                            <button onclick="event.stopPropagation(); previewTemplateInfo('${template._id}')" class="text-purple-600 hover:text-purple-700 text-sm"><i class='bx bx-info-circle'></i> Info</button>
+                            <button onclick="event.stopPropagation(); applyTemplate('${template._id}')" class="text-green-600 hover:text-green-700 text-sm"><i class='bx bx-download'></i> Apply</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            card.addEventListener('click', (e) => {
+                if (e.target.closest('button')) return;
+                previewTemplateInfo(template._id);
+            });
+            container.appendChild(card);
+        });
+    }
+    
+    // ============================================
+    // ✅ API: POST /api/templates/:id/preview (محدث لاستخدام Cloudinary)
+    // ============================================
+    async function previewTemplate(templateId) {
+        selectedTemplateId = templateId;
+        const modal = document.getElementById('preview-modal');
+        const titleEl = document.getElementById('preview-title');
+        const bodyEl = document.getElementById('preview-body');
+        
+        modal.classList.add('show');
+        titleEl.textContent = 'Loading...';
+        bodyEl.innerHTML = '<div class="text-center py-12"><div class="loader-spinner mx-auto"></div><p class="mt-2">Loading template preview...</p></div>';
+        
+        try {
+            // جلب بيانات القالب
+            const response = await fetch(`${cleanApiUrl}/api/templates/${templateId}`);
+            const data = await response.json();
+            
+            if (data.success) {
+                const template = data.template;
+                titleEl.textContent = template.name;
+                
+                // ✅ التحقق من وجود قالب كامل على Cloudinary
+                if (template.themeData?.templateUrl) {
+                    try {
+                        // تحميل الـ HTML الكامل للقالب
+                        const htmlResponse = await fetch(template.themeData.templateUrl);
+                        let html = await htmlResponse.text();
+                        
+                        // ✅ استبدال مسارات الملفات (CSS, JS, images) لتستخدم API التحميل
+                        html = html.replace(/(src|href)=["'](?!https?:\/\/|data:)([^"']+)["']/g, 
+                            `$1="${cleanApiUrl}/api/templates/serve/${template.slug}/file/$2"`);
+                        
+                        // عرض المعاينة
+                        bodyEl.innerHTML = `
+                            <div class="bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded-lg mb-4 text-sm text-yellow-700 dark:text-yellow-300">
+                                <i class='bx bx-info-circle'></i> 
+                                This is a live preview of the complete template. The template includes HTML, CSS, JavaScript, and images.
+                            </div>
+                            <div class="template-live-preview border rounded-lg overflow-hidden">
+                                ${html}
+                            </div>
+                        `;
+                        
+                        // إعادة تنفيذ أي سكريبتات بعد التحميل
+                        const scripts = bodyEl.querySelectorAll('script');
+                        scripts.forEach(oldScript => {
+                            const newScript = document.createElement('script');
+                            if (oldScript.src) {
+                                newScript.src = oldScript.src;
+                            } else {
+                                newScript.textContent = oldScript.textContent;
+                            }
+                            document.body.appendChild(newScript);
+                        });
+                        
+                    } catch (htmlError) {
+                        console.error('Error loading full template HTML:', htmlError);
+                        // Fallback to normal preview
+                        showNormalPreview(template, bodyEl);
+                    }
+                } else {
+                    // عرض المعاينة العادية (بدون HTML كامل)
+                    showNormalPreview(template, bodyEl);
+                }
+            }
+        } catch (error) {
+            console.error('Error previewing template:', error);
+            bodyEl.innerHTML = '<div class="text-center py-12 text-red-500">Failed to load preview</div>';
+        }
+    }
+
+    // دالة مساعدة لعرض المعاينة العادية
+    function showNormalPreview(template, bodyEl) {
+        bodyEl.innerHTML = `
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <img src="${template.previewImage}" class="w-full rounded-lg shadow-md" onerror="this.src='/assets/img/default-template.jpg'">
+                    ${template.previewImages && template.previewImages.length > 0 ? `
+                        <div class="flex gap-2 mt-3">
+                            ${template.previewImages.slice(0, 3).map(img => `
+                                <img src="${img}" class="w-20 h-20 rounded cursor-pointer hover:opacity-80" onclick="this.parentElement.parentElement.querySelector('img:first-child').src='${img}'">
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                    <div class="mt-4 p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                        <h4 class="font-semibold text-sm mb-2">📊 Stats</h4>
+                        <div class="flex justify-between text-sm">
+                            <span>Downloads: ${template.downloadsCount || 0}</span>
+                            <span>Views: ${template.viewsCount || 0}</span>
+                            <span>Rating: ${template.rating?.toFixed(1) || 'N/A'} (${template.ratingCount || 0})</span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold">${escapeHtml(template.name)}</h3>
+                    <div class="flex items-center gap-2 mt-2 flex-wrap">
+                        <span class="px-2 py-0.5 rounded-full bg-gray-200 dark:bg-gray-700 text-sm">${template.category}</span>
+                        <span class="px-2 py-0.5 rounded-full ${template.requiredSubscription === 'free' ? 'bg-green-100 text-green-700' : 'bg-purple-100 text-purple-700'} text-sm">
+                            ${template.requiredSubscription === 'free' ? 'Free' : template.requiredSubscription}
+                        </span>
+                        <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 text-sm">
+                            v${template.version}
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-2 mt-2">
+                        <div class="rating-stars">${renderStars(template.rating || 0)}</div>
+                        <span class="text-sm text-gray-500">${template.ratingCount || 0} reviews</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 mt-4">${escapeHtml(template.description)}</p>
+                    
+                    <div class="mt-6">
+                        <h4 class="font-semibold mb-2">🎨 Template Features:</h4>
+                        <ul class="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+                            <li><i class='bx bx-check-circle text-green-500'></i> Fully responsive design</li>
+                            <li><i class='bx bx-check-circle text-green-500'></i> Customizable colors & fonts</li>
+                            <li><i class='bx bx-check-circle text-green-500'></i> Drag & drop page builder</li>
+                            <li><i class='bx bx-check-circle text-green-500'></i> SEO optimized</li>
+                            <li><i class='bx bx-check-circle text-green-500'></i> Fast loading</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h4 class="font-semibold mb-2">🎨 Preview Colors:</h4>
+                        <div class="flex gap-2">
+                            <div class="w-8 h-8 rounded-full" style="background: ${template.themeData?.colors?.primary || '#3b82f6'}"></div>
+                            <div class="w-8 h-8 rounded-full" style="background: ${template.themeData?.colors?.secondary || '#8b5cf6'}"></div>
+                            <div class="w-8 h-8 rounded-full" style="background: ${template.themeData?.colors?.accent || '#f59e0b'}"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6">
+                        <h4 class="font-semibold mb-2">👤 Template Author</h4>
+                        <p class="text-sm">${escapeHtml(template.authorName || 'MGZon Team')}</p>
+                    </div>
+                    
+                    <div class="mt-6 flex gap-3">
+                        <button id="rate-template-btn" class="flex-1 py-2 border rounded-lg hover:bg-gray-50 transition">
+                            <i class='bx bx-star'></i> Rate Template
+                        </button>
+                        <button id="apply-from-preview-btn" class="flex-1 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
+                            Apply Template
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-6 border-t dark:border-gray-700">
+                <h4 class="font-semibold mb-3">📐 Template Sections:</h4>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                    ${template.themeData?.sections?.map(s => `
+                        <div class="bg-gray-100 dark:bg-gray-700 p-2 rounded text-center text-sm">
+                            <i class='bx bx-${s.type === 'hero' ? 'home' : s.type === 'products' ? 'package' : s.type === 'categories' ? 'category' : 'layout'}'></i>
+                            ${s.title || s.type}
+                        </div>
+                    `).join('') || '<p class="text-gray-500">No sections preview available</p>'}
+                </div>
+            </div>
+            
+            ${data.similar && data.similar.length > 0 ? `
+                <div class="mt-8 pt-6 border-t dark:border-gray-700">
+                    <h4 class="font-semibold mb-3">🔍 Similar Templates</h4>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        ${data.similar.map(sim => `
+                            <div class="border rounded-lg p-2 cursor-pointer hover:shadow-md transition" onclick="previewTemplate('${sim._id}')">
+                                <img src="${sim.previewImage}" class="w-full h-20 object-cover rounded" onerror="this.src='/assets/img/default-template.jpg'">
+                                <p class="text-xs font-medium mt-1 truncate">${escapeHtml(sim.name)}</p>
+                                <p class="text-xs text-gray-500">${sim.downloadsCount || 0} downloads</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            ` : ''}
+        `;
+        
+        // إضافة مستمعي الأحداث
+        document.getElementById('rate-template-btn')?.addEventListener('click', () => openReviewModal(templateId));
+        document.getElementById('apply-from-preview-btn')?.addEventListener('click', () => applyTemplate(templateId));
+    }
+
+    // ============================================
+    // ✅ API: POST /api/templates/:id/apply (محدث)
+    // ============================================
+    async function applyTemplate(templateId) {
+        if (!currentUser) {
+            showToast('Please login to apply templates', 'error');
+            window.location.href = `/login.html?redirect=/template-store.html`;
+            return;
+        }
+        
+        if (!confirm('⚠️ Applying this template will overwrite your current store design. This action can be undone later. Continue?')) return;
+        
+        const applyBtn = event.target;
+        const originalText = applyBtn.innerHTML;
+        applyBtn.innerHTML = '<div class="loader-spinner w-4 h-4 inline-block mr-1"></div> Applying...';
+        applyBtn.disabled = true;
+        
+        try {
+            const csrfToken = await fetchCsrfToken();
+            const response = await fetch(`${cleanApiUrl}/api/templates/${templateId}/apply`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${userToken}`,
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': csrfToken
+                }
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                let message = '✅ Template applied successfully! ';
+                if (data.appliedSettings?.hasFullTemplate) {
+                    message += 'A complete template (HTML/CSS/JS) has been installed.';
+                } else {
+                    message += 'Your store design has been updated with colors, fonts, and layout.';
+                }
+                showToast(message, 'success');
+                
+                const modal = document.getElementById('preview-modal');
+                if (modal.classList.contains('show')) {
+                    modal.classList.remove('show');
+                }
+                
+                setTimeout(() => {
+                    if (confirm('Template applied! Would you like to view your store now?')) {
+                        window.location.href = '/shop/me';
+                    }
+                }, 500);
+            } else {
+                showToast(data.error || 'Failed to apply template', 'error');
+            }
+        } catch (error) {
+            console.error('Error applying template:', error);
+            showToast('Failed to apply template. Please try again.', 'error');
+        } finally {
+            applyBtn.innerHTML = originalText;
+            applyBtn.disabled = false;
+        }
+    }
+    
+    // ============================================
+    // ✅ API: POST /api/templates/:id/review
+    // ============================================
+    function openReviewModal(templateId) {
+        if (!currentUser) {
+            showToast('Please login to review templates', 'error');
+            window.location.href = `/login.html?redirect=/template-store.html`;
+            return;
+        }
+        
+        selectedTemplateId = templateId;
+        selectedRating = 0;
+        
+        // Reset stars
+        document.querySelectorAll('#review-stars .rating-star').forEach((star, i) => {
+            star.classList.remove('bxs-star');
+            star.classList.add('bx-star');
+        });
+        document.getElementById('review-comment').value = '';
+        
+        const modal = document.getElementById('review-modal');
+        modal.classList.add('show');
+    }
+    
+    function closeReviewModal() {
+        const modal = document.getElementById('review-modal');
+        modal.classList.remove('show');
+    }
+    
+    async function submitReview() {
+        if (selectedRating === 0) {
+            showToast('Please select a rating', 'error');
+            return;
+        }
+        
+        const comment = document.getElementById('review-comment').value.trim();
+        
+        try {
+            const csrfToken = await fetchCsrfToken();
+            const response = await fetch(`${cleanApiUrl}/api/templates/${selectedTemplateId}/review`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${userToken}`,
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': csrfToken
+                },
+                body: JSON.stringify({ rating: selectedRating, comment })
+            });
+            
+            if (response.ok) {
+                showToast('Review submitted successfully!', 'success');
+                closeReviewModal();
+                await loadTemplates(true);
+            } else {
+                const error = await response.json();
+                showToast(error.error || 'Failed to submit review', 'error');
+            }
+        } catch (error) {
+            console.error('Error submitting review:', error);
+            showToast('Failed to submit review', 'error');
+        }
+    }
+    
+    // Setup review stars
+    function setupReviewStars() {
+        document.querySelectorAll('#review-stars .rating-star').forEach(star => {
+            star.addEventListener('click', () => {
+                const rating = parseInt(star.dataset.rating);
+                selectedRating = rating;
+                document.querySelectorAll('#review-stars .rating-star').forEach((s, i) => {
+                    if (i < rating) {
+                        s.classList.add('bxs-star');
+                        s.classList.remove('bx-star');
+                    } else {
+                        s.classList.remove('bxs-star');
+                        s.classList.add('bx-star');
+                    }
+                });
+            });
+        });
+    }
+    
+
+
+    // ============================================
+    // ✅ API: POST /api/ai/generate-template
+    // ============================================
+    async function generateTemplateWithAI() {
+        const description = document.getElementById('ai-template-input').value.trim();
+        const style = document.getElementById('ai-style-select').value;
+        
+        if (!description) {
+            showToast('Please describe your dream store first', 'error');
+            document.getElementById('ai-template-input').focus();
+            return;
+        }
+        
+        const generateBtn = document.getElementById('generate-template-ai');
+        const originalText = generateBtn.innerHTML;
+        generateBtn.innerHTML = '<div class="loader-spinner w-4 h-4 inline-block mr-1"></div> Generating...';
+        generateBtn.disabled = true;
+        
+        try {
+            const csrfToken = await fetchCsrfToken();
+            const response = await fetch(`${cleanApiUrl}/api/ai/generate-template`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${userToken}`,
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': csrfToken
+                },
+                body: JSON.stringify({ description, style })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                showGeneratedTemplateModal(data.template, data.modelUsed);
+            } else if (data.fallback) {
+                showGeneratedTemplateModal(data.template, 'AI (Fallback Mode)');
+                showToast(data.message || 'Using fallback template', 'warning');
+            } else {
+                showToast(data.error || 'Failed to generate template', 'error');
+            }
+        } catch (error) {
+            console.error('Error generating template:', error);
+            showToast('Failed to generate template. Please try again.', 'error');
+        } finally {
+            generateBtn.innerHTML = originalText;
+            generateBtn.disabled = false;
+        }
+    }
+
+    // عرض القالب المُنتَج
+    function showGeneratedTemplateModal(template, modelUsed) {
+        const existingModal = document.getElementById('generated-template-modal');
+        if (existingModal) existingModal.remove();
+        
+        const modal = document.createElement('div');
+        modal.id = 'generated-template-modal';
+        modal.className = 'fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[10001]';
+        modal.innerHTML = `
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden animate-[slideUp_0.3s_ease-out]">
+                <div class="p-4 border-b dark:border-gray-700 flex justify-between items-center bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20">
+                    <div>
+                        <h3 class="text-xl font-semibold flex items-center gap-2">
+                            <i class='bx bx-magic text-purple-500'></i>
+                            AI Generated Template
+                        </h3>
+                        <p class="text-xs text-gray-500 mt-1">Generated with ${escapeHtml(modelUsed)}</p>
+                    </div>
+                    <button class="close-generated-modal text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+                </div>
+                
+                <div class="p-6 overflow-y-auto" style="max-height: calc(90vh - 180px);">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <div class="bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg p-4 text-white">
+                                <i class='bx bx-palette text-3xl mb-2'></i>
+                                <h4 class="font-bold">${escapeHtml(template.name)}</h4>
+                                <p class="text-sm opacity-90 mt-1">${escapeHtml(template.description || 'AI generated template')}</p>
+                            </div>
+                            
+                            <div class="mt-4 p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                                <h5 class="font-semibold text-sm mb-2 flex items-center gap-1">
+                                    <i class='bx bx-palette'></i> Theme Colors
+                                </h5>
+                                <div class="flex gap-2">
+                                    <div class="w-8 h-8 rounded-full border-2 border-white shadow" style="background: ${template.theme?.primaryColor || '#3b82f6'}"></div>
+                                    <div class="w-8 h-8 rounded-full border-2 border-white shadow" style="background: ${template.theme?.secondaryColor || '#8b5cf6'}"></div>
+                                    <div class="w-8 h-8 rounded-full border-2 border-white shadow" style="background: ${template.theme?.accentColor || '#f59e0b'}"></div>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-2">Font: ${template.theme?.fontFamily || 'Inter, sans-serif'}</p>
+                            </div>
+                            
+                            <div class="mt-4 p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                                <h5 class="font-semibold text-sm mb-2 flex items-center gap-1">
+                                    <i class='bx bx-layout'></i> Sections (${template.sections?.length || 0})
+                                </h5>
+                                <div class="flex flex-wrap gap-1">
+                                    ${template.sections?.map(s => `
+                                        <span class="text-xs px-2 py-0.5 rounded-full bg-purple-100 text-purple-700">
+                                            ${s.type}
+                                        </span>
+                                    `).join('') || '<span class="text-xs text-gray-500">No sections</span>'}
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4 p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                                <h5 class="font-semibold text-sm mb-2 flex items-center gap-1">
+                                    <i class='bx bx-code-alt'></i> Shortcodes
+                                </h5>
+                                <div class="space-y-1">
+                                    ${template.shortcodes?.map(sc => `
+                                        <code class="text-xs bg-gray-200 dark:bg-gray-600 px-1 py-0.5 rounded">${escapeHtml(sc)}</code>
+                                    `).join('<br>') || '<span class="text-xs text-gray-500">No shortcodes</span>'}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h5 class="font-semibold mb-2 flex items-center gap-1">
+                                <i class='bx bx-search-alt'></i> SEO Preview
+                            </h5>
+                            <div class="p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                                <div class="text-blue-600 text-sm">${cleanApiUrl}/shop/your-store</div>
+                                <div class="text-xl text-blue-800 font-medium">${escapeHtml(template.seo?.title || template.name)}</div>
+                                <div class="text-gray-600 text-sm">${escapeHtml(template.seo?.description || '')}</div>
+                                <div class="flex flex-wrap gap-1 mt-2">
+                                    ${template.seo?.keywords?.map(k => `
+                                        <span class="text-xs text-gray-500">#${escapeHtml(k)}</span>
+                                    `).join('') || ''}
+                                </div>
+                            </div>
+                            
+                            <div class="mt-4">
+                                <h5 class="font-semibold mb-2 flex items-center gap-1">
+                                    <i class='bx bx-customize'></i> What's Included?
+                                </h5>
+                                <ul class="space-y-2 text-sm">
+                                    <li><i class='bx bx-check-circle text-green-500'></i> Complete store layout with ${template.sections?.length || 0} sections</li>
+                                    <li><i class='bx bx-check-circle text-green-500'></i> Custom color scheme and typography</li>
+                                    <li><i class='bx bx-check-circle text-green-500'></i> SEO-optimized meta tags</li>
+                                    <li><i class='bx bx-check-circle text-green-500'></i> Ready-to-use shortcodes</li>
+                                    <li><i class='bx bx-check-circle text-green-500'></i> Fully responsive design</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 pt-4 border-t dark:border-gray-700">
+                        <h5 class="font-semibold mb-3">📐 Section Preview</h5>
+                        <div class="space-y-2 max-h-60 overflow-y-auto">
+                            ${template.sections?.map(s => `
+                                <div class="bg-gray-50 dark:bg-gray-700/50 p-2 rounded flex items-center gap-2">
+                                    <i class='bx bx-${s.type === 'hero' ? 'home' : s.type === 'products' ? 'package' : s.type === 'categories' ? 'category' : 'layout'}'></i>
+                                    <span class="flex-1 text-sm">${s.title || s.type}</span>
+                                    <span class="text-xs text-gray-500">Order: ${s.order || 0}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-4 border-t dark:border-gray-700 flex gap-3 bg-gray-50 dark:bg-gray-800">
+                    <button id="apply-generated-template" class="flex-1 bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition flex items-center justify-center gap-2">
+                        <i class='bx bx-download'></i> Apply This Template
+                    </button>
+                    <button id="regenerate-template" class="flex-1 border border-purple-500 text-purple-600 py-2 rounded-lg hover:bg-purple-50 transition flex items-center justify-center gap-2">
+                        <i class='bx bx-refresh'></i> Regenerate
+                    </button>
+                    <button class="close-generated-modal flex-1 bg-gray-500 text-white py-2 rounded-lg hover:bg-gray-600 transition">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        window.generatedTemplate = template;
+        
+        const closeModal = () => modal.remove();
+        modal.querySelectorAll('.close-generated-modal').forEach(btn => {
+            btn.addEventListener('click', closeModal);
+        });
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        
+        // Apply generated template
+        document.getElementById('apply-generated-template')?.addEventListener('click', async () => {
+            if (!currentUser) {
+                showToast('Please login to apply templates', 'error');
+                window.location.href = `/login.html?redirect=/template-store.html`;
+                return;
+            }
+            
+            if (!confirm('⚠️ Apply this template? It will replace your current store design.\n\nYou can customize everything after applying.')) return;
+            
+            const applyBtn = document.getElementById('apply-generated-template');
+            const originalText = applyBtn.innerHTML;
+            applyBtn.innerHTML = '<div class="loader-spinner w-4 h-4 inline-block mr-1"></div> Applying...';
+            applyBtn.disabled = true;
+            
+            try {
+                const csrfToken = await fetchCsrfToken();
+                const response = await fetch(`${cleanApiUrl}/api/store/settings`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${userToken}`,
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfToken
+                    },
+                    body: JSON.stringify({
+                        primaryColor: template.theme?.primaryColor || '#3b82f6',
+                        secondaryColor: template.theme?.secondaryColor || '#8b5cf6',
+                        fontFamily: template.theme?.fontFamily || 'Inter, sans-serif',
+                        borderRadius: template.theme?.borderRadius || 16,
+                        shadowType: 'md',
+                        animationType: template.theme?.animationType || 'lift',
+                        glassEffect: false,
+                        backgroundType: template.theme?.backgroundType || 'default',
+                        backgroundValue: template.theme?.backgroundValue || '',
+                        pageBuilder: { sections: template.sections || [] }
+                    })
+                });
+                
+                if (response.ok) {
+                    showToast('✅ Template applied successfully!', 'success');
+                    closeModal();
+                    
+                    setTimeout(() => {
+                        const customize = confirm(
+                            '✨ Template applied successfully!\n\n' +
+                            'Would you like to customize it now?\n\n' +
+                            '• Change colors and fonts\n' +
+                            '• Add/remove sections\n' +
+                            '• Edit content\n' +
+                            '• And much more...'
+                        );
+                        
+                        if (customize) {
+                            window.location.href = '/settings.html?section=store&tab=design';
+                        } else if (confirm('Would you like to preview your store?')) {
+                            window.location.href = '/shop/me';
+                        }
+                    }, 500);
+                } else {
+                    throw new Error('Failed to apply template');
+                }
+            } catch (error) {
+                console.error('Error applying template:', error);
+                showToast('Failed to apply template', 'error');
+            } finally {
+                applyBtn.innerHTML = originalText;
+                applyBtn.disabled = false;
+            }
+        });
+        
+        document.getElementById('regenerate-template')?.addEventListener('click', () => {
+            closeModal();
+            generateTemplateWithAI();
+        });
+    }
+
+
+    // ============================================
+    // ✅ API: GET /api/ai/admin/stats (للمشرفين فقط)
+    // ============================================
+    async function loadAIStats() {
+        if (!currentUser?.isAdmin) return;
+        
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/ai/admin/stats`, {
+                headers: { 'Authorization': `Bearer ${userToken}` }
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                console.log('📊 AI Model Stats:', data.modelStats);
+            }
+        } catch (error) {
+            console.error('Error loading AI stats:', error);
+        }
+    }
+
+    // ============================================
+    // Event Listeners
+    // ============================================
+    function reattachCategoryEvents() {
+        document.querySelectorAll('.category-chip').forEach(btn => {
+            const newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
+            newBtn.addEventListener('click', () => {
+                document.querySelectorAll('.category-chip').forEach(b => b.classList.remove('active'));
+                newBtn.classList.add('active');
+                currentCategory = newBtn.dataset.category;
+                loadTemplates(true);
+            });
+        });
+    }
+    
+    function setupEventListeners() {
+        // Category filters
+        reattachCategoryEvents();
+        
+        // Sort select
+        const sortSelect = document.getElementById('sort-select');
+        if (sortSelect) {
+            sortSelect.addEventListener('change', () => {
+                currentSort = sortSelect.value;
+                loadTemplates(true);
+            });
+        }
+        
+        // Apply filters button
+        const applyBtn = document.getElementById('apply-filters');
+        if (applyBtn) {
+            applyBtn.addEventListener('click', () => {
+                currentSort = document.getElementById('sort-select').value;
+                loadTemplates(true);
+            });
+        }
+        
+        // Search input
+        const searchInput = document.getElementById('search-input');
+        let searchTimeout;
+        searchInput.addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                currentSearch = e.target.value.trim();
+                loadTemplates(true);
+            }, 500);
+        });
+        
+        // Load more
+        const loadMoreBtn = document.getElementById('load-more-btn');
+        loadMoreBtn.addEventListener('click', () => {
+            currentOffset += 12;
+            loadTemplates(false);
+        });
+        
+        // Preview modal close
+        const closePreview = document.getElementById('close-preview');
+        const closePreviewBtn = document.getElementById('close-preview-btn');
+        const previewModal = document.getElementById('preview-modal');
+        
+        closePreview.addEventListener('click', () => previewModal.classList.remove('show'));
+        closePreviewBtn.addEventListener('click', () => previewModal.classList.remove('show'));
+        previewModal.addEventListener('click', (e) => {
+            if (e.target === previewModal) previewModal.classList.remove('show');
+        });
+        
+        // Apply template from modal
+        const applyBtnModal = document.getElementById('apply-template-btn');
+        applyBtnModal.addEventListener('click', () => {
+            if (selectedTemplateId) {
+                applyTemplate(selectedTemplateId);
+            }
+        });
+        
+        // Review modal
+        const closeReview = document.getElementById('close-review-modal');
+        const cancelReview = document.getElementById('cancel-review-btn');
+        const submitReviewBtn = document.getElementById('submit-review-btn');
+        const reviewModal = document.getElementById('review-modal');
+        
+        closeReview.addEventListener('click', closeReviewModal);
+        cancelReview.addEventListener('click', closeReviewModal);
+        submitReviewBtn.addEventListener('click', submitReview);
+        reviewModal.addEventListener('click', (e) => {
+            if (e.target === reviewModal) closeReviewModal();
+        });
+        
+        setupReviewStars();
+        
+        // Theme toggle
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        if (savedTheme === 'dark') document.body.classList.add('dark');
+
+
+                // AI Template Generator
+        const generateBtn = document.getElementById('generate-template-ai');
+        if (generateBtn) {
+            generateBtn.addEventListener('click', generateTemplateWithAI);
+        }
+        
+        // Enter key in AI input
+        const aiInput = document.getElementById('ai-template-input');
+        if (aiInput) {
+            aiInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    generateTemplateWithAI();
+                }
+            });
+        }
+
+    }
+    
+    // ============================================
+    // Initialize
+    // ============================================
+    async function init() {
+        await loadCurrentUser();
+        await loadCategories();
+        await loadTemplates(true);
+        await loadAIStats();
+        setupEventListeners();
+    }
+    
+    init();
+    
+    // Make functions global
+    window.previewTemplate = previewTemplate;
+    window.applyTemplate = applyTemplate;
+
+    // ============================================
+    // ✅ Make functions global (accessible from HTML buttons)
+    // ============================================
+    window.livePreviewTemplate = livePreviewTemplate;
+    window.previewTemplateInfo = previewTemplateInfo;
+    window.previewTemplate = previewTemplateInfo; // للتوافق القديم
+
+</script>
+</body>
+</html>

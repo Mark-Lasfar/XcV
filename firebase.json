@@ -1,0 +1,221 @@
+{
+  "hosting": {
+    "public": "public",
+    "site": "mark-elasfar",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/profile/**",
+        "destination": "/profile.html"
+      },
+      {
+        "source": "/shop/**",
+        "destination": "/shop.html"
+      },
+      {
+        "source": "/settings.html",
+        "destination": "/settings.html"
+      },
+      {
+        "source": "/template-store.html",
+        "destination": "/template-store.html"
+      },
+      {
+        "source": "/cart.html",
+        "destination": "/cart.html"
+      },
+      {
+        "source": "/synonyms.xml",
+        "destination": "/synonyms.xml"
+      },
+      {
+        "source": "/promotions.xml",
+        "destination": "/promotions.xml"
+      },
+      {
+        "source": "/context.xml",
+        "destination": "/context.xml"
+      },
+      {
+        "source": "/annotations.xml",
+        "destination": "/annotations.xml"
+      },
+      {
+        "source": "/feed.html",
+        "destination": "/feed.html"
+      },
+      {
+        "source": "/subscription.html",
+        "destination": "/subscription.html"
+      },
+      {
+        "source": "/subscription-details.html",
+        "destination": "/subscription-details.html"
+      },
+      {
+        "source": "/project-dashboard-live.html",
+        "destination": "/project-dashboard-live.html"
+      },
+      {
+        "source": "/checkout.html",
+        "destination": "/checkout.html"
+      },
+      {
+        "source": "/order-confirmation.html",
+        "destination": "/order-confirmation.html"
+      },
+      {
+        "source": "/explore.html",
+        "destination": "/explore.html"
+      },
+      {
+        "source": "/my-orders.html",
+        "destination": "/my-orders.html"
+      },
+      {
+        "source": "/saved.html",
+        "destination": "/saved.html"
+      },
+      {
+        "source": "/product.html",
+        "destination": "/product.html"
+      },
+      {
+        "source": "/jobs.html",
+        "destination": "/jobs.html"
+      },
+      {
+        "source": "/network.html",
+        "destination": "/network.html"
+      },
+      {
+        "source": "/job-details.html",
+        "destination": "/job-details.html"
+      },
+      {
+        "source": "/job-application.html",
+        "destination": "/job-application.html"
+      },
+      {
+        "source": "/post.html",
+        "destination": "/post.html"
+      },
+      {
+        "source": "/messages.html",
+        "destination": "/messages.html"
+      },
+      {
+        "source": "/apply-job.html",
+        "destination": "/apply-job.html"
+      },
+      {
+        "source": "/application-details.html",
+        "destination": "/application-details.html"
+      },
+      {
+        "source": "/my-jobs.html",
+        "destination": "/my-jobs.html"
+      },
+      {
+        "source": "/job-applications.html",
+        "destination": "/job-applications.html"
+      },
+      {
+        "source": "/post-job.html",
+        "destination": "/post-job.html"
+      },
+      {
+        "source": "/login.html",
+        "destination": "/login.html"
+      },
+      {
+        "source": "/register.html",
+        "destination": "/register.html"
+      },
+      {
+        "source": "/search.html",
+        "destination": "/search.html"
+      },
+      {
+        "source": "/about.html",
+        "destination": "/about.html"
+      },
+      {
+        "source": "/features.html",
+        "destination": "/features.html"
+      },
+      {
+        "source": "/edit-job.html",
+        "destination": "/edit-job.html"
+      },
+      {
+        "source": "/success-stories.html",
+        "destination": "/success-stories.html"
+      },
+      {
+        "source": "/career-advice.html",
+        "destination": "/career-advice.html"
+      },
+      {
+        "source": "/salary-guide.html",
+        "destination": "/salary-guide.html"
+      },
+      {
+        "source": "/find-candidates.html",
+        "destination": "/find-candidates.html"
+      },
+      {
+        "source": "/recruiting-solutions.html",
+        "destination": "/recruiting-solutions.html"
+      },
+      {
+        "source": "/pricing.html",
+        "destination": "/pricing.html"
+      },
+      {
+        "source": "/help.html",
+        "destination": "/help.html"
+      },
+      {
+        "source": "/project.html",
+        "destination": "/project.html"
+      },
+      {
+        "source": "/privacy.html",
+        "destination": "/privacy.html"
+      },
+      {
+        "source": "/terms.html",
+        "destination": "/terms.html"
+      },
+      {
+        "source": "/data-deletion.html",
+        "destination": "/data-deletion.html"
+      },
+      {
+        "source": "/admin/**",
+        "destination": "/admin/index.html"
+      },
+      {
+        "source": "/auth/**",
+        "destination": "/auth/callback.html"
+      },
+      {
+        "source": "/article/**",
+        "destination": "/article/index.html"
+      },
+      {
+        "source": "/",
+        "destination": "/root.html"
+      },
+      {
+        "source": "/**",
+        "destination": "/root.html"
+      }
+    ]
+  }
+}
