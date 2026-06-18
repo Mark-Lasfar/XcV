@@ -1,16 +1,17 @@
 {
-    "name": "cv-frontend",
-    "version": "1.0.0",
-    "scripts": {
-        "start": "serve -s public",
-        "build": "echo 'No build step required'"
-    },
-    "dependencies": {
-        "cors": "^2.8.5",
-        "dotenv": "^16.4.5",
-        "express": "^5.1.0",
-        "mongoose": "^8.17.2",
-        "serve": "^14.2.4",
-        "validator": "^13.15.15"
-    }
+  "name": "cv-frontend",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "serve -s public",
+    "build": "echo 'No build step required'",
+    "sync-sitemaps": "curl -s https://hf.space -o public/sitemap.xml && curl -s https://hf.space -o public/sitemap-static.xml && curl -s https://hf.space -o public/sitemap-stores.xml && curl -s https://hf.space -o public/sitemap-products.xml && curl -s https://hf.space -o public/sitemap-users.xml && curl -s https://hf.space -o public/sitemap-posts.xml && curl -s https://hf.space -o public/sitemap-jobs.xml && curl -s https://hf.space -o public/sitemap-templates.xml && curl -s https://hf.space -o public/sitemap-pages.xml && curl -s https://hf.space -o public/sitemap-tags.xml && curl -s https://hf.space -o public/sitemap-images.xml && curl -s https://hf.space -o public/sitemap-comments.xml && curl -s https://hf.space -o public/robots.txt"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^5.1.0",
+    "mongoose": "^8.17.2",
+    "serve": "^14.2.4",
+    "validator": "^13.15.15"
+  }
 }
