@@ -1,0 +1,104 @@
+0 HEAD
+1 GEDC
+2 VERS 7.0
+2 FORM LINEAGE-LINKED
+1 CHAR UTF-8
+1 SOUR CUSTOM
+2 NAME "Reda CAR System"
+2 VERS 1.0
+1 FILE ibrahim_al_asfar.ged
+1 DATE 18 JUN 2026
+1 SUBM @U1@
+1 LANG en
+
+0 @U1@ SUBM
+1 NAME Ibrahim (Mark) Maged Mohamed Al-Asfar
+1 ADDR Cairo, Egypt
+1 EMAIL ibrahimalasfar020@gmail.com
+1 WWW https://github.com/Mark-Lasfar
+1 _SOCIAL
+2 TYPE LinkedIn
+2 WWW https://www.linkedin.com/in/ibrahimelasfar/
+1 _SOCIAL
+2 TYPE Dev.to
+2 WWW https://dev.to/marklasfar
+
+0 @I1@ INDI
+1 NAME Ibrahim (Mark) Maged Mohamed /Al-Asfar/
+2 GIVN Ibrahim (Mark) Maged Mohamed
+2 SURN Al-Asfar
+1 SEX M
+1 BIRT
+2 DATE 1999
+2 PLAC Cairo, Egypt
+1 RESN CONFIDENTIAL
+
+1 EDUC Bachelor of Information Systems
+2 TYPE HigherEducation
+2 DATE 2024
+2 PLAC Alexandria University, Egypt
+2 NOTE Grade: Very Good. Coursework: Structured Programming, Data Structures, Algorithms, Database Systems.
+
+1 OCCU Senior Systems Architect & Full-Stack Developer
+2 DATE FROM 2022 TO PRESENT
+2 PLAC Remote (Worldwide)
+
+1 _SKILL
+2 TYPE Frontend
+2 NOTE React.js, Next.js, TypeScript, TailwindCSS, Redux, PWA
+1 _SKILL
+2 TYPE Backend
+2 NOTE Node.js, Express.js, NestJS, Python (FastAPI), GraphQL, REST
+1 _SKILL
+2 TYPE Databases
+2 NOTE MongoDB, Redis, Prisma ORM, Query Optimization
+1 _SKILL
+2 TYPE DevOps
+2 NOTE Docker, Kubernetes, Nginx, GitHub Actions, GCP, Azure
+1 _SKILL
+2 TYPE Architecture
+2 NOTE Microservices, Event-Driven, WebSockets, Real-time Systems
+1 _SKILL
+2 TYPE AI
+2 NOTE LangChain, RAG Pipelines, Agentic Workflows, Vector DBs
+1 _SKILL
+2 TYPE Fintech
+2 NOTE PCI-DSS, JWT, OAuth2, Stripe, PayPal, Digital Wallets
+1 _SKILL
+2 TYPE Monitoring
+2 NOTE OpenTelemetry, Custom Health Checks, Centralized Logging
+
+1 _PROJECT
+2 TYPE MGzon - Enterprise ERP Platform
+2 ROLE Founder & Lead Architect
+2 DATE FROM 2022 TO PRESENT
+2 NOTE 6M-line ERP serving 10k+ users across 5 countries. Built MGpay (PCI-DSS compliant digital wallet), real-time chat, LLM features (RAG), custom monitoring saving 20+ hours/week.
+
+1 _PROJECT
+2 TYPE Next.js & Vercel Core Architecture Contribution
+2 ROLE Open Source Investigator & Fixer
+2 DATE 2025-2026
+2 NOTE Diagnosed critical bug (searchParams empty on static pages + Draft Mode on Vercel). Submitted fix in Next.js (#93063) and @vercel/next v4.16.9 (+54/-22 lines). Official release.
+
+1 _PROJECT
+2 TYPE Naseej - Multi-Vendor E-Commerce Platform
+2 ROLE Lead Architect & Developer
+2 DATE 2025
+2 NOTE Built complete platform (25,810 lines) in 5 days with real-time chat, GraphQL API, payment processing, 3-server Docker architecture.
+
+1 _ACHIEVEMENT
+2 TYPE Linux Foundation Certified System Administrator (LFCS)
+2 DATE 2024
+1 _ACHIEVEMENT
+2 TYPE Meta Backend Developer Certificate
+2 DATE 2023
+
+1 _TECH
+2 NOTE Linux-first development. Clean architecture principles. Systems designed for 10x scalability. Security implemented at every layer.
+
+1 LANG Arabic
+2 TYPE Native
+1 LANG English
+2 TYPE Upper Intermediate (B2)
+
+0 TRLR

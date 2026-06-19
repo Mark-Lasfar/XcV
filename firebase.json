@@ -133,6 +133,10 @@
         "destination": "/login.html"
       },
       {
+        "source": "/cv.html",
+        "destination": "/cv.html"
+      },
+      {
         "source": "/register.html",
         "destination": "/register.html"
       },

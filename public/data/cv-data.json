@@ -1,0 +1,76 @@
+{
+  "name": "Ibrahim (Mark) Maged Mohamed Al-Asfar",
+  "title": "Senior Systems Architect & Full-Stack Developer",
+  "location": "Cairo, Egypt (Remote Worldwide)",
+  "phone": "+20 1212444617",
+  "email": "marklasfar@gmail.com",
+  "birthYear": 1999,
+  "summary": "Systems Architect with a proven track record of building mission-critical, high-availability platforms from the ground up. Founder of MGzon, a comprehensive 6M-line ERP ecosystem with fintech, real-time chat (WebSockets), and multi-vendor e-commerce capabilities.",
+  "skills": {
+    "frontend": ["React.js", "Next.js", "TypeScript", "TailwindCSS", "Redux", "PWA"],
+    "backend": ["Node.js", "Express.js", "NestJS", "Python (FastAPI)", "GraphQL", "REST APIs"],
+    "databases": ["MongoDB", "Redis", "Prisma ORM", "Query Optimization"],
+    "devops": ["Docker", "Kubernetes", "Nginx", "GitHub Actions", "GCP", "Azure"],
+    "architecture": ["Microservices", "Event-Driven", "WebSockets", "Real-time Systems"],
+    "ai": ["LangChain", "RAG Pipelines", "Agentic Workflows", "Vector Databases"],
+    "fintech": ["PCI-DSS", "JWT", "OAuth2", "Stripe", "PayPal", "Digital Wallets"],
+    "monitoring": ["OpenTelemetry", "Custom Health Checks", "Centralized Logging"]
+  },
+  "projects": [
+    {
+      "name": "MGzon - Enterprise ERP Platform",
+      "role": "Founder & Lead Architect",
+      "date": "2022 - Present",
+      "description": "6M-line ERP serving 10k+ users across 5 countries. Built MGpay (PCI-DSS compliant digital wallet), real-time chat, LLM features (RAG), custom monitoring saving 20+ hours/week."
+    },
+    {
+      "name": "Next.js & Vercel Core Architecture Contribution",
+      "role": "Open Source Investigator & Fixer",
+      "date": "2025-2026",
+      "description": "Diagnosed critical bug (searchParams empty on static pages + Draft Mode on Vercel). Submitted fix in Next.js (#93063) and @vercel/next v4.16.9 (+54/-22 lines). Official release."
+    },
+    {
+      "name": "Naseej - Multi-Vendor E-Commerce Platform",
+      "role": "Lead Architect & Developer",
+      "date": "2025",
+      "description": "Built complete platform (25,810 lines) in 5 days with real-time chat, GraphQL API, payment processing, 3-server Docker architecture."
+    }
+  ],
+  "experience": [
+    {
+      "title": "Founder & Lead Systems Architect",
+      "company": "MGzon",
+      "date": "2022 - Present",
+      "achievements": [
+        "Architected and developed the entire MGzon platform from inception to 10,000+ active users.",
+        "Scaled backend infrastructure to reliably process 100,000+ daily batch transactions.",
+        "Achieved 85% reduction in production incidents by implementing custom observability.",
+        "Established best practices for clean architecture and security-first development."
+      ]
+    },
+    {
+      "title": "Freelance Full-Stack Developer",
+      "company": "Remote",
+      "date": "2020 - 2022",
+      "achievements": [
+        "Delivered 15+ custom web applications for clients across the MENA region.",
+        "Built bespoke e-commerce platforms and integrated complex third-party APIs."
+      ]
+    }
+  ],
+  "education": {
+    "degree": "Bachelor of Information Systems",
+    "institution": "Alexandria University",
+    "year": 2024,
+    "grade": "Very Good",
+    "coursework": ["Structured Programming", "Data Structures", "Algorithms", "Database Systems"]
+  },
+  "certifications": [
+    "Linux Foundation Certified System Administrator (LFCS) - 2024",
+    "Meta Backend Developer Certificate - 2023"
+  ],
+  "languages": [
+    { "name": "Arabic", "level": "Native" },
+    { "name": "English", "level": "Upper Intermediate (B2)" }
+  ]
+}

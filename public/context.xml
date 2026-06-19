@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomSearchEngine xmlns="http://www.google.com/cse/schemas/2008/cse-20081211">
   <Title>Mark Al-Asfar | Systems Architect Search</Title>
-  <Description>Search portfolio, projects, and technical expertise of Mark Al-Asfar (Senior Systems Architect & Full-Stack Developer)</Description>
-  
-  <!-- ========================================== -->
-  <!-- ربط ملف annotations (مواقعك الشخصية) -->
-  <!-- ========================================== -->
-  <Annotations>
+  <Description>Search portfolio, projects, and technical expertise of Mark Al-Asfar (Senior Systems Architect &amp; Full-Stack Developer)</Description>
+    <Annotations>
     <Annotation about="https://elasfar.vercel.app/*" score="1.0">
       <Label name="_include_"/>
     </Annotation>

@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ibrahim (Mark) Al-Asfar - Senior Systems Architect CV</title>
+    <meta name="description" content="Ibrahim (Mark) Al-Asfar - Senior Systems Architect & Full-Stack Developer. 6M-line ERP, fintech, real-time systems, open source contributor.">
+    <link rel="alternate" type="application/json" href="/data/cv-data.json" />
+
+    <!-- ===== Font Awesome 6 (Free) ===== -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- ===== Google Fonts ===== -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ===== Reset & Base ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f0f2f5;
+            color: #1a1a2e;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        .cv-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        
+        /* ===== Loading ===== */
+        .loading-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #94a3b8;
+        }
+        .loading-state i {
+            font-size: 48px;
+            color: #3b82f6;
+            margin-bottom: 16px;
+            display: block;
+        }
+        .loading-state .spinner {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* ===== Header ===== */
+        .header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            padding: 48px 40px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(139,92,246,0.05) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        /* ===== Profile Photo ===== */
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        .profile-wrapper {
+            flex-shrink: 0;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid rgba(59,130,246,0.3);
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .profile-wrapper:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 32px rgba(59,130,246,0.25);
+        }
+        .profile-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .header h1 {
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header .badge-role {
+            display: inline-block;
+            background: rgba(59,130,246,0.15);
+            color: #60a5fa;
+            padding: 8px 20px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid rgba(59,130,246,0.2);
+            backdrop-filter: blur(10px);
+        }
+        .header .badge-role i {
+            margin-right: 8px;
+        }
+        .header .subtitle {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-top: 4px;
+            font-weight: 400;
+        }
+        .header .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px 24px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .header .contact-grid .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #cbd5e0;
+        }
+        .header .contact-grid .contact-item i {
+            width: 20px;
+            color: #3b82f6;
+            font-size: 16px;
+        }
+        .header .contact-grid .contact-item a {
+            color: #93c5fd;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .header .contact-grid .contact-item a:hover {
+            color: #bfdbfe;
+        }
+        
+        /* ===== Card ===== */
+        .card {
+            padding: 32px 40px;
+            border-bottom: 1px solid #f1f5f9;
+            transition: background 0.2s;
+        }
+        .card:last-child {
+            border-bottom: none;
+        }
+        .card:hover {
+            background: #fafbfc;
+        }
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .card-title i {
+            color: #3b82f6;
+            font-size: 22px;
+            width: 28px;
+        }
+        .card-title .title-line {
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, #e2e8f0 0%, transparent 100%);
+            margin-left: 8px;
+        }
+        
+        /* ===== Summary ===== */
+        .summary-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #334155;
+            max-width: 900px;
+        }
+        
+        /* ===== Skills ===== */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        .skill-category {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 16px 20px;
+            border: 1px solid #f1f5f9;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .skill-category:hover {
+            border-color: #93c5fd;
+            box-shadow: 0 4px 12px rgba(59,130,246,0.06);
+        }
+        .skill-category .cat-label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #0f172a;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .skill-category .cat-label i {
+            color: #3b82f6;
+            width: 18px;
+        }
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .skill-tag {
+            background: white;
+            color: #1e293b;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+        .skill-tag:hover {
+            border-color: #3b82f6;
+            color: #3b82f6;
+            background: #eff6ff;
+        }
+        
+        /* ===== Projects ===== */
+        .project-item {
+            padding: 20px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .project-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .project-item .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .project-item .project-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .project-item .project-name i {
+            color: #8b5cf6;
+            margin-right: 10px;
+        }
+        .project-item .project-role {
+            color: #3b82f6;
+            font-weight: 500;
+            font-size: 14px;
+            background: #eff6ff;
+            padding: 2px 14px;
+            border-radius: 100px;
+        }
+        .project-item .project-date {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+        .project-item .project-date i {
+            margin-right: 6px;
+        }
+        .project-item .project-desc {
+            margin-top: 10px;
+            color: #475569;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+        .project-item .project-link {
+            margin-top: 8px;
+        }
+        .project-item .project-link a {
+            color: #3b82f6;
+            font-size: 13px;
+            text-decoration: none;
+            word-break: break-all;
+        }
+        .project-item .project-link a:hover {
+            text-decoration: underline;
+        }
+        
+        /* ===== Experience ===== */
+        .exp-item {
+            padding: 20px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .exp-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .exp-item .exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .exp-item .exp-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .exp-item .exp-title i {
+            color: #3b82f6;
+            margin-right: 10px;
+        }
+        .exp-item .exp-company {
+            color: #475569;
+            font-weight: 500;
+        }
+        .exp-item .exp-company i {
+            margin-right: 6px;
+            color: #94a3b8;
+        }
+        .exp-item .exp-date {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+        .exp-item .exp-date i {
+            margin-right: 6px;
+        }
+        .exp-item ul {
+            list-style: none;
+            margin-top: 12px;
+            padding-left: 0;
+        }
+        .exp-item ul li {
+            padding: 4px 0 4px 32px;
+            position: relative;
+            color: #475569;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+        .exp-item ul li::before {
+            content: '▹';
+            position: absolute;
+            left: 4px;
+            color: #3b82f6;
+            font-weight: 700;
+        }
+        
+        /* ===== Education & Certifications ===== */
+        .edu-item, .cert-item, .lang-item {
+            padding: 6px 0;
+            color: #334155;
+        }
+        .edu-item strong, .cert-item strong, .lang-item strong {
+            color: #0f172a;
+        }
+        .edu-item i, .cert-item i, .lang-item i {
+            color: #3b82f6;
+            width: 24px;
+            margin-right: 6px;
+        }
+        .edu-details {
+            font-size: 14px;
+            color: #64748b;
+            margin-top: 4px;
+            padding-left: 30px;
+        }
+        .edu-details i {
+            color: #f59e0b;
+        }
+        
+        /* ===== Certifications ===== */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 8px 24px;
+        }
+        .cert-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .cert-item i {
+            color: #22c55e;
+            font-size: 18px;
+        }
+        
+        /* ===== Languages ===== */
+        .lang-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 8px 24px;
+        }
+        .lang-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .lang-item i {
+            color: #3b82f6;
+        }
+        
+        /* ===== Footer ===== */
+        .footer {
+            background: #f8fafc;
+            padding: 28px 40px;
+            text-align: center;
+            border-top: 1px solid #f1f5f9;
+        }
+        .footer .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+        .footer .social-links a {
+            color: #64748b;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .footer .social-links a:hover {
+            color: #0f172a;
+        }
+        .footer .social-links a i {
+            font-size: 18px;
+            color: #3b82f6;
+        }
+        .footer .quote-text {
+            font-size: 13px;
+            color: #94a3b8;
+            font-style: italic;
+            max-width: 600px;
+            margin: 0 auto 8px;
+        }
+        .footer .quote-text i {
+            color: #3b82f6;
+            margin: 0 6px;
+        }
+        .footer .updated-text {
+            font-size: 12px;
+            color: #cbd5e0;
+        }
+        
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            body { padding: 16px; }
+            .header { padding: 32px 20px; }
+            .card { padding: 24px 20px; }
+            .footer { padding: 20px; }
+            .header h1 { font-size: 26px; }
+            .header .contact-grid { grid-template-columns: 1fr; gap: 8px; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .project-item .project-header { flex-direction: column; }
+            .exp-item .exp-header { flex-direction: column; }
+            .cert-grid, .lang-grid { grid-template-columns: 1fr; }
+            .header-left {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+            .profile-wrapper {
+                width: 80px;
+                height: 80px;
+            }
+        }
+        @media (max-width: 480px) {
+            .header h1 { font-size: 22px; }
+            .header .badge-role { font-size: 12px; padding: 4px 14px; }
+            .card-title { font-size: 17px; }
+            .project-item .project-name { font-size: 16px; }
+            .exp-item .exp-title { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="cv-container" id="cv-container">
+    <div class="loading-state">
+        <i class="fas fa-spinner spinner"></i>
+        <span>Loading CV...</span>
+    </div>
+</div>
+
+<script>
+    // =============================================
+    //  Fetch & Render CV Data
+    // =============================================
+    fetch('/data/cv-data.json')
+        .then(response => {
+            if (!response.ok) throw new Error('Failed to load CV data');
+            return response.json();
+        })
+        .then(data => renderCV(data))
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('cv-container').innerHTML = `
+                <div style="text-align:center; padding:60px 20px; color:#ef4444;">
+                    <i class="fas fa-exclamation-circle" style="font-size:48px; display:block; margin-bottom:16px;"></i>
+                    <p style="font-size:18px; font-weight:500;">Failed to load CV</p>
+                    <p style="color:#94a3b8; font-size:14px;">${error.message}</p>
+                </div>
+            `;
+        });
+
+    function renderCV(data) {
+        const container = document.getElementById('cv-container');
+        
+        let html = '';
+
+        // ===== HEADER with Photo =====
+        html += `
+            <div class="header">
+                <div class="header-content">
+                    <div class="header-top">
+                        <div class="header-left">
+                            <div class="profile-wrapper">
+                                <img src="/data/profile.jpg" alt="Ibrahim (Mark) Al-Asfar" onerror="this.style.display='none'">
+                            </div>
+                            <div>
+                                <h1>${data.name}</h1>
+                                <div class="subtitle">${data.title}</div>
+                            </div>
+                        </div>
+                        <div class="badge-role">
+                            <i class="fas fa-code"></i> Available for Hire
+                        </div>
+                    </div>
+                    <div class="contact-grid">
+                        <div class="contact-item"><i class="fas fa-map-marker-alt"></i> ${data.location}</div>
+                        <div class="contact-item"><i class="fas fa-phone"></i> ${data.phone}</div>
+                        <div class="contact-item"><i class="fas fa-envelope"></i> <a href="mailto:${data.email}">${data.email}</a></div>
+                        <div class="contact-item"><i class="fab fa-github"></i> <a href="https://github.com/Mark-Lasfar" target="_blank">github.com/Mark-Lasfar</a></div>
+                        <div class="contact-item"><i class="fab fa-linkedin"></i> <a href="https://linkedin.com/in/ibrahimelasfar" target="_blank">linkedin.com/in/ibrahimelasfar</a></div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // ===== SUMMARY =====
+        html += `
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-address-card"></i> Professional Summary
+                    <span class="title-line"></span>
+                </div>
+                <p class="summary-text">${data.summary}</p>
+            </div>
+        `;
+
+        // ===== SKILLS =====
+        html += `
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-code"></i> Technical Expertise
+                    <span class="title-line"></span>
+                </div>
+                <div class="skills-grid">
+        `;
+        const skillCategories = {
+            frontend: { icon: 'fa-laptop', label: 'Frontend' },
+            backend: { icon: 'fa-server', label: 'Backend' },
+            databases: { icon: 'fa-database', label: 'Databases' },
+            devops: { icon: 'fa-cloud', label: 'DevOps & Cloud' },
+            architecture: { icon: 'fa-sitemap', label: 'Architecture' },
+            ai: { icon: 'fa-brain', label: 'AI & LLM' },
+            fintech: { icon: 'fa-shield-alt', label: 'Security & Fintech' },
+            monitoring: { icon: 'fa-chart-line', label: 'Monitoring' }
+        };
+        for (const [key, cat] of Object.entries(skillCategories)) {
+            if (data.skills[key] && data.skills[key].length) {
+                html += `
+                    <div class="skill-category">
+                        <div class="cat-label"><i class="fas ${cat.icon}"></i> ${cat.label}</div>
+                        <div class="skill-tags">
+                            ${data.skills[key].map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        html += `
+                </div>
+            </div>
+        `;
+
+        // ===== PROJECTS =====
+        html += `
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-rocket"></i> Key Projects & Achievements
+                    <span class="title-line"></span>
+                </div>
+        `;
+        data.projects.forEach(project => {
+            html += `
+                <div class="project-item">
+                    <div class="project-header">
+                        <div>
+                            <span class="project-name"><i class="fas fa-folder-open"></i>${project.name}</span>
+                            <span class="project-role">${project.role}</span>
+                        </div>
+                        <span class="project-date"><i class="far fa-calendar-alt"></i>${project.date}</span>
+                    </div>
+                    <div class="project-desc">${project.description}</div>
+                    ${project.url ? `<div class="project-link"><i class="fas fa-link"></i> <a href="${project.url}" target="_blank">${project.url}</a></div>` : ''}
+                </div>
+            `;
+        });
+        html += `</div>`;
+
+        // ===== EXPERIENCE =====
+        html += `
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-briefcase"></i> Professional Experience
+                    <span class="title-line"></span>
+                </div>
+        `;
+        data.experience.forEach(exp => {
+            html += `
+                <div class="exp-item">
+                    <div class="exp-header">
+                        <div>
+                            <span class="exp-title"><i class="fas fa-user-tie"></i>${exp.title}</span>
+                            <span class="exp-company"><i class="fas fa-building"></i>${exp.company}</span>
+                        </div>
+                        <span class="exp-date"><i class="far fa-calendar-alt"></i>${exp.date}</span>
+                    </div>
+                    <ul>
+                        ${exp.achievements.map(a => `<li>${a}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+        });
+        html += `</div>`;
+
+        // ===== EDUCATION =====
+        html += `
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-graduation-cap"></i> Education
+                    <span class="title-line"></span>
+                </div>
+                <div class="edu-item">
+                    <i class="fas fa-university"></i> <strong>${data.education.degree}</strong> — ${data.education.institution} (${data.education.year})
+                </div>
+                <div class="edu-details">
+                    <i class="fas fa-star"></i> Grade: ${data.education.grade} &nbsp;|&nbsp; <i class="fas fa-book"></i> Coursework: ${data.education.coursework.join(', ')}
+                </div>
+            </div>
+        `;
+
+        // ===== CERTIFICATIONS =====
+        html += `
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-certificate"></i> Certifications
+                    <span class="title-line"></span>
+                </div>
+                <div class="cert-grid">
+                    ${data.certifications.map(cert => `
+                        <div class="cert-item"><i class="fas fa-check-circle"></i> ${cert}</div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+
+        // ===== LANGUAGES =====
+        html += `
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-language"></i> Languages
+                    <span class="title-line"></span>
+                </div>
+                <div class="lang-grid">
+                    ${data.languages.map(lang => `
+                        <div class="lang-item"><i class="fas fa-flag"></i> <strong>${lang.name}:</strong> ${lang.level}</div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+
+        // ===== FOOTER =====
+        html += `
+            <div class="footer">
+                <div class="social-links">
+                    <a href="https://github.com/Mark-Lasfar" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                    <a href="https://linkedin.com/in/ibrahimelasfar" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                    <a href="https://dev.to/marklasfar" target="_blank"><i class="fab fa-dev"></i> Dev.to</a>
+                    <a href="https://twitter.com/MarkLasfar" target="_blank"><i class="fab fa-x-twitter"></i> X</a>
+                </div>
+
+                <div style="margin: 12px 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+                    <a href="/cv.html" style="color: #3b82f6; text-decoration: none; font-size: 13px; border: 1px solid #3b82f6; padding: 4px 14px; border-radius: 20px;">
+                        <i class="fas fa-file-alt"></i> HTML
+                    </a>
+                    <a href="/data/cv-data.json" style="color: #64748b; text-decoration: none; font-size: 13px; border: 1px solid #cbd5e0; padding: 4px 14px; border-radius: 20px;">
+                        <i class="fas fa-code"></i> JSON
+                    </a>
+                    <a href="/ibrahim_al_asfar.ged" download style="color: #8b5cf6; text-decoration: none; font-size: 13px; border: 1px solid #8b5cf6; padding: 4px 14px; border-radius: 20px;">
+                        <i class="fas fa-download"></i> GEDCOM
+                    </a>
+                </div>
+
+                <div class="quote-text">
+                    <i class="fas fa-quote-left"></i>
+                    Linux-first development. Clean architecture principles. Systems designed for 10x scalability. Security implemented at every layer.
+                    <i class="fas fa-quote-right"></i>
+                </div>
+                <div class="updated-text">
+                    <i class="far fa-clock"></i> Last updated: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                </div>
+            </div>
+        `;
+        container.innerHTML = html;
+    }
+</script>
+
+</body>
+</html>
