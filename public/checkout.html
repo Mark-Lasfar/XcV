@@ -292,7 +292,7 @@
     }
     
     // ============================================
-    // Render Payment Methods
+    // Render Payment Methods - UPDATED
     // ============================================
     function renderPaymentMethods() {
         const container = document.getElementById('payment-methods-list');
@@ -350,7 +350,7 @@
     }
     
     // ============================================
-    // Render Payment Details Form
+    // Render Payment Details Form - UPDATED with Stripe
     // ============================================
     function renderPaymentDetailsForm(method) {
         const container = document.getElementById('payment-details-form');
@@ -397,10 +397,48 @@
                         <div class="flex items-center gap-2 mb-3">
                             <i class='bx bxl-paypal text-2xl text-blue-600'></i>
                             <span class="font-semibold">PayPal</span>
+                            <span class="text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full">Secure</span>
                         </div>
                         <p class="text-sm text-gray-600 mb-2">Send payment to this PayPal email:</p>
                         <div class="text-center">
                             <p class="text-lg font-mono font-semibold text-blue-600 bg-white inline-block px-6 py-2 rounded-lg shadow-sm">${method.details?.email || 'Not provided'}</p>
+                        </div>
+                        <div class="mt-3 p-2 bg-blue-50 rounded-lg text-xs text-blue-700">
+                            <i class='bx bx-info-circle'></i> You will be redirected to PayPal to complete payment securely.
+                        </div>
+                    </div>
+                `;
+                break;
+                
+            case 'stripe':
+                html = `
+                    <div class="p-4 bg-gradient-to-r from-purple-50 to-purple-100 rounded-xl border border-purple-200">
+                        <div class="flex items-center gap-2 mb-3">
+                            <i class='bx bx-credit-card text-2xl text-purple-500'></i>
+                            <span class="font-semibold">Stripe (Credit Card)</span>
+                            <span class="text-xs bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full">Secure</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-3">Pay securely with your credit or debit card:</p>
+                        <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                            <div class="grid gap-3">
+                                <div>
+                                    <label class="text-xs text-gray-500 font-medium">Card Number</label>
+                                    <div class="p-3 border rounded-lg bg-gray-50 text-gray-400 font-mono text-lg tracking-wider">•••• •••• •••• ••••</div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="text-xs text-gray-500 font-medium">Expiry Date</label>
+                                        <div class="p-3 border rounded-lg bg-gray-50 text-gray-400 font-mono">MM / YY</div>
+                                    </div>
+                                    <div>
+                                        <label class="text-xs text-gray-500 font-medium">CVC</label>
+                                        <div class="p-3 border rounded-lg bg-gray-50 text-gray-400 font-mono">•••</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3 p-2 bg-purple-50 rounded-lg text-xs text-purple-700">
+                            <i class='bx bx-lock-alt'></i> Your payment is processed securely through Stripe.
                         </div>
                     </div>
                 `;
@@ -414,9 +452,9 @@
                             <span class="font-semibold">Bank Transfer</span>
                         </div>
                         <div class="space-y-2 text-sm">
-                            <div class="flex justify-between py-1"><span class="text-gray-600">Bank:</span> <span class="font-medium">${method.details?.bankName || 'N/A'}</span></div>
-                            <div class="flex justify-between py-1"><span class="text-gray-600">Account Name:</span> <span class="font-medium">${method.details?.accountName || 'N/A'}</span></div>
-                            <div class="flex justify-between py-1"><span class="text-gray-600">Account Number:</span> <span class="font-mono font-medium">${method.details?.accountNumber || 'N/A'}</span></div>
+                            <div class="flex justify-between py-1 border-b border-gray-200"><span class="text-gray-600">Bank:</span> <span class="font-medium">${method.details?.bankName || 'N/A'}</span></div>
+                            <div class="flex justify-between py-1 border-b border-gray-200"><span class="text-gray-600">Account Name:</span> <span class="font-medium">${method.details?.accountName || 'N/A'}</span></div>
+                            <div class="flex justify-between py-1 border-b border-gray-200"><span class="text-gray-600">Account Number:</span> <span class="font-mono font-medium">${method.details?.accountNumber || 'N/A'}</span></div>
                             ${method.details?.iban ? `<div class="flex justify-between py-1"><span class="text-gray-600">IBAN:</span> <span class="font-mono text-xs">${method.details.iban}</span></div>` : ''}
                         </div>
                     </div>
@@ -437,7 +475,7 @@
         container.innerHTML = html;
         container.classList.remove('hidden');
     }
-    
+
     // ============================================
     // Place Order - Using New API
     // ============================================
@@ -525,7 +563,7 @@
     }
     
     // ============================================
-    // Helper Functions
+    // Helper Functions - UPDATED
     // ============================================
     function getMethodIcon(type) {
         const icons = {
@@ -537,7 +575,7 @@
         };
         return icons[type] || 'bx-money';
     }
-    
+
     function getMethodColor(type) {
         const colors = {
             paypal: 'text-blue-600',
@@ -559,21 +597,21 @@
         };
         return colors[type] || 'bg-gray-100';
     }
-    
+
     function getMethodName(type) {
         const names = {
             paypal: 'PayPal',
-            stripe: 'Credit Card',
+            stripe: 'Stripe',
             vodafone: 'Vodafone Cash',
             instapay: 'InstaPay',
             bank: 'Bank Transfer'
         };
         return names[type] || type;
     }
-    
+
     function getMethodDescription(type) {
         const descriptions = {
-            paypal: 'Secure online payment',
+            paypal: 'Secure online payment via PayPal',
             stripe: 'Pay with credit or debit card',
             vodafone: 'Mobile wallet payment',
             instapay: 'Instant bank transfer',
@@ -581,6 +619,7 @@
         };
         return descriptions[type] || '';
     }
+
     
     async function fetchCsrfToken() {
         try {

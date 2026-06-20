@@ -29,17 +29,13 @@
             position: fixed;
             width: 10px;
             height: 10px;
-            background: #f59e0b;
             position: absolute;
             animation: fall 3s linear forwards;
             z-index: 1000;
             pointer-events: none;
         }
         @keyframes fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
+            to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
         }
         .order-card {
             transition: all 0.2s ease;
@@ -55,6 +51,12 @@
         }
         .dark .text-gray-600 {
             color: #9ca3af;
+        }
+        .download-btn {
+            transition: all 0.2s ease;
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -77,6 +79,18 @@
                 <div class="text-center py-8">
                     <div class="loader-spinner mx-auto"></div>
                     <p class="text-gray-500 dark:text-gray-400 mt-3">Loading order details...</p>
+                </div>
+            </div>
+            
+            <!-- Download Links Section (shown when order is completed) -->
+            <div id="download-section" class="mt-4 hidden">
+                <div class="bg-green-50 dark:bg-green-900/20 rounded-xl p-4 border border-green-200 dark:border-green-800">
+                    <h3 class="font-semibold text-green-700 dark:text-green-400 mb-3 flex items-center gap-2">
+                        <i class='bx bx-download text-xl'></i> Download Your Products
+                    </h3>
+                    <div id="download-links" class="space-y-2">
+                        <!-- Will be populated dynamically -->
+                    </div>
                 </div>
             </div>
             
@@ -103,7 +117,7 @@
 <script src="/assets/js/config.js"></script>
 <script>
     // ============================================
-    // ORDER CONFIRMATION PAGE - MULTI-VENDOR UPDATED
+    // ORDER CONFIRMATION PAGE - UPDATED WITH DOWNLOADS
     // ============================================
     
     const API_URL = window.ENV?.API_URL || 'https://mgzon-server.hf.space';
@@ -178,6 +192,11 @@
                 const order = await response.json();
                 renderOrderDetails(order);
                 
+                // ✅ Show download links if order is completed
+                if (order.status === 'completed') {
+                    renderDownloadLinks(order);
+                }
+                
                 // Create confetti effect
                 createConfetti();
             } else {
@@ -203,7 +222,70 @@
     }
     
     // ============================================
-    // Render Order Details
+    // Render Download Links (for completed orders)
+    // ============================================
+    function renderDownloadLinks(order) {
+        const section = document.getElementById('download-section');
+        const container = document.getElementById('download-links');
+        
+        const downloadableItems = order.items.filter(item => item.fileUrl);
+        
+        if (downloadableItems.length === 0) {
+            section.classList.add('hidden');
+            return;
+        }
+        
+        section.classList.remove('hidden');
+        
+        container.innerHTML = downloadableItems.map(item => `
+            <div class="flex justify-between items-center p-3 bg-white dark:bg-gray-700 rounded-lg border border-green-200 dark:border-green-800">
+                <div>
+                    <p class="font-medium dark:text-white">${escapeHtml(item.title)}</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">${item.productType || 'Digital Product'}</p>
+                </div>
+                <button onclick="downloadFile('${order._id}', '${item.productId}')" 
+                    class="download-btn px-4 py-2 bg-green-500 text-white text-sm rounded-lg hover:bg-green-600 transition flex items-center gap-2">
+                    <i class='bx bx-download'></i> Download
+                </button>
+            </div>
+        `).join('');
+    }
+    
+    // ============================================
+    // Download File
+    // ============================================
+    window.downloadFile = async function(orderId, productId) {
+        try {
+            showToast('Preparing download...', 'info');
+            const csrfToken = await fetchCsrfToken();
+            const response = await fetch(`${cleanApiUrl}/api/store/orders/${orderId}/download/${productId}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${userToken}`,
+                    'X-CSRF-Token': csrfToken || ''
+                }
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                if (data.downloadUrl) {
+                    window.open(data.downloadUrl, '_blank');
+                    showToast('Download started!', 'success');
+                } else {
+                    showToast('No download link available', 'error');
+                }
+            } else {
+                const error = await response.json();
+                showToast(error.error || 'Failed to download', 'error');
+            }
+        } catch (error) {
+            console.error('Error downloading file:', error);
+            showToast('Failed to download file', 'error');
+        }
+    };
+    
+    // ============================================
+    // Render Order Details (existing function - updated)
     // ============================================
     function renderOrderDetails(order) {
         const orderDate = new Date(order.createdAt);
@@ -226,6 +308,17 @@
         // Get payment details HTML
         const paymentDetailsHtml = getPaymentDetailsHtml(order.paymentMethod, order.paymentDetails);
         
+        // Get status badge
+        const statusConfig = {
+            pending: { text: '⏳ Pending Payment', class: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300' },
+            paid: { text: '💰 Paid', class: 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300' },
+            processing: { text: '⚙️ Processing', class: 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300' },
+            completed: { text: '✅ Completed', class: 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300' },
+            cancelled: { text: '❌ Cancelled', class: 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300' },
+            refunded: { text: '🔄 Refunded', class: 'bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-300' }
+        };
+        const status = statusConfig[order.status] || statusConfig.pending;
+        
         const html = `
             <!-- Order Info -->
             <div class="bg-gray-50 dark:bg-gray-900/50 rounded-xl p-4 order-card">
@@ -238,6 +331,14 @@
                         <p class="text-sm text-gray-500 dark:text-gray-400">Placed on</p>
                         <p class="font-medium dark:text-white">${formattedDate}</p>
                     </div>
+                </div>
+            </div>
+            
+            <!-- Status -->
+            <div class="bg-gray-50 dark:bg-gray-900/50 rounded-xl p-4 order-card">
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-500 dark:text-gray-400">Status</span>
+                    <span class="px-3 py-1 text-sm rounded-full font-medium ${status.class}">${status.text}</span>
                 </div>
             </div>
             
@@ -292,7 +393,7 @@
                     <div>
                         <p class="font-medium dark:text-white">${paymentMethodName}</p>
                         <p class="text-xs text-gray-500 dark:text-gray-400">
-                            Status: ${order.status === 'pending' ? 'Awaiting Payment' : order.status === 'paid' ? 'Payment Received' : order.status === 'completed' ? 'Completed' : 'Pending'}
+                            Status: ${order.status === 'pending' ? 'Awaiting Payment' : order.status === 'paid' ? 'Payment Received' : order.status === 'completed' ? 'Completed' : order.status}
                         </p>
                     </div>
                 </div>
@@ -306,12 +407,11 @@
                     <h3 class="font-semibold text-yellow-700 dark:text-yellow-400">Payment Instructions</h3>
                 </div>
                 <p class="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                    Please complete the payment using the method you selected during checkout.
+                    ${order.status === 'pending' ? 'Please complete the payment using the method you selected during checkout.' : 'Payment has been confirmed. Your order is being processed.'}
                 </p>
                 <div class="mt-3 p-3 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg text-sm text-yellow-700 dark:text-yellow-300">
                     <i class='bx bx-time'></i>
-                    <strong>Important:</strong> Your order will be processed after payment confirmation.
-                    The seller will notify you once your order is ready.
+                    <strong>Important:</strong> ${order.status === 'pending' ? 'Your order will be processed after payment confirmation.' : order.status === 'completed' ? 'You can now download your files from the section below.' : 'The seller will notify you once your order is ready.'}
                 </div>
             </div>
             
@@ -319,27 +419,45 @@
             <div class="bg-gray-50 dark:bg-gray-900/50 rounded-xl p-4 order-card">
                 <h3 class="font-semibold dark:text-white mb-3">What's Next?</h3>
                 <div class="space-y-3">
-                    <div class="flex items-start gap-3">
-                        <div class="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xs font-bold">1</div>
-                        <div>
-                            <p class="font-medium dark:text-white">Complete Payment</p>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">Send payment using the instructions above</p>
+                    ${order.status === 'pending' ? `
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xs font-bold">1</div>
+                            <div>
+                                <p class="font-medium dark:text-white">Complete Payment</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Send payment using the instructions above</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <div class="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xs font-bold">2</div>
-                        <div>
-                            <p class="font-medium dark:text-white">Seller Confirmation</p>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">The seller will confirm your payment</p>
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xs font-bold">2</div>
+                            <div>
+                                <p class="font-medium dark:text-white">Seller Confirmation</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">The seller will confirm your payment</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <div class="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xs font-bold">3</div>
-                        <div>
-                            <p class="font-medium dark:text-white">Access Your Purchase</p>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">For digital products, you'll receive download links</p>
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xs font-bold">3</div>
+                            <div>
+                                <p class="font-medium dark:text-white">Access Your Purchase</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">For digital products, you'll receive download links</p>
+                            </div>
                         </div>
-                    </div>
+                    ` : order.status === 'completed' ? `
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 flex items-center justify-center text-xs font-bold">✓</div>
+                            <div>
+                                <p class="font-medium dark:text-white">Order Completed!</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Download your files from the section above</p>
+                            </div>
+                        </div>
+                    ` : `
+                        <div class="flex items-start gap-3">
+                            <div class="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xs font-bold">⏳</div>
+                            <div>
+                                <p class="font-medium dark:text-white">Order is ${order.status}</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">The seller is processing your order</p>
+                            </div>
+                        </div>
+                    `}
                 </div>
             </div>
             
@@ -364,7 +482,7 @@
             instapay: 'InstaPay',
             paypal: 'PayPal',
             bank: 'Bank Transfer',
-            stripe: 'Credit Card'
+            stripe: 'Stripe (Credit Card)'
         };
         return names[method] || method || 'Not specified';
     }
@@ -428,6 +546,14 @@
                         <p class="text-sm">Send payment to: <strong>${details.email || 'N/A'}</strong></p>
                     </div>
                 `;
+            case 'stripe':
+                return `
+                    <div class="mt-3 p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
+                        <p class="text-sm font-semibold dark:text-white">Stripe Details:</p>
+                        <p class="text-sm">Payment processed securely through Stripe</p>
+                        ${details.sessionId ? `<p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Session: ${details.sessionId}</p>` : ''}
+                    </div>
+                `;
             case 'bank':
                 return `
                     <div class="mt-3 p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
@@ -462,6 +588,36 @@
             document.body.appendChild(confetti);
             
             setTimeout(() => confetti.remove(), 4000);
+        }
+    }
+    
+    async function fetchCsrfToken() {
+        try {
+            const response = await fetch(`${cleanApiUrl}/api/csrf-token`, { 
+                method: 'GET', 
+                credentials: 'include' 
+            });
+            const data = await response.json();
+            return data.csrfToken;
+        } catch (error) {
+            return null;
+        }
+    }
+    
+    function showToast(message, type = 'success') {
+        if (typeof Toastify !== 'undefined') {
+            Toastify({
+                text: message,
+                duration: 3000,
+                gravity: 'top',
+                position: 'right',
+                style: {
+                    background: type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : type === 'info' ? '#3b82f6' : '#f59e0b',
+                    borderRadius: '12px'
+                }
+            }).showToast();
+        } else {
+            console.log(message);
         }
     }
     
