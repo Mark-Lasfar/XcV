@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - MGZon</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
@@ -24,48 +24,191 @@
             border-radius: 20px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
+            width: 100%;
+            max-width: 420px;
+            margin: 20px;
+            padding: 32px;
         }
         .glass-card:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); }
         .hidden { display: none; }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .social-btn:hover { transform: translateY(-2px); }
+        .social-btn:active { transform: scale(0.98); }
+        .social-btn img { width: 20px; height: 20px; object-fit: contain; }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 20px 0;
+            color: #9ca3af;
+            font-size: 13px;
+        }
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e5e7eb;
+        }
     </style>
 </head>
 <body>
-    <div class="glass-card p-8 max-w-md w-full mx-4">
-        <h2 class="text-2xl font-bold text-center mb-6">Create Account</h2>
+    <div class="glass-card">
+        <!-- Logo & Site Name -->
+        <div class="text-center mb-6">
+            <img id="nav-logo" src="/assets/img/logo.svg" alt="Logo" class="w-12 h-12 mx-auto mb-2 rounded-xl" onerror="this.src='/assets/img/logo.svg'">
+            <h2 id="site-name" class="text-2xl font-bold text-gray-800">Create Account</h2>
+        </div>
         
+        <!-- Register Form -->
         <div id="register-form">
             <div class="mb-4">
-                <input type="text" id="username" placeholder="Username" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500">
+                <input type="text" id="username" placeholder="Username" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none">
             </div>
             <div class="mb-4">
-                <input type="email" id="email" placeholder="Email Address" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500">
+                <input type="email" id="email" placeholder="Email Address" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none">
             </div>
             <div class="mb-4 relative">
-                <input type="password" id="password" placeholder="Password (8+ characters)" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500">
-                <button type="button" id="toggle-password" class="absolute inset-y-0 right-2 flex items-center text-gray-500">
-                    <i class='bx bx-show'></i>
+                <input type="password" id="password" placeholder="Password (8+ characters)" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 outline-none">
+                <button type="button" id="toggle-password" class="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700">
+                    <i class='bx bx-show text-xl'></i>
                 </button>
             </div>
-            <button id="register-btn" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-2 rounded-lg hover:opacity-90 transition">Create Account</button>
+            <button id="register-btn" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-2.5 rounded-lg hover:opacity-90 transition font-semibold">Create Account</button>
             <p class="text-center text-sm mt-3">Already have an account? <a href="/login.html" class="text-purple-500 hover:underline">Login</a></p>
+        </div>
+
+        <!-- Divider -->
+        <div class="divider">or continue with</div>
+
+        <!-- Social Login Buttons -->
+        <div id="social-login" class="space-y-2.5">
+            <!-- Google -->
+            <button onclick="socialLogin('/auth/google')" class="social-btn bg-white border border-gray-300 text-gray-700 hover:bg-gray-50">
+                <svg class="w-5 h-5" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="m6.306 14.691 6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002 6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg>
+                Google
+            </button>
+
+            <!-- GitHub -->
+            <button onclick="socialLogin('/auth/github')" class="social-btn bg-gray-800 text-white hover:bg-gray-900">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.15 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.62.24 2.85.12 3.15.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                GitHub
+            </button>
+
+            <!-- Facebook -->
+            <button onclick="socialLogin('/auth/facebook')" class="social-btn bg-blue-600 text-white hover:bg-blue-700">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                Facebook
+            </button>
+
+            <!-- MGZon -->
+            <button onclick="socialLogin('/auth/mgz')" class="social-btn bg-purple-600 text-white hover:bg-purple-700">
+                <img src="https://elasfar.vercel.app/logo.png" alt="MGZon" class="w-5 h-5">
+                MGZon
+            </button>
+
+            <!-- Twitter (disabled) -->
+            <button onclick="socialLogin('/auth/twitter')" class="social-btn bg-blue-400 text-white opacity-50 cursor-not-allowed" disabled>
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                Twitter <span class="text-xs opacity-60 ml-1">(Coming soon)</span>
+            </button>
+
+            <!-- Magic Link -->
+            <button onclick="showMagicLinkForm()" class="social-btn bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 hover:bg-purple-100 border border-purple-200">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                Email Magic Link
+            </button>
+        </div>
+
+        <!-- Magic Link Form -->
+        <div id="magic-link-form" class="hidden">
+            <p class="text-center text-gray-600 mb-4">Enter your email to receive a magic link</p>
+            <input type="email" id="magic-email" placeholder="Email Address" class="w-full px-4 py-2 border rounded-lg mb-4 focus:ring-2 focus:ring-purple-500 outline-none">
+            <button id="magic-link-btn" class="w-full bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 transition font-semibold">Send Magic Link</button>
+            <p class="text-center text-sm mt-3"><a href="#" id="back-to-register-magic" class="text-purple-500 hover:underline">Back to Register</a></p>
         </div>
 
         <p id="register-error" class="text-red-500 text-center text-sm mt-3 hidden"></p>
     </div>
 
-    <script src="/assets/js/config.js"></script>
     <script>
-        const API_URL = window.ENV.API_URL;
+        // ============================================
+        // CONFIG
+        // ============================================
+        const API_URL = window.ENV?.API_URL || 'https://misty-dust-988c.marklasfar.workers.dev';
         const cleanApiUrl = API_URL.replace(/\/$/, '');
-        
-        function showToast(message, type = 'success') {
-            Toastify({ text: message, duration: 3000, style: { background: type === 'success' ? '#10b981' : '#ef4444' } }).showToast();
+
+        // ============================================
+        // LOAD SITE SETTINGS
+        // ============================================
+        async function loadSiteSettings() {
+            try {
+                const response = await fetch(`${cleanApiUrl}/api/site-settings`);
+                if (response.ok) {
+                    const data = await response.json();
+                    const logoImg = document.getElementById('nav-logo');
+                    if (logoImg && data.logo) {
+                        logoImg.src = data.logo;
+                        logoImg.onerror = () => logoImg.src = '/assets/img/logo.svg';
+                    }
+                    const siteNameSpan = document.getElementById('site-name');
+                    if (siteNameSpan && data.siteName) {
+                        siteNameSpan.textContent = `Create Account on ${data.siteName}`;
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading site settings:', error);
+            }
         }
 
+        // ============================================
+        // TOAST NOTIFICATIONS
+        // ============================================
+        function showToast(message, type = 'success') {
+            Toastify({
+                text: message,
+                duration: 3000,
+                style: {
+                    background: type === 'success' ? '#10b981' :
+                               type === 'error' ? '#ef4444' :
+                               type === 'warning' ? '#f59e0b' : '#3b82f6'
+                }
+            }).showToast();
+        }
+
+        // ============================================
+        // SOCIAL LOGIN
+        // ============================================
+        function socialLogin(path) {
+            const redirectUri = window.location.origin + '/auth/callback';
+            const successRedirect = '/profile/me';
+            const state = btoa(JSON.stringify({ redirect_uri: redirectUri, success_redirect: successRedirect }));
+            window.location.href = `${cleanApiUrl}${path}?state=${state}&redirect_uri=${encodeURIComponent(redirectUri)}&success_redirect=${encodeURIComponent(successRedirect)}`;
+        }
+
+        // ============================================
+        // CSRF TOKEN (مع credentials: 'include')
+        // ============================================
         async function fetchCsrfToken() {
             try {
                 const response = await fetch(`${cleanApiUrl}/api/csrf-token`, {
-                    method: 'GET', credentials: 'include'
+                    method: 'GET',
+                    credentials: 'include'
                 });
                 const data = await response.json();
                 return data.csrfToken;
@@ -75,7 +218,9 @@
             }
         }
 
-        // Toggle password visibility
+        // ============================================
+        // TOGGLE PASSWORD VISIBILITY
+        // ============================================
         document.getElementById('toggle-password')?.addEventListener('click', () => {
             const passwordInput = document.getElementById('password');
             const icon = document.querySelector('#toggle-password i');
@@ -90,6 +235,53 @@
             }
         });
 
+        // ============================================
+        // MAGIC LINK
+        // ============================================
+        function showMagicLinkForm() {
+            document.getElementById('register-form').classList.add('hidden');
+            document.getElementById('social-login').classList.add('hidden');
+            document.getElementById('magic-link-form').classList.remove('hidden');
+            document.getElementById('register-error').classList.add('hidden');
+        }
+
+        async function handleMagicLink() {
+            const email = document.getElementById('magic-email').value.trim();
+            const errorEl = document.getElementById('register-error');
+            
+            if (!email) {
+                errorEl.textContent = 'Please enter your email';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${cleanApiUrl}/auth/magic-link`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showToast('Magic link sent to your email! 📧', 'success');
+                    document.getElementById('magic-link-form').classList.add('hidden');
+                    document.getElementById('register-form').classList.remove('hidden');
+                    document.getElementById('social-login').classList.remove('hidden');
+                } else {
+                    errorEl.textContent = data.error || 'Failed to send magic link';
+                    errorEl.classList.remove('hidden');
+                }
+            } catch (error) {
+                errorEl.textContent = 'Something went wrong. Please try again.';
+                errorEl.classList.remove('hidden');
+                console.error(error);
+            }
+        }
+
+        // ============================================
+        // REGISTER HANDLER (مع credentials و CSRF)
+        // ============================================
         async function handleRegister() {
             const username = document.getElementById('username').value.trim();
             const email = document.getElementById('email').value.trim();
@@ -120,10 +312,17 @@
             registerBtn.textContent = 'Creating account...';
             
             try {
+                // 1. جلب CSRF token
                 const csrfToken = await fetchCsrfToken();
+                
+                // 2. إرسال طلب register مع credentials و CSRF
                 const response = await fetch(`${cleanApiUrl}/api/register`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken || '' },
+                    credentials: 'include',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfToken || ''
+                    },
                     body: JSON.stringify({ username, email, password })
                 });
                 
@@ -131,15 +330,16 @@
                 
                 if (response.status === 201 && data.requiresVerification) {
                     sessionStorage.setItem('pendingVerificationEmail', email);
-                    showToast('Account created! Please verify your email.', 'success');
+                    showToast('Account created! Please verify your email. 📧', 'success');
                     setTimeout(() => {
                         window.location.href = `/verify-otp.html?email=${encodeURIComponent(email)}`;
                     }, 1500);
                 } 
                 else if (response.ok && data.token) {
+                    // ✅ حفظ التوكن في localStorage (عشان باقي النظام)
                     localStorage.setItem('userToken', data.token);
                     localStorage.setItem('refreshToken', data.refreshToken);
-                    showToast('Registration successful! Redirecting...');
+                    showToast('Registration successful! 🎉', 'success');
                     setTimeout(() => { window.location.href = '/profile/me'; }, 1500);
                 }
                 else {
@@ -151,18 +351,50 @@
             } catch (error) {
                 errorEl.textContent = 'Something went wrong. Please try again.';
                 errorEl.classList.remove('hidden');
-                console.error(error);
+                console.error('Register error:', error);
                 registerBtn.disabled = false;
                 registerBtn.textContent = 'Create Account';
             }
         }
         
+        // ============================================
+        // EVENT LISTENERS
+        // ============================================
         document.getElementById('register-btn')?.addEventListener('click', handleRegister);
-        
-        // Check if already logged in
+        document.getElementById('magic-link-btn')?.addEventListener('click', handleMagicLink);
+
+        document.getElementById('back-to-register-magic')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('magic-link-form').classList.add('hidden');
+            document.getElementById('register-form').classList.remove('hidden');
+            document.getElementById('social-login').classList.remove('hidden');
+            document.getElementById('register-error').classList.add('hidden');
+        });
+
+        // ============================================
+        // CHECK IF ALREADY LOGGED IN
+        // ============================================
         if (localStorage.getItem('userToken')) {
             window.location.href = '/profile/me';
         }
+
+        // ============================================
+        // KEYBOARD SHORTCUT: ENTER TO SUBMIT
+        // ============================================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const activeInput = document.querySelector('input:focus');
+                if (activeInput) {
+                    const btn = document.getElementById('register-btn');
+                    if (btn && !btn.disabled) btn.click();
+                }
+            }
+        });
+
+        // ============================================
+        // LOAD SITE SETTINGS ON PAGE LOAD
+        // ============================================
+        loadSiteSettings();
     </script>
 </body>
 </html>

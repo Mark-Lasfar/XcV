@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 اختبار CORS</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; background: #f4f4f9; }
+        button { padding: 12px 24px; font-size: 16px; cursor: pointer; background: #667eea; color: white; border: none; border-radius: 8px; }
+        button:hover { background: #5a67d8; }
+        #result { margin-top: 20px; padding: 16px; background: white; border-radius: 8px; border: 1px solid #ddd; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+
+    <h1>🧪 اختبار CORS</h1>
+    <button id="test-btn">🚀 إرسال طلب اختبار</button>
+    <div id="result">⏳ انتظر الضغط على الزر...</div>
+
+    <script>
+        const API_URL = 'https://misty-dust-988c.marklasfar.workers.dev';
+
+        document.getElementById('test-btn').addEventListener('click', async () => {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = '⏳ جاري الإرسال...';
+
+            try {
+                // 1. جلب CSRF Token
+                const csrfRes = await fetch(`${API_URL}/api/csrf-token`, {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                if (!csrfRes.ok) {
+                    resultDiv.textContent = `❌ فشل جلب CSRF: ${csrfRes.status}`;
+                    return;
+                }
+
+                const csrfData = await csrfRes.json();
+                console.log('✅ CSRF Token:', csrfData.csrfToken);
+
+                // 2. إرسال طلب Login
+                const loginRes = await fetch(`${API_URL}/api/login`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': csrfData.csrfToken || ''
+                    },
+                    body: JSON.stringify({
+                        email: 'gogo@gmail.com',
+                        password: '************' 
+                    })
+                });
+
+                console.log('📡 Status:', loginRes.status);
+                console.log('📡 Headers:', [...loginRes.headers.entries()]);
+
+                // محاولة قراءة الـ Response (حتى لو فشل)
+                let responseText;
+                try {
+                    const data = await loginRes.json();
+                    responseText = JSON.stringify(data, null, 2);
+                } catch {
+                    responseText = await loginRes.text();
+                }
+
+                resultDiv.textContent = `
+✅ تم الاستجابة!
+
+🔹 Status: ${loginRes.status} ${loginRes.statusText}
+🔹 Headers:
+${[...loginRes.headers.entries()].map(([k, v]) => `   ${k}: ${v}`).join('\n')}
+
+🔹 Body:
+${responseText}
+                `;
+
+            } catch (error) {
+                console.error('❌ Error:', error);
+                resultDiv.textContent = `❌ فشل الطلب: ${error.message}`;
+            }
+        });
+    </script>
+
+</body>
+</html>

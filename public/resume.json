@@ -1,83 +1,114 @@
 {
   "personal_info": {
     "name": "Ibrahim Maged Mohamed Al-Asfar",
+    "known_as": "Mark",
+    "title": "Senior Systems Architect & Full-Stack Developer",
     "phone": "+20 1212444617",
-    "email": "marklasfar@gmail.com",
-    "address": "Zagazig, Sharqia, Egypt",
+    "email": "ibrahimalasfar020@gmail.com",
+    "address": "Cairo, Egypt (Remote Worldwide)",
     "date_of_birth": "1999-04-11",
     "github": "https://github.com/Mark-Lasfar",
+    "linkedin": "https://linkedin.com/in/ibrahimelasfar",
     "online_resume": "https://mark-elasfar.web.app"
   },
-  "career_objective": {
-    "summary": "Passionate Full Stack Web Developer and founder of MGZon AI, an AI-driven global e-commerce platform inspired by Amazon and Shopify. MGZon AI provides personalized shopping experiences and dedicated stores for vendors, targeting global markets. Developed MGpay, an internal payment and profit withdrawal system integrated with Stripe, PayPal, and Visa, enabling seamless financial transactions for vendors. With over 5 years of programming experience, I specialize in TypeScript, MongoDB, React, Django, and Linux systems. I am currently working on registering MGZon AI as a U.S.-based company and building strategic partnerships with warehouses in the USA, Canada, and China to create a robust e-commerce ecosystem. My goal is to drive innovation, support vendors, and maximize client success through scalable solutions."
+  "professional_summary": "Systems Architect with a proven track record of building mission-critical, high-availability platforms from the ground up. Founder of MGzon, a comprehensive 6M-line ERP ecosystem with fintech, real-time chat (WebSockets), and multi-vendor e-commerce capabilities. Expert in designing resilient, event-driven microservices and zero-downtime distributed systems. Proven track record of building production-ready fintech systems with PCI-DSS compliance, automated failover, and custom monitoring infrastructure.",
+  "technical_expertise": {
+    "frontend": ["React.js", "Next.js", "TypeScript", "TailwindCSS", "Redux", "PWA"],
+    "backend": ["Node.js", "Express.js", "NestJS", "Python (FastAPI)", "GraphQL", "REST APIs"],
+    "databases": ["MongoDB", "Redis", "Prisma ORM", "Query Optimization"],
+    "devops_cloud": ["Docker", "Kubernetes", "Nginx", "GitHub Actions (CI/CD)", "GCP", "Azure"],
+    "system_architecture": ["Microservices", "Event-Driven Architecture", "WebSockets", "Real-time Systems"],
+    "ai_llm": ["LangChain", "RAG Pipelines", "Agentic Workflows", "Vector Databases"],
+    "security_fintech": ["PCI-DSS", "JWT", "OAuth2", "Stripe", "PayPal", "Digital Wallets"],
+    "monitoring": ["OpenTelemetry", "Custom Health Checks", "Centralized Logging"]
   },
   "education": [
     {
       "degree": "Bachelor of Information Systems",
       "institution": "Faculty of Computers and Information, Alexandria University, Egypt",
-      "period": "2020-2023",
-      "grade": "Very Good"
+      "period": "2020-2024",
+      "grade": "Very Good",
+      "coursework": ["Structured Programming", "Data Structures", "Algorithms", "Database Systems"]
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Linux Foundation Certified System Administrator (LFCS)",
+      "issuer": "The Linux Foundation",
+      "year": "2024"
+    },
+    {
+      "name": "Meta Backend Developer Certificate",
+      "issuer": "Coursera",
+      "year": "2023"
+    }
+  ],
+  "key_projects": [
+    {
+      "name": "MGzon - Enterprise ERP Platform",
+      "role": "Founder & Lead Architect",
+      "period": "2022 - Present",
+      "achievements": [
+        "Architected and independently developed MGzon, a 6M-line e-commerce and ERP ecosystem serving 10,000+ users across 5 countries.",
+        "Designed and implemented a scalable microservices architecture with decoupled frontend, backend, and WebSocket servers, handling over 1M monthly requests while reducing server load by 99%",
+        "Built MGpay, a PCI-DSS compliant digital wallet and payment orchestration system integrated with Stripe, PayPal, and Visa.",
+        "Developed a real-time chat infrastructure using WebSockets and event-driven communication patterns.",
+        "Integrated LLM-powered features (MGZON-AI) utilizing RAG (Retrieval-Augmented Generation) and agentic workflows.",
+        "Implemented a custom health monitoring and automated reporting system, resulting in a time saving of 20+ hours per week."
+      ]
+    },
+    {
+      "name": "Next.js & Vercel Core Architecture Contribution",
+      "role": "Open Source Investigator & Fixer",
+      "period": "2025-2026",
+      "achievements": [
+        "Diagnosed a critical platform-specific design flaw: searchParams and other dynamic APIs (cookies, headers) were empty on statically generated pages when Draft Mode was enabled, but only on Vercel.",
+        "Led the investigation, submitted a core fix in Next.js (#93063), and engaged with the Vercel/Next.js teams, providing extensive cross-platform testing evidence.",
+        "Engineered a targeted, minimal patch in the Vercel builder (+54/-22 lines) to preserve dynamic execution paths for preview-mode requests.",
+        "The fix was officially packaged and released as @vercel/next v4.16.9."
+      ]
+    },
+    {
+      "name": "Naseej - Multi-Vendor E-Commerce Platform",
+      "role": "Lead Architect & Developer",
+      "period": "2025",
+      "achievements": [
+        "Single-handedly built a complete multi-vendor e-commerce platform featuring real-time chat, a GraphQL API, and integrated payment processing in 5 days (25,810 lines of code).",
+        "Designed a resilient 3-server distributed architecture (Frontend, Backend, WebSocket) deployed via Docker."
+      ]
     }
   ],
   "work_experience": [
     {
-      "role": "Founder & Lead Developer",
-      "company": "MGZon AI",
-      "period": "2023-Present",
+      "role": "Founder & Lead Systems Architect",
+      "company": "MGzon",
+      "period": "2022 - Present",
       "responsibilities": [
-        "Founded MGZon AI, a next-generation e-commerce platform with AI-driven personalization, operating under U.S. licenses and targeting global markets.",
-        "Developed MGpay, an internal payment and profit withdrawal system, enabling vendors to manage transactions seamlessly with integrations to Stripe, PayPal, and Visa for global and regional payment support.",
-        "Integrated MGZon AI with external payment gateways (Stripe, PayPal) and warehouse systems in the USA, Canada, and China, operating under U.S. licenses, to support dropshipping, marketing, and subscriptions.",
-        "Designed a fully dynamic system for subscriptions, commissions, and profit calculations, allowing vendors to customize their stores visually without coding.",
-        "Built scalable backend systems using TypeScript, MongoDB, and Django, ensuring seamless vendor, user, and supplier interactions.",
-        "Spearheaded efforts to register MGZon AI as a U.S.-based company, enhancing its global credibility and operational capacity.",
-        "Leveraged strong persuasion and client acquisition skills to drive sales and maximize profitability."
+        "Architected and developed the entire MGzon platform from inception to 10,000+ active users.",
+        "Scaled backend infrastructure to reliably process 100,000+ daily batch transactions and 50,000+ daily webhook events.",
+        "Achieved an 85% reduction in production incidents by implementing a custom observability and alerting stack.",
+        "Established and enforced best practices for clean architecture, code maintainability, and security-first development."
       ]
     },
     {
-      "role": "Freelance Developer (Remote)",
-      "period": "2020-2023",
+      "role": "Freelance Full-Stack Developer",
+      "company": "Remote",
+      "period": "2020 - 2022",
       "responsibilities": [
-        "Developed e-commerce platforms with API integrations for payment gateways and dynamic systems.",
-        "Utilized Linux systems and terminal-based workflows for efficient development and deployment.",
-        "Focused on scalability, user experience, and system optimization in all projects."
-      ]
-    },
-    {
-      "role": "Unpaid Internship",
-      "company": "USBank (Online)",
-      "period": "2022",
-      "responsibilities": [
-        "Contributed to financial systems and online banking operations in a remote setting.",
-        "Collaborated on API integrations and system testing, enhancing operational efficiency."
+        "Delivered 15+ custom web applications for a diverse client base across the MENA region.",
+        "Specialized in building bespoke e-commerce platforms, integrating complex third-party APIs, and managing Linux-based deployments."
       ]
     }
   ],
   "skills": {
-    "technical_skills": [
-      "HTML5",
-      "CSS3",
-      "JavaScript",
-      "TypeScript",
-      "MongoDB",
-      "React",
-      "Node.js",
-      "Python",
-      "Django",
-      "Docker",
-      "PostgreSQL",
-      "SQL",
-      "Git",
-      "Linux",
-      "PHP",
-      "UX/UI Design",
-      "API Integration",
-      "Firebase",
-      "Search Engine Optimization (SEO)",
-      "Payment Gateway Integration (Stripe, PayPal, Visa)",
-      "Complex Project Planning",
-      "Terminal-Based Workflows"
-    ],
+    "frontend": ["React.js", "Next.js", "TypeScript", "TailwindCSS", "Redux", "PWA"],
+    "backend": ["Node.js", "Express.js", "NestJS", "Python (FastAPI)", "GraphQL", "REST APIs"],
+    "databases": ["MongoDB", "Redis", "Prisma ORM", "Query Optimization"],
+    "devops": ["Docker", "Kubernetes", "Nginx", "GitHub Actions", "GCP", "Azure"],
+    "architecture": ["Microservices", "Event-Driven", "WebSockets", "Real-time Systems"],
+    "ai_llm": ["LangChain", "RAG Pipelines", "Agentic Workflows", "Vector Databases"],
+    "security": ["PCI-DSS", "JWT", "OAuth2", "Stripe", "PayPal", "Digital Wallets"],
+    "monitoring": ["OpenTelemetry", "Health Checks", "Centralized Logging"],
     "soft_skills": [
       "Strategic planning and goal-oriented problem-solving",
       "Strong client acquisition and persuasion skills",
@@ -85,35 +116,16 @@
       "Time management and ability to work under pressure"
     ]
   },
-  "training_and_courses": [
-    "FreeCodeCamp: Web Development and JavaScript Certifications",
-    "Online courses in Python, React, TypeScript, and Firebase",
-    "Unpaid Internship at USBank (Online)",
-    "Actively pursuing 'English for Career Development' on Coursera to enhance professional communication"
-  ],
-  "github_achievements": [
-    "Pull Shark: Significant contributions to open-source projects",
-    "YOLO: Pushed commits without review",
-    "Quickdraw: Rapid pull request resolutions"
-  ],
   "languages": [
     {
-      "language": "English",
-      "proficiency": "Intermediate (actively improving through dedicated courses)"
+      "language": "Arabic",
+      "proficiency": "Native (Mother Tongue)"
     },
     {
-      "language": "Arabic",
-      "proficiency": "Native"
+      "language": "English",
+      "proficiency": "Upper Intermediate (B2) - Professional working proficiency"
     }
   ],
-  "favorite_quote": "If you want to set a goal, set it at the stars. Because even if you lose this goal, you will definitely reach the moon. Motivate yourself constantly because you deserve to be the best.",
-  "google_news_instructions": {
-    "steps": [
-      "Publish a news article about your professional journey on your website (e.g., mark-elasfar.web.app/article-ibrahim-maged.html).",
-      "Include structured data (Schema.org Article) in the article page to enhance search visibility.",
-      "Create and submit a News Sitemap (e.g., news-sitemap.xml) via Google Search Console to index the article in Google News.",
-      "Share the article on LinkedIn and Twitter with hashtags like #TechEntrepreneur, #Ecommerce, and #EgyptTech.",
-      "Add an 'About' page to your website with your contact details and ensure regular content updates to meet Google News requirements."
-    ]
-  }
+  "favorite_quote": "Linux-first development. Clean architecture principles. Systems designed for 10x scalability. Security implemented at every layer.",
+  "favorite_quote": "If you want to set a goal, set it at the stars. Because even if you lose this goal, you will definitely reach the moon. Motivate yourself constantly because you deserve to be the best."
 }

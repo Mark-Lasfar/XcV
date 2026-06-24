@@ -4,7 +4,7 @@
 // Description: Full profile functionality with modern UI like feed.html
 // ============================================
 
-const API_URL = window.ENV?.API_URL || 'https://mgzon-server.hf.space';
+const API_URL = window.ENV?.API_URL || 'https://misty-dust-988c.marklasfar.workers.dev';
 const cleanApiUrl = API_URL.replace(/\/$/, '');
 let userToken = localStorage.getItem('userToken');
 let currentUser = null;
