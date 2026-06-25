@@ -874,7 +874,7 @@
     // Load site settings
     async function loadSiteSettings() {
         try {
-            const API_URL = window.ENV?.API_URL || 'https://mgzon-server.hf.space';
+            const API_URL = window.ENV?.API_URL || 'https://misty-dust-988c.marklasfar.workers.dev';
             const cleanApiUrl = API_URL.replace(/\/$/, '');
             
             const response = await fetch(`${cleanApiUrl}/api/site-settings`);

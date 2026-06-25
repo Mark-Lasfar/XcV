@@ -9,8 +9,20 @@
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <link href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" rel="stylesheet">
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; }
+        body { background: #f3f2ef; transition: background 0.3s; }
+        body.dark { background: #000000; }
+        
         .user-card {
             transition: all 0.2s ease;
+            background: white;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
+        body.dark .user-card {
+            background: #1f2937;
+            border: 1px solid #374151;
         }
         .user-card:hover {
             transform: translateY(-3px);
@@ -30,62 +42,198 @@
             background-size: 200% 100%;
             animation: loading 1.5s infinite;
         }
+        body.dark .skeleton {
+            background: linear-gradient(90deg, #1f2937 25%, #374151 50%, #1f2937 75%);
+        }
         @keyframes loading {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
         }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: white;
+            padding: 0 1.5rem;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        body.dark .header {
+            background: #1f2937;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        .header .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #0a66c2;
+            text-decoration: none;
+        }
+        .header .logo img { height: 32px; }
+        .header .actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .header .actions a,
+        .header .actions button {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4b5563;
+            transition: background 0.2s, color 0.2s;
+            font-size: 1.4rem;
+            position: relative;
+            text-decoration: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        body.dark .header .actions a,
+        body.dark .header .actions button {
+            color: #9ca3af;
+        }
+        .header .actions a:hover,
+        .header .actions button:hover {
+            background: #e5e7eb;
+            color: #111827;
+        }
+        body.dark .header .actions a:hover,
+        body.dark .header .actions button:hover {
+            background: #374151;
+            color: #f3f4f6;
+        }
+        .header .actions .active {
+            color: #0a66c2;
+        }
+        .header .avatar-btn {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: border-color 0.2s;
+        }
+        .header .avatar-btn img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .header .avatar-btn:hover {
+            border-color: #0a66c2;
+        }
+        .badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: #ef4444;
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 700;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+        }
+
+        #theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: #4b5563;
+        }
+        body.dark #theme-toggle { color: #9ca3af; }
+
+        /* Tabs */
+        .tab-btn {
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #6b7280;
+        }
+        body.dark .tab-btn { color: #9ca3af; }
+        .tab-btn:hover { color: #0a66c2; }
+        .tab-btn.active {
+            color: #0a66c2;
+            border-bottom-color: #0a66c2;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        body.dark ::-webkit-scrollbar-track { background: #1f2937; }
+        body.dark ::-webkit-scrollbar-thumb { background: #475569; }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900">
+<body>
 
-<!-- Header (same as feed.html) -->
-<header class="fixed top-0 w-full bg-white dark:bg-gray-800 shadow-md z-50">
-    <nav class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-        <a href="/feed.html" class="flex items-center gap-2 text-xl font-bold text-blue-600">
-            <img src="/assets/img/logo.svg" alt="Logo" class="w-8 h-8">
-            <span id="site-name">MGZon</span>
-        </a>
-        <div class="flex items-center gap-4">
-            <a href="/feed.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600">
-                <i class='bx bx-home text-2xl'></i>
-            </a>
-            <a href="/explore.html" class="text-blue-600">
-                <i class='bx bx-compass text-2xl'></i>
-            </a>
-            <div class="relative">
-                <button id="notifications-btn" class="relative">
-                    <i class='bx bx-bell text-2xl text-gray-600 dark:text-gray-300'></i>
-                    <span id="notif-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center hidden">0</span>
-                </button>
-            </div>
-            <a href="/profile/me" class="flex items-center gap-2">
-                <img id="user-avatar" src="/assets/img/default-avatar.png" class="w-8 h-8 rounded-full object-cover">
-            </a>
+<!-- ===== HEADER ===== -->
+<header class="header">
+    <a href="/feed.html" class="logo">
+        <img id="nav-logo" src="/assets/img/logo.svg" alt="MGZon" />
+        <span id="site-name">MGZon</span>
+    </a>
+    <div class="actions">
+        <a href="/feed.html" title="Feed"><i class="bx bx-home"></i></a>
+        <a href="/network.html" title="Network"><i class="bx bx-group"></i></a>
+        <a href="/jobs.html" title="Jobs"><i class="bx bx-briefcase"></i></a>
+        <a href="/explore.html" class="active" title="Explore"><i class="bx bx-compass"></i></a>
+        <div style="position:relative;">
+            <button id="notif-btn" title="Notifications">
+                <i class="bx bx-bell"></i>
+                <span class="badge hidden" id="notif-badge">0</span>
+            </button>
         </div>
-    </nav>
+        <div class="avatar-btn" id="profile-menu-btn">
+            <img id="nav-avatar" src="/assets/img/default-avatar.png" alt="avatar" />
+        </div>
+        <button id="theme-toggle"><i class="bx bx-moon"></i></button>
+    </div>
 </header>
 
+<!-- ===== MAIN ===== -->
 <main class="max-w-6xl mx-auto px-4 pt-20 pb-12">
     <!-- Search Bar -->
     <div class="mb-6">
         <div class="relative">
             <i class='bx bx-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400'></i>
             <input type="text" id="search-input" placeholder="Search users by name or nickname..." 
-                class="w-full pl-10 pr-4 py-3 border rounded-lg dark:bg-gray-800 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                class="w-full pl-10 pr-4 py-3 border rounded-lg dark:bg-gray-800 dark:border-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
     </div>
 
     <!-- Tabs -->
-    <div class="flex gap-2 mb-6 border-b dark:border-gray-700">
-        <button data-tab="suggested" class="tab-btn px-4 py-2 font-semibold text-blue-600 border-b-2 border-blue-600">Suggested for you</button>
-        <button data-tab="popular" class="tab-btn px-4 py-2 font-semibold text-gray-600 dark:text-gray-400 hover:text-blue-600">Popular</button>
-        <button data-tab="recent" class="tab-btn px-4 py-2 font-semibold text-gray-600 dark:text-gray-400 hover:text-blue-600">Recent</button>
-        <button data-tab="following" class="tab-btn px-4 py-2 font-semibold text-gray-600 dark:text-gray-400 hover:text-blue-600">Following</button>
+    <div class="flex gap-2 mb-6 border-b dark:border-gray-700 overflow-x-auto">
+        <button data-tab="suggested" class="tab-btn active">🌟 Suggested</button>
+        <button data-tab="popular" class="tab-btn">🔥 Popular</button>
+        <button data-tab="recent" class="tab-btn">🕐 Recent</button>
+        <button data-tab="following" class="tab-btn">👥 Following</button>
     </div>
 
     <!-- Users Grid -->
     <div id="users-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        <!-- Skeleton loaders -->
         <div class="skeleton h-64 rounded-lg"></div>
         <div class="skeleton h-64 rounded-lg"></div>
         <div class="skeleton h-64 rounded-lg"></div>
@@ -98,171 +246,187 @@
 
 <script src="/assets/js/config.js"></script>
 <script>
+(function() {
+    'use strict';
 
+    // ===== CONFIG =====
+    const API_URL = (window.ENV?.API_URL || 'https://misty-dust-988c.marklasfar.workers.dev').replace(/\/$/, '');
+    let userToken = localStorage.getItem('userToken');
+    let currentUser = null;
+    let currentTab = 'suggested';
+    let currentPage = 1;
+    let isLoading = false;
+    let hasMore = true;
+    let searchTimeout = null;
+    const LIMIT = 20;
 
-    // js/explore.js
-const API_URL = window.ENV.API_URL;
-const cleanApiUrl = API_URL.replace(/\/$/, '');
-let userToken = localStorage.getItem('userToken');
-let currentTab = 'suggested';
-let currentPage = 1;
-let isLoading = false;
-let hasMore = true;
-let searchTimeout = null;
+    // ===== DOM REFS =====
+    const container = document.getElementById('users-container');
+    const loadMoreTrigger = document.getElementById('load-more-trigger');
+    const searchInput = document.getElementById('search-input');
 
-// Intersection Observer
-const observer = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting && !isLoading && hasMore) {
-        loadUsers();
+    // ===== HELPERS =====
+    function escapeHtml(str) { if (!str) return ''; const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }; return str.replace(/[&<>"']/g, m => map[m]); }
+
+    function showToast(msg, type = 'success') { if (typeof Toastify !== 'undefined') { Toastify({ text: msg, duration: 3000, gravity: 'top', position: 'right', style: { background: type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6', borderRadius: '12px', fontFamily: 'Inter, sans-serif' } }).showToast(); } else console.log(msg); }
+
+    function getHeaders(extra = {}) { const h = { 'Content-Type': 'application/json', ...extra }; if (userToken) h['Authorization'] = 'Bearer ' + userToken; return h; }
+
+    async function fetchCsrf() { try { const res = await fetch(API_URL + '/api/csrf-token', { credentials: 'include' }); const data = await res.json(); return data.csrfToken || null; } catch { return null; } }
+
+    // ===== LOAD CURRENT USER =====
+    async function loadCurrentUser() {
+        if (!userToken) return;
+        try {
+            const res = await fetch(API_URL + '/api/verify-token', { headers: getHeaders() });
+            if (!res.ok) { userToken = null; localStorage.removeItem('userToken'); return; }
+            currentUser = await res.json();
+            document.getElementById('nav-avatar').src = currentUser.profile?.avatar || '/assets/img/default-avatar.png';
+            updateNotifBadge();
+        } catch (e) { console.error('loadCurrentUser error', e); }
     }
-}, { threshold: 0.1 });
 
-document.addEventListener('DOMContentLoaded', async () => {
-    if (!userToken) {
-        window.location.href = '/login.html?redirect=/explore.html';
-        return;
+    // ===== NOTIFICATIONS BADGE =====
+    async function updateNotifBadge() {
+        if (!userToken) return;
+        try {
+            const res = await fetch(API_URL + '/api/notifications/unread-count', { headers: getHeaders() });
+            if (!res.ok) return;
+            const data = await res.json();
+            const badge = document.getElementById('notif-badge');
+            if (data.count > 0) { badge.textContent = data.count > 9 ? '9+' : data.count; badge.classList.remove('hidden'); } 
+            else { badge.classList.add('hidden'); }
+        } catch (e) { console.error('notif badge error', e); }
     }
-    
-    await loadCurrentUser();
-    await loadUsers();
-    setupEventListeners();
-    
-    const trigger = document.getElementById('load-more-trigger');
-    if (trigger) observer.observe(trigger);
-});
 
-async function loadCurrentUser() {
-    try {
-        const response = await fetch(`${cleanApiUrl}/api/verify-token`, {
-            headers: { 'Authorization': `Bearer ${userToken}` }
-        });
-        if (response.ok) {
-            const user = await response.json();
-            document.getElementById('user-avatar').src = user.profile?.avatar || '/assets/img/default-avatar.png';
-        }
-    } catch (error) {
-        console.error('Error loading user:', error);
-    }
-}
+    // ===== LOAD USERS =====
+    async function loadUsers() {
+        if (isLoading) return;
+        isLoading = true;
 
-async function loadUsers() {
-    if (isLoading) return;
-    isLoading = true;
-    
-    const searchQuery = document.getElementById('search-input')?.value || '';
-    
-    try {
-        let url;
-        if (searchQuery) {
-            url = `${cleanApiUrl}/api/users/search?query=${encodeURIComponent(searchQuery)}&page=${currentPage}&limit=20`;
-        } else {
-            url = `${cleanApiUrl}/api/users/explore?type=${currentTab}&page=${currentPage}&limit=20`;
-        }
-        
-        const response = await fetch(url, {
-            headers: { 'Authorization': `Bearer ${userToken}` }
-        });
-        
-        const result = await response.json();
-        
-        if (!response.ok) throw new Error(result.error);
-        
-        const container = document.getElementById('users-container');
-        
-        if (currentPage === 1) {
-            container.innerHTML = '';
-        }
-        
-        if (result.data.length === 0 && currentPage === 1) {
-            container.innerHTML = `
-                <div class="col-span-full text-center py-12">
-                    <i class='bx bx-user-x text-6xl text-gray-400 mb-3'></i>
-                    <p class="text-gray-500">No users found</p>
-                    ${!searchQuery ? '<p class="text-sm text-gray-400 mt-2">Try following more users to get suggestions</p>' : ''}
-                </div>
-            `;
-            hasMore = false;
-            return;
-        }
-        
-        result.data.forEach(user => {
-            container.appendChild(createUserCard(user));
-        });
-        
-        hasMore = result.data.length === 20;
-        if (hasMore) currentPage++;
-        else {
-            const trigger = document.getElementById('load-more-trigger');
-            if (trigger) observer.unobserve(trigger);
-        }
-        
-    } catch (error) {
-        console.error('Error loading users:', error);
-        showToast('Failed to load users', 'error');
-    } finally {
-        isLoading = false;
-    }
-}
+        const searchQuery = searchInput?.value || '';
 
-function createUserCard(user) {
-    const div = document.createElement('div');
-    div.className = 'user-card bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden';
-    
-    const isFollowing = user.isFollowing || false;
-    
-    div.innerHTML = `
-        <a href="/profile/${user.profile?.nickname || user.username}" class="block">
-            <div class="relative h-32 bg-gradient-to-r from-blue-500 to-purple-600">
-                <img src="${user.profile?.coverImage || '/assets/img/default-cover.jpg'}" class="w-full h-full object-cover">
-            </div>
-            <div class="relative px-4 pb-4">
-                <img src="${user.profile?.avatar || '/assets/img/default-avatar.png'}" 
-                     class="w-20 h-20 rounded-full border-4 border-white dark:border-gray-800 -mt-10 mx-auto object-cover">
-                <h3 class="text-center font-semibold mt-2">${escapeHtml(user.profile?.nickname || user.username)}</h3>
-                <p class="text-center text-sm text-gray-500">${escapeHtml(user.profile?.jobTitle || '')}</p>
-                
-                <!-- Stats -->
-                <div class="flex justify-around mt-3 text-center">
-                    <div>
-                        <p class="font-bold">${user.stats?.posts || 0}</p>
-                        <p class="text-xs text-gray-500">Posts</p>
-                    </div>
-                    <div>
-                        <p class="font-bold">${user.stats?.followers || 0}</p>
-                        <p class="text-xs text-gray-500">Followers</p>
-                    </div>
-                    <div>
-                        <p class="font-bold">${user.stats?.following || 0}</p>
-                        <p class="text-xs text-gray-500">Following</p>
-                    </div>
-                </div>
-            </div>
-        </a>
-        <div class="px-4 pb-4">
-            <button onclick="toggleFollow('${user._id}', this)" 
-                class="follow-btn w-full py-2 rounded-lg transition ${isFollowing ? 'following bg-red-500 hover:bg-red-600' : 'bg-blue-500 hover:bg-blue-600'} text-white">
-                ${isFollowing ? 'Following' : 'Follow'}
-            </button>
-        </div>
-    `;
-    
-    return div;
-}
-
-async function toggleFollow(userId, button) {
-    try {
-        const csrfToken = await fetchCsrfToken();
-        const response = await fetch(`${cleanApiUrl}/api/users/${userId}/follow`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${userToken}`,
-                'X-CSRF-Token': csrfToken
+        try {
+            let url;
+            if (searchQuery) {
+                url = `${API_URL}/api/users/search?query=${encodeURIComponent(searchQuery)}&page=${currentPage}&limit=${LIMIT}`;
+            } else {
+                url = `${API_URL}/api/users/explore?type=${currentTab}&page=${currentPage}&limit=${LIMIT}`;
             }
-        });
-        
-        const result = await response.json();
-        
-        if (response.ok) {
+
+            const res = await fetch(url, { headers: getHeaders() });
+
+            if (!res.ok) throw new Error('Failed to load users');
+
+            const result = await res.json();
+            const users = result.data || [];
+
+            if (currentPage === 1) {
+                container.innerHTML = '';
+            }
+
+            if (users.length === 0 && currentPage === 1) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <i class='bx bx-user-x text-6xl text-gray-400 mb-3'></i>
+                        <p class="text-gray-500 dark:text-gray-400">No users found</p>
+                        ${!searchQuery ? '<p class="text-sm text-gray-400 dark:text-gray-500 mt-2">Try following more users to get suggestions</p>' : ''}
+                    </div>
+                `;
+                hasMore = false;
+                return;
+            }
+
+            users.forEach(user => {
+                container.appendChild(createUserCard(user));
+            });
+
+            hasMore = users.length === LIMIT;
+            if (hasMore) currentPage++;
+
+        } catch (error) {
+            console.error('Error loading users:', error);
+            if (currentPage === 1) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-8 text-red-500 dark:text-red-400">
+                        <i class='bx bx-error-circle text-4xl mb-2'></i>
+                        <p>Failed to load users</p>
+                        <button onclick="location.reload()" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Retry</button>
+                    </div>
+                `;
+            }
+            showToast('Failed to load users', 'error');
+        } finally {
+            isLoading = false;
+        }
+    }
+
+    // ===== CREATE USER CARD =====
+    function createUserCard(user) {
+        const div = document.createElement('div');
+        div.className = 'user-card';
+
+        const isFollowing = user.isFollowing || false;
+        const nickname = user.profile?.nickname || user.username;
+        const avatar = user.profile?.avatar || '/assets/img/default-avatar.png';
+        const coverImage = user.profile?.coverImage || '/assets/img/default-cover.jpg';
+        const jobTitle = user.profile?.jobTitle || '';
+        const stats = user.stats || { posts: 0, followers: 0, following: 0 };
+
+        div.innerHTML = `
+            <a href="/profile/${encodeURIComponent(nickname)}" class="block">
+                <div class="relative h-32 bg-gradient-to-r from-blue-500 to-purple-600">
+                    <img src="${coverImage}" class="w-full h-full object-cover" onerror="this.src='/assets/img/default-cover.jpg'" />
+                </div>
+                <div class="relative px-4 pb-4">
+                    <img src="${avatar}" 
+                         class="w-20 h-20 rounded-full border-4 border-white dark:border-gray-800 -mt-10 mx-auto object-cover"
+                         onerror="this.src='/assets/img/default-avatar.png'" />
+                    <h3 class="text-center font-semibold mt-2 dark:text-white">${escapeHtml(nickname)}</h3>
+                    <p class="text-center text-sm text-gray-500 dark:text-gray-400">${escapeHtml(jobTitle)}</p>
+
+                    <div class="flex justify-around mt-3 text-center">
+                        <div>
+                            <p class="font-bold dark:text-white">${stats.posts || 0}</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Posts</p>
+                        </div>
+                        <div>
+                            <p class="font-bold dark:text-white">${stats.followers || 0}</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Followers</p>
+                        </div>
+                        <div>
+                            <p class="font-bold dark:text-white">${stats.following || 0}</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">Following</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <div class="px-4 pb-4">
+                <button onclick="toggleFollow('${user._id}', this)" 
+                    class="follow-btn w-full py-2 rounded-lg transition ${isFollowing ? 'following bg-red-500 hover:bg-red-600' : 'bg-blue-500 hover:bg-blue-600'} text-white font-medium">
+                    ${isFollowing ? 'Following' : 'Follow'}
+                </button>
+            </div>
+        `;
+
+        return div;
+    }
+
+    // ===== TOGGLE FOLLOW =====
+    window.toggleFollow = async function(userId, button) {
+        if (!userToken) { showToast('Please login to follow', 'error'); return; }
+
+        try {
+            const csrf = await fetchCsrf();
+            const res = await fetch(`${API_URL}/api/users/${userId}/follow`, {
+                method: 'POST',
+                headers: getHeaders({ 'X-CSRF-Token': csrf || '' })
+            });
+
+            if (!res.ok) throw new Error('Failed to toggle follow');
+
+            const result = await res.json();
+
             if (result.isFollowing) {
                 button.textContent = 'Following';
                 button.classList.add('following', 'bg-red-500');
@@ -274,67 +438,116 @@ async function toggleFollow(userId, button) {
                 button.classList.add('bg-blue-500');
                 showToast('Unfollowed', 'info');
             }
-        }
-    } catch (error) {
-        console.error('Error toggling follow:', error);
-        showToast('Failed to follow/unfollow', 'error');
-    }
-}
 
-function setupEventListeners() {
-    // Tab switching
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const tab = btn.dataset.tab;
-            if (tab === currentTab) return;
-            
-            // Update active tab style
-            document.querySelectorAll('.tab-btn').forEach(b => {
-                b.classList.remove('text-blue-600', 'border-blue-600');
-                b.classList.add('text-gray-600', 'dark:text-gray-400');
-            });
-            btn.classList.add('text-blue-600', 'border-blue-600');
-            btn.classList.remove('text-gray-600', 'dark:text-gray-400');
-            
-            currentTab = tab;
-            currentPage = 1;
-            hasMore = true;
-            loadUsers();
-        });
-    });
-    
-    // Search with debounce
-    const searchInput = document.getElementById('search-input');
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            if (searchTimeout) clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
+            // تحديث الإحصائيات في البطاقة
+            const card = button.closest('.user-card');
+            if (card) {
+                const followerCount = card.querySelector('.text-center .font-bold');
+                if (followerCount) {
+                    const current = parseInt(followerCount.textContent) || 0;
+                    followerCount.textContent = result.isFollowing ? current + 1 : current - 1;
+                }
+            }
+
+        } catch (error) {
+            console.error('Error toggling follow:', error);
+            showToast('Failed to follow/unfollow', 'error');
+        }
+    };
+
+    // ===== SETUP EVENT LISTENERS =====
+    function setupEventListeners() {
+        // Tabs
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const tab = this.dataset.tab;
+                if (tab === currentTab) return;
+
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                currentTab = tab;
                 currentPage = 1;
                 hasMore = true;
                 loadUsers();
-            }, 500);
+            });
         });
+
+        // Search with debounce
+        if (searchInput) {
+            searchInput.addEventListener('input', () => {
+                if (searchTimeout) clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    currentPage = 1;
+                    hasMore = true;
+                    loadUsers();
+                }, 500);
+            });
+
+            // Clear search on Escape
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    searchInput.value = '';
+                    currentPage = 1;
+                    hasMore = true;
+                    loadUsers();
+                }
+            });
+        }
     }
-}
 
-function showToast(message, type = 'success') {
-    Toastify({
-        text: message,
-        duration: 3000,
-        style: { background: type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6' }
-    }).showToast();
-}
+    // ===== INFINITE SCROLL =====
+    function setupInfiniteScroll() {
+        const observer = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting && !isLoading && hasMore) {
+                loadUsers();
+            }
+        }, { threshold: 0.1, rootMargin: '100px' });
+        observer.observe(loadMoreTrigger);
+    }
 
-function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
-}
+    // ===== DARK MODE =====
+    const themeToggle = document.getElementById('theme-toggle');
+    if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark');
+        localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+        const icon = themeToggle.querySelector('i');
+        icon.className = document.body.classList.contains('dark') ? 'bx bx-sun' : 'bx bx-moon';
+    });
 
-async function fetchCsrfToken() {
-    const response = await fetch(`${cleanApiUrl}/api/csrf-token`, { credentials: 'include' });
-    const data = await response.json();
-    return data.csrfToken;
-}
+    // ===== NOTIFICATION BUTTON =====
+    document.getElementById('notif-btn')?.addEventListener('click', () => {
+        window.location.href = '/notifications.html';
+    });
+
+    // ===== INIT =====
+    async function init() {
+        // Load site settings
+        try {
+            const res = await fetch(`${API_URL}/api/site-settings`);
+            if (res.ok) {
+                const data = await res.json();
+                const logoImg = document.getElementById('nav-logo');
+                if (logoImg && data.logo) logoImg.src = data.logo;
+                const siteNameSpan = document.getElementById('site-name');
+                if (siteNameSpan && data.siteName) siteNameSpan.textContent = data.siteName;
+            }
+        } catch (e) { console.error('Error loading site settings:', e); }
+
+        await loadCurrentUser();
+        await loadUsers();
+        setupInfiniteScroll();
+        setupEventListeners();
+
+        // Update notifications badge every 30 seconds
+        setInterval(updateNotifBadge, 30000);
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
+
+})();
 </script>
 </body>
 </html>
